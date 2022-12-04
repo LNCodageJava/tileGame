@@ -12,6 +12,9 @@ export class AppComponent implements OnInit {
   title = 'tileGame';
   gridSizeX = Array.from(Array(10).keys());
   gridSizeY = Array.from(Array(20).keys());
+  batiment = 'no-image';
+  currentBatiment = 'no-image';
+  currentColors: string[] = [];
 
   ngOnInit(): void {
     console.log(this.gridSizeX);
@@ -27,36 +30,63 @@ export class AppComponent implements OnInit {
     //var t1 = document.getElementById('12_1');
     this.colorerTuileDepart();
     this.colorerTuileCurrent();
+    this.placerBatimentTuileCurrent();
   }
 
   colorerTuileDepart(): void {
     for (let i = 0; i <= 6; i++) {
-      if (i <= 2) this.tileService.coloreCote(510, i, 'yellow');
-      else if (i <= 4) this.tileService.coloreCote(510, i, 'blue');
-      else if (i <= 6) this.tileService.coloreCote(510, i, 'green');
+      if (i <= 2) this.tileService.coloreCote('510', i, 'yellow');
+      else if (i <= 4) this.tileService.coloreCote('510', i, 'blue');
+      else if (i <= 6) this.tileService.coloreCote('510', i, 'green');
     }
   }
 
   colorerTuileCurrent() {
     console.log(parameters.colors);
-    const colors = [];
-    colors[0] =
+    this.currentColors[0] =
       parameters.colors[Math.floor(Math.random() * parameters.colors.length)];
-    colors[1] =
+    this.currentColors[1] =
       parameters.colors[Math.floor(Math.random() * parameters.colors.length)];
-    colors[2] =
+    this.currentColors[2] =
       parameters.colors[Math.floor(Math.random() * parameters.colors.length)];
-    colors[3] =
+    this.currentColors[3] =
       parameters.colors[Math.floor(Math.random() * parameters.colors.length)];
-    colors[4] =
+    this.currentColors[4] =
       parameters.colors[Math.floor(Math.random() * parameters.colors.length)];
-    colors[5] =
+    this.currentColors[5] =
       parameters.colors[Math.floor(Math.random() * parameters.colors.length)];
 
-    console.log(colors);
+    console.log(this.currentColors);
 
     for (let i = 0; i <= 6; i++) {
-      this.tileService.coloreCote(500500, i + 1, colors[i]);
+      this.tileService.coloreCote('500500', i + 1, this.currentColors[i]);
     }
+  }
+
+  placerBatimentTuileCurrent() {
+    this.currentBatiment =
+      parameters.batiments[
+        Math.floor(Math.random() * parameters.batiments.length)
+      ];
+  }
+
+  hexClick(hHex: any, vHex: any) {
+    console.log(`click sur la tuile ${hHex}${vHex}`);
+
+    // Colorier les 6 cotés
+    for (let i = 0; i <= 6; i++) {
+      this.tileService.coloreCote(
+        `${hHex}${vHex}`,
+        i + 1,
+        this.currentColors[i]
+      );
+    }
+
+    // Placer le batiment
+    this.tileService.placerBatiment(`${hHex}${vHex}`, this.currentBatiment);
+
+    // Reinitialiser la tuile courante et le batiment
+    this.colorerTuileCurrent();
+    this.placerBatimentTuileCurrent();
   }
 }

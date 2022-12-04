@@ -1,3 +1,4 @@
 {
-  "colors": ["blue", "yellow", "green"]
+  "colors": ["blue", "yellow", "green"],
+  "batiments": ["st1", "sw1", "no-image"]
 }

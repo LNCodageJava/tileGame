@@ -9,6 +9,7 @@ export class HexComponent implements OnInit, AfterViewInit {
   id = '13';
   @Input() vHex: any;
   @Input() hHex: any;
+  @Input() batiment: any;
   constructor() {}
 
   ngOnInit(): void {}
@@ -22,7 +23,7 @@ export class HexComponent implements OnInit, AfterViewInit {
     }
   }
 
-  hexClick() {
-    console.log(`clic${this.hHex}${this.vHex}`);
-  }
+  // hexClick() {
+  //   console.log(`clic${this.hHex}${this.vHex}`);
+  // }
 }
