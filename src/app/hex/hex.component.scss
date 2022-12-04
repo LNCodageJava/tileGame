@@ -10,11 +10,20 @@
   left: 140px;
 }
 
+.img {
+  position: absolute;
+  width: 35px;
+  left: 140px;
+  z-index: 10;
+  margin-left: 0px;
+  margin-top: 10px;
+}
+
 .t1 {
   @extend .triangle;
   transform: rotate(-60deg);
   transform: translateY(25.980762px);
-  // border-color: transparent transparent rgba(0, 0, 0, 0.425) transparent;
+  //border-color: transparent transparent rgba(0, 0, 0, 0.425) transparent;
   border-color: transparent transparent $color-empty transparent;
 }
 
