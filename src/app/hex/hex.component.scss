@@ -1,0 +1,60 @@
+@import "src/assets/style-var.scss";
+
+.triangle {
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 0 15px 25.980762px 15px;
+  position: absolute;
+  top: 0px;
+  left: 140px;
+}
+
+.t1 {
+  @extend .triangle;
+  transform: rotate(-60deg);
+  transform: translateY(25.980762px);
+  // border-color: transparent transparent rgba(0, 0, 0, 0.425) transparent;
+  border-color: transparent transparent $color-empty transparent;
+}
+
+.t2 {
+  @extend .triangle;
+  transform: translateY(19.5px) translateX(11.1px) rotate(-60deg);
+  //border-color: transparent transparent rgba(0, 162, 255, 0.425) transparent;
+  border-color: transparent transparent $color-empty transparent;
+}
+
+.t3 {
+  @extend .triangle;
+  transform: translateY(6.6px) translateX(11.1px) rotate(-120deg);
+  // border-color: transparent transparent rgba(255, 217, 0, 0.452) transparent;
+  border-color: transparent transparent $color-empty transparent;
+}
+
+.t4 {
+  @extend .triangle;
+  transform: rotate(180deg);
+  //border-color: transparent transparent rgba(0, 255, 34, 0.452) transparent;
+  border-color: transparent transparent $color-empty transparent;
+}
+
+.t5 {
+  @extend .triangle;
+  transform: translateY(6.6px) translateX(-11.1px) rotate(120deg);
+  //border-color: transparent transparent rgba(255, 0, 191, 0.452) transparent;
+  border-color: transparent transparent $color-empty transparent;
+}
+
+.t6 {
+  @extend .triangle;
+  //border-color: transparent transparent rgba(38, 0, 128, 0.507) transparent;
+  border-color: transparent transparent $color-empty transparent;
+  color: rgb(84, 139, 170);
+  transform: translateY(19.5px) translateX(-11.1px) rotate(60deg);
+}
+
+.hex-wrapper {
+  display: inline;
+  position: relative;
+}

@@ -1,0 +1,11 @@
+<div class="global-wrapper">
+  <ng-container *ngFor="let j of gridSizeY">
+    <div class="wrapper">
+      <ng-container *ngFor="let i of gridSizeX"
+        ><app-hex class="app-hex" [hHex]="i" [vHex]="j"></app-hex
+      ></ng-container>
+    </div>
+  </ng-container>
+</div>
+
+<app-hex [hHex]="500" [vHex]="500"></app-hex>
