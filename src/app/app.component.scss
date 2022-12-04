@@ -14,3 +14,11 @@
   // espacement haut
   margin-top: 9px;
 }
+
+#currentTile {
+  position: absolute;
+  margin-left: -15px;
+  margin-top: -20px;
+  z-index: 1500;
+  pointer-events: none;
+}

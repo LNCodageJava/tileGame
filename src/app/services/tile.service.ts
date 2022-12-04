@@ -19,4 +19,22 @@ export class TileService {
       img.src = `assets/batiments/${batimentName}.png`;
     }
   }
+
+  pivoterTuile(direction: string, currentColors: string[]) {
+    if (direction === 'gauche') {
+      console.log(currentColors);
+      // ! not null assertion
+      currentColors.unshift(currentColors.pop()!);
+      for (let i = 0; i <= 6; i++) {
+        this.coloreCote('500500', i + 1, currentColors[i]);
+      }
+    } else if (direction === 'droite') {
+      console.log(currentColors);
+      // ! not null assertion
+      currentColors.push(currentColors.shift()!);
+      for (let i = 0; i <= 6; i++) {
+        this.coloreCote('500500', i + 1, currentColors[i]);
+      }
+    }
+  }
 }

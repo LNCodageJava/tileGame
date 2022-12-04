@@ -13,5 +13,6 @@
     </div>
   </ng-container>
 </div>
-
-<app-hex [hHex]="500" [vHex]="500" [batiment]="currentBatiment"></app-hex>
+<div id="currentTile" appHostListener>
+  <app-hex [hHex]="500" [vHex]="500" [batiment]="currentBatiment"></app-hex>
+</div>

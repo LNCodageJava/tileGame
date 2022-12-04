@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { TileService } from './services/tile.service';
 import parameters from './cfg/app.parameters.json';
 
@@ -69,7 +69,11 @@ export class AppComponent implements OnInit {
         Math.floor(Math.random() * parameters.batiments.length)
       ];
   }
-
+  /**
+   * remplir le hex cliqué avec le hex courant
+   * @param hHex
+   * @param vHex
+   */
   hexClick(hHex: any, vHex: any) {
     console.log(`click sur la tuile ${hHex}${vHex}`);
 
@@ -88,5 +92,18 @@ export class AppComponent implements OnInit {
     // Reinitialiser la tuile courante et le batiment
     this.colorerTuileCurrent();
     this.placerBatimentTuileCurrent();
+  }
+
+  /**
+   * A bouger quand le sotore arrivera
+   * @param event
+   */
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'n') {
+      this.tileService.pivoterTuile('droite', this.currentColors);
+    } else if (event.key === 'b') {
+      this.tileService.pivoterTuile('gauche', this.currentColors);
+    }
   }
 }
