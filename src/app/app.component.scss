@@ -22,3 +22,12 @@
   z-index: 1500;
   pointer-events: none;
 }
+
+#bandeau {
+  position: absolute;
+  margin-left: -50px;
+  margin-top: -20px;
+  z-index: 1500;
+  pointer-events: none;
+  z-index: 1000000000000000;
+}

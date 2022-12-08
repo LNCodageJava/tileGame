@@ -5,9 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class TileService {
   constructor() {}
-
+  //adjCounter = 0;
   coloreCote(idTuile: string, cote: number, couleur: string): void {
-    console.log('jecolorie', idTuile);
+    // console.log('jecolorie', idTuile);
     var tuileCote = document.getElementById(
       `${idTuile}_${cote}`
     ) as HTMLImageElement;
@@ -25,14 +25,14 @@ export class TileService {
 
   pivoterTuile(direction: string, currentColors: string[]) {
     if (direction === 'gauche') {
-      console.log(currentColors);
+      //console.log(currentColors);
       // ! not null assertion
       currentColors.unshift(currentColors.pop()!);
       for (let i = 0; i <= 6; i++) {
         this.coloreCote('500500', i + 1, currentColors[i]);
       }
     } else if (direction === 'droite') {
-      console.log(currentColors);
+      //console.log(currentColors);
       // ! not null assertion
       currentColors.push(currentColors.shift()!);
       for (let i = 0; i <= 6; i++) {
@@ -41,9 +41,11 @@ export class TileService {
     }
   }
 
-  findTuilesAdjacentes(hHex: any, vHex: any) {
+  findTuilesAdjacentes(hHex: any, vHex: any, adjCounter: number) {
     // S, SE, NE, N, NO, SO
     let adjTuile = [];
+    adjCounter = 0;
+
     // pair et impair
     adjTuile[0] = `${hHex}${vHex + 2}`;
     adjTuile[3] = `${hHex}${vHex - 2}`;
@@ -74,9 +76,20 @@ export class TileService {
 
     // colorier toutes les tuiles adj
     for (let i = 0; i < 6; i++) {
-      for (let j = 0; j < 6; j++) {
-        this.coloreCote(adjTuile[i], j + 1, 'no-image');
+      let elem = document.getElementById(
+        `${adjTuile[i]}_1`
+      ) as HTMLImageElement;
+      if (elem.src === 'http://localhost:4200/assets/batiments/no-image.png') {
+        for (let j = 0; j < 6; j++) {
+          this.coloreCote(adjTuile[i], j + 1, 'no-image');
+        }
+      } else if (
+        elem.src !== 'http://localhost:4200/assets/textures/no-image.png'
+      ) {
+        adjCounter++;
       }
     }
+    console.log(adjCounter);
+    return adjCounter;
   }
 }

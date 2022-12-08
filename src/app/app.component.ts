@@ -16,10 +16,9 @@ export class AppComponent implements OnInit {
   currentBatiment = 'no-image';
   // S, SE, NE, N, NO, SO
   currentColors: string[] = [];
+  adjCounter = 0;
 
-  ngOnInit(): void {
-    console.log(this.gridSizeX);
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     var t1 = document.getElementById('12_1');
@@ -38,13 +37,13 @@ export class AppComponent implements OnInit {
     this.randomColoring();
     for (let i = 0; i < 6; i++) {
       this.tileService.coloreCote('510', i + 1, this.currentColors[i]);
-      this.tileService.findTuilesAdjacentes(5, 10);
+      this.tileService.findTuilesAdjacentes(5, 10, this.adjCounter);
     }
   }
 
   colorerTuileCurrent() {
     this.randomColoring();
-    console.log(this.currentColors);
+    //console.log(this.currentColors);
     for (let i = 0; i < 6; i++) {
       this.tileService.coloreCote('500500', i + 1, this.currentColors[i]);
     }
@@ -91,7 +90,11 @@ export class AppComponent implements OnInit {
     // Placer le batiment
     this.tileService.placerBatiment(`${hHex}${vHex}`, this.currentBatiment);
 
-    // this.tileService.findTuilesAdjacentes(hHex, vHex);
+    this.adjCounter = this.tileService.findTuilesAdjacentes(
+      hHex,
+      vHex,
+      this.adjCounter
+    );
 
     // Reinitialiser la tuile courante et le batiment
     this.colorerTuileCurrent();
