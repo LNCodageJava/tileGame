@@ -7,9 +7,12 @@ export class TileService {
   constructor() {}
 
   coloreCote(idTuile: string, cote: number, couleur: string): void {
-    var t1 = document.getElementById(`${idTuile}_${cote}`);
-    if (t1) {
-      t1.style.borderColor = `transparent transparent ${couleur} transparent`;
+    console.log('jecolorie', idTuile);
+    var tuileCote = document.getElementById(
+      `${idTuile}_${cote}`
+    ) as HTMLImageElement;
+    if (tuileCote) {
+      tuileCote.src = `assets/textures/${couleur}.png`;
     }
   }
 
@@ -34,6 +37,45 @@ export class TileService {
       currentColors.push(currentColors.shift()!);
       for (let i = 0; i <= 6; i++) {
         this.coloreCote('500500', i + 1, currentColors[i]);
+      }
+    }
+  }
+
+  findTuilesAdjacentes(hHex: any, vHex: any) {
+    // S, SE, NE, N, NO, SO
+    let adjTuile = [];
+    // pair et impair
+    adjTuile[0] = `${hHex}${vHex + 2}`;
+    adjTuile[3] = `${hHex}${vHex - 2}`;
+    // pair
+    if (vHex % 2 === 0) {
+      adjTuile[1] = `${hHex}${vHex + 1}`;
+      adjTuile[2] = `${hHex}${vHex - 1}`;
+      adjTuile[4] = `${hHex - 1}${vHex - 1}`;
+      adjTuile[5] = `${hHex - 1}${vHex + 1}`;
+    }
+    // impair
+    else {
+      adjTuile[1] = `${hHex + 1}${vHex + 1}`;
+      adjTuile[2] = `${hHex + 1}${vHex - 1}`;
+      adjTuile[4] = `${hHex}${vHex - 1}`;
+      adjTuile[5] = `${hHex}${vHex + 1}`;
+    }
+
+    //sert a trigger le coté adjacent
+    // for (let i = 0; i < 6; i++) {
+    //   if (i >= 0 && i < 3) {
+    //     // nom du coté est + 1 par rapport a nom du tableau
+    //     this.coloreCote(adjTuile[i], i + 4, 'water');
+    //   } else {
+    //     this.coloreCote(adjTuile[i], i - 2, 'water');
+    //   }
+    // }
+
+    // colorier toutes les tuiles adj
+    for (let i = 0; i < 6; i++) {
+      for (let j = 0; j < 6; j++) {
+        this.coloreCote(adjTuile[i], j + 1, 'no-image');
       }
     }
   }

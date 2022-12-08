@@ -30,3 +30,16 @@ IA en adversaire
 ## OPTIOnnel
 
 boutons pivoter
+
+## Nettoyage
+
+Typage factorisation commentaires
+triangles
+nom des cotés commence par zero et standardisé
+refaire bien les images
+
+## Lire
+
+Génération procédurale
+développement d'IA
+maybe utiliser autre chose pour developper du jeu vidéo voir si python ou quoi ou unity

@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   gridSizeY = Array.from(Array(20).keys());
   batiment = 'no-image';
   currentBatiment = 'no-image';
+  // S, SE, NE, N, NO, SO
   currentColors: string[] = [];
 
   ngOnInit(): void {
@@ -34,15 +35,22 @@ export class AppComponent implements OnInit {
   }
 
   colorerTuileDepart(): void {
-    for (let i = 0; i <= 6; i++) {
-      if (i <= 2) this.tileService.coloreCote('510', i, 'yellow');
-      else if (i <= 4) this.tileService.coloreCote('510', i, 'blue');
-      else if (i <= 6) this.tileService.coloreCote('510', i, 'green');
+    this.randomColoring();
+    for (let i = 0; i < 6; i++) {
+      this.tileService.coloreCote('510', i + 1, this.currentColors[i]);
+      this.tileService.findTuilesAdjacentes(5, 10);
     }
   }
 
   colorerTuileCurrent() {
-    console.log(parameters.colors);
+    this.randomColoring();
+    console.log(this.currentColors);
+    for (let i = 0; i < 6; i++) {
+      this.tileService.coloreCote('500500', i + 1, this.currentColors[i]);
+    }
+  }
+
+  randomColoring() {
     this.currentColors[0] =
       parameters.colors[Math.floor(Math.random() * parameters.colors.length)];
     this.currentColors[1] =
@@ -55,12 +63,6 @@ export class AppComponent implements OnInit {
       parameters.colors[Math.floor(Math.random() * parameters.colors.length)];
     this.currentColors[5] =
       parameters.colors[Math.floor(Math.random() * parameters.colors.length)];
-
-    console.log(this.currentColors);
-
-    for (let i = 0; i <= 6; i++) {
-      this.tileService.coloreCote('500500', i + 1, this.currentColors[i]);
-    }
   }
 
   placerBatimentTuileCurrent() {
@@ -78,7 +80,7 @@ export class AppComponent implements OnInit {
     console.log(`click sur la tuile ${hHex}${vHex}`);
 
     // Colorier les 6 cotés
-    for (let i = 0; i <= 6; i++) {
+    for (let i = 0; i < 6; i++) {
       this.tileService.coloreCote(
         `${hHex}${vHex}`,
         i + 1,
@@ -88,6 +90,8 @@ export class AppComponent implements OnInit {
 
     // Placer le batiment
     this.tileService.placerBatiment(`${hHex}${vHex}`, this.currentBatiment);
+
+    // this.tileService.findTuilesAdjacentes(hHex, vHex);
 
     // Reinitialiser la tuile courante et le batiment
     this.colorerTuileCurrent();

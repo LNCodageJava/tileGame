@@ -1,13 +1,11 @@
 @import "src/assets/style-var.scss";
 
 .triangle {
-  width: 0px;
-  height: 0px;
-  border-style: solid;
-  border-width: 0 15px 25.980762px 15px;
+  width: 40px;
   position: absolute;
   top: 0px;
   left: 0px;
+  background-size: cover;
 }
 
 .img {
@@ -15,28 +13,30 @@
   width: 35px;
   left: 0px;
   z-index: 10;
-  margin-left: 0px;
-  margin-top: 10px;
+  margin-left: 5px;
+  margin-top: 15px;
 }
 
 .t1 {
+  width: 40px;
   @extend .triangle;
-  transform: rotate(-60deg);
-  transform: translateY(25.980762px);
+  //background-image: url("../../assets/textures/triangle.png");
+
+  //transform: rotate(-60deg);
+  transform: translateY(29px);
   //border-color: transparent transparent rgba(0, 0, 0, 0.425) transparent;
-  border-color: transparent transparent $color-empty transparent;
 }
 
 .t2 {
   @extend .triangle;
-  transform: translateY(19.5px) translateX(11.1px) rotate(-60deg);
+  transform: translateY(21.7px) translateX(12.7px) rotate(-60deg);
   //border-color: transparent transparent rgba(0, 162, 255, 0.425) transparent;
   border-color: transparent transparent $color-empty transparent;
 }
 
 .t3 {
   @extend .triangle;
-  transform: translateY(6.6px) translateX(11.1px) rotate(-120deg);
+  transform: translateY(7.1px) translateX(12.7px) rotate(-120deg);
   // border-color: transparent transparent rgba(255, 217, 0, 0.452) transparent;
   border-color: transparent transparent $color-empty transparent;
 }
@@ -50,7 +50,7 @@
 
 .t5 {
   @extend .triangle;
-  transform: translateY(6.6px) translateX(-11.1px) rotate(120deg);
+  transform: translateY(7.1px) translateX(-12.7px) rotate(120deg);
   //border-color: transparent transparent rgba(255, 0, 191, 0.452) transparent;
   border-color: transparent transparent $color-empty transparent;
 }
@@ -60,11 +60,15 @@
   //border-color: transparent transparent rgba(38, 0, 128, 0.507) transparent;
   border-color: transparent transparent $color-empty transparent;
   color: rgb(84, 139, 170);
-  transform: translateY(19.5px) translateX(-11.1px) rotate(60deg);
+  transform: translateY(21.7px) translateX(-12.7px) rotate(60deg);
 }
 
 .hex-wrapper {
   display: inline;
   position: relative;
   cursor: pointer;
+}
+
+.tt {
+  font-size: 8px;
 }
