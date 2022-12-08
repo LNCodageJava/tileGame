@@ -65,10 +65,18 @@ export class AppComponent implements OnInit {
   }
 
   placerBatimentTuileCurrent() {
+    let batiment: any;
+    if (this.adjCounter === 1) {
+      batiment = parameters.batiments_0;
+    } else if (this.adjCounter === 2) {
+      batiment = parameters.batiments_1;
+    } else if (this.adjCounter === 3) {
+      batiment = parameters.batiments_2;
+    } else if (this.adjCounter === 4) {
+      batiment = parameters.batiments_3;
+    }
     this.currentBatiment =
-      parameters.batiments[
-        Math.floor(Math.random() * parameters.batiments.length)
-      ];
+      batiment[Math.floor(Math.random() * batiment.length)];
   }
   /**
    * remplir le hex cliqué avec le hex courant

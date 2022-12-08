@@ -74,6 +74,8 @@ export class TileService {
     //   }
     // }
 
+    /// TODO ajouter conditionbord
+
     // colorier toutes les tuiles adj
     for (let i = 0; i < 6; i++) {
       let elem = document.getElementById(
