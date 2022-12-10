@@ -24,6 +24,20 @@ export class AppComponent implements OnInit {
   counterPoints = 0;
   counterTotalTiles = 0;
 
+  player1 = {
+    nom: 'Scratch',
+    active: true,
+    counterAdjTiles: 0,
+    counterPoints: 0,
+  };
+
+  player2 = {
+    nom: 'LNC',
+    active: false,
+    counterAdjTiles: 0,
+    counterPoints: 0,
+  };
+
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
@@ -128,8 +142,29 @@ export class AppComponent implements OnInit {
     this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost();
     this.counterPoints = this.counterPoints + this.tileService.countPoints(hHex, vHex);
 
+    this.changePlayer();
     // Reinitialiser la tuile courante et le batiment
     this.fillTuileCurrent();
+  }
+
+  changePlayer() {
+    // Passer du joueur 1 au joueur 2
+    if (this.player1.active) {
+      this.player1.counterAdjTiles = this.counterAdjTiles;
+      this.counterAdjTiles = this.player2.counterAdjTiles;
+      this.player1.counterPoints = this.counterPoints;
+      this.counterPoints = this.player2.counterPoints;
+    } // Passer du joueur 2 au joueur 1
+    else {
+      this.player2.counterAdjTiles = this.counterAdjTiles;
+      this.counterAdjTiles = this.player1.counterAdjTiles;
+      this.player2.counterPoints = this.counterPoints;
+      this.counterPoints = this.player1.counterPoints;
+    }
+    this.player1.active = !this.player1.active;
+    this.player2.active = !this.player1.active;
+
+    console.log(this.player1);
   }
 
   /**
