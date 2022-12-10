@@ -9,7 +9,7 @@ export class HexComponent implements OnInit, AfterViewInit {
   id = '13';
   @Input() vHex: any;
   @Input() hHex: any;
-  @Input() batiment: any;
+  batiment: any = 'no-image';
   constructor() {}
 
   ngOnInit(): void {}

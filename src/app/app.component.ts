@@ -1,6 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { TileService } from './services/tile.service';
 import parameters from './cfg/app.parameters.json';
+import batiments from './cfg/batiment-colors.json';
+import { BatimentDto } from './dto/batimentDto';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +14,11 @@ export class AppComponent implements OnInit {
   title = 'tileGame';
   gridSizeX = Array.from(Array(10).keys());
   gridSizeY = Array.from(Array(20).keys());
-  batiment = 'no-image';
-  currentBatiment = 'no-image';
+  //batiment = 'no-image';
+  currentBatiment: BatimentDto = {
+    name: 'no-image',
+    cout: 0,
+  };
   // S, SE, NE, N, NO, SO
   currentColors: string[] = [];
   adjCounter = 0;
@@ -21,13 +26,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    var t1 = document.getElementById('12_1');
-    if (t1 != null) {
-      t1.style.borderColor =
-        'transparent transparent rgba(255, 0, 0, 0.425) transparent';
-    }
-
-    //var t1 = document.getElementById('12_1');
     this.colorerTuileDepart();
     this.colorerTuileCurrent();
     this.placerBatimentTuileCurrent();
@@ -65,18 +63,16 @@ export class AppComponent implements OnInit {
   }
 
   placerBatimentTuileCurrent() {
-    let batiment: any;
-    if (this.adjCounter === 1) {
-      batiment = parameters.batiments_0;
-    } else if (this.adjCounter === 2) {
-      batiment = parameters.batiments_1;
-    } else if (this.adjCounter === 3) {
-      batiment = parameters.batiments_2;
-    } else if (this.adjCounter === 4) {
-      batiment = parameters.batiments_3;
-    }
+    let batimentsFiltre = batiments.batiments.filter(
+      (b) => b.cout === this.adjCounter
+    );
     this.currentBatiment =
-      batiment[Math.floor(Math.random() * batiment.length)];
+      batimentsFiltre[Math.floor(Math.random() * batimentsFiltre.length)];
+    console.log(batiments.batiments);
+    console.log(batimentsFiltre);
+    console.log(this.currentBatiment);
+    //this.colorerTuileCurrent();
+    this.tileService.placerBatiment(`500500`, this.currentBatiment.name);
   }
   /**
    * remplir le hex cliqué avec le hex courant
@@ -96,7 +92,10 @@ export class AppComponent implements OnInit {
     }
 
     // Placer le batiment
-    this.tileService.placerBatiment(`${hHex}${vHex}`, this.currentBatiment);
+    this.tileService.placerBatiment(
+      `${hHex}${vHex}`,
+      this.currentBatiment.name
+    );
 
     this.adjCounter = this.tileService.findTuilesAdjacentes(
       hHex,
