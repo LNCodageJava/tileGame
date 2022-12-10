@@ -25,15 +25,11 @@ export class TileService {
 
   pivoterTuile(direction: string, currentColors: string[]) {
     if (direction === 'gauche') {
-      //console.log(currentColors);
-      // ! not null assertion
       currentColors.unshift(currentColors.pop()!);
       for (let i = 0; i <= 6; i++) {
         this.coloreCote('500500', i, currentColors[i]);
       }
     } else if (direction === 'droite') {
-      //console.log(currentColors);
-      // ! not null assertion
       currentColors.push(currentColors.shift()!);
       for (let i = 0; i <= 6; i++) {
         this.coloreCote('500500', i, currentColors[i]);
@@ -189,11 +185,8 @@ export class TileService {
     return turnPoints;
   }
 
-  /// TODO ajouter conditionbord
-
   createTuileBlancheAndReturnCost(): number {
-    // colorier toutes les tuiles adj
-    let adjCounter = 0;
+    let counterAdjTiles = 0;
     for (let i = 0; i < 6; i++) {
       let elem = document.getElementById(`${this.adjTuiles[i]}_1`) as HTMLImageElement;
       if (elem && elem.src === 'http://localhost:4200/assets/batiments/no-image.png') {
@@ -201,9 +194,9 @@ export class TileService {
           this.coloreCote(this.adjTuiles[i], j, 'no-image');
         }
       } else if (elem && elem.src !== 'http://localhost:4200/assets/textures/no-image.png') {
-        adjCounter++;
+        counterAdjTiles++;
       }
     }
-    return adjCounter;
+    return counterAdjTiles;
   }
 }

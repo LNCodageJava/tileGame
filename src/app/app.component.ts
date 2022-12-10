@@ -14,35 +14,36 @@ export class AppComponent implements OnInit {
   title = 'tileGame';
   gridSizeX = Array.from(Array(10).keys());
   gridSizeY = Array.from(Array(20).keys());
-
   currentBatiment: BatimentDto = {
     name: 'no-image',
     cout: 0,
   };
   // S, SE, NE, N, NO, SO
   currentColors: string[] = ['', '', '', '', '', ''];
-  adjCounter = 0;
-  points = 0;
-  total = 0;
+  counterAdjTiles = 0;
+  counterPoints = 0;
+  counterTotalTiles = 0;
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.fillTuiledepart();
-    // this.colorerTuileCurrent();
+    this.fillTuileDepart();
     this.fillTuileCurrent();
   }
 
-  fillTuiledepart(): void {
+  fillTuileDepart(): void {
     for (let i = 0; i < 6; i++) {
       if (i >= 4) this.tileService.coloreCote('510', i, 'w');
       else if (i >= 2) this.tileService.coloreCote('510', i, 's');
       else this.tileService.coloreCote('510', i, 'g');
     }
     this.tileService.findTuilesAdjacentes(5, 10);
-    this.adjCounter = this.tileService.createTuileBlancheAndReturnCost();
+    this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost();
   }
 
+  /**
+   * Remplit
+   */
   setCurrentColors() {
     this.currentColors = ['', '', '', '', '', ''];
     // On remplit d'abord la couleur requise
@@ -98,7 +99,7 @@ export class AppComponent implements OnInit {
 
   fillTuileCurrent() {
     // remplir bâtiments
-    let batimentsFiltre = batiments.batiments.filter((b) => b.cout === this.adjCounter);
+    let batimentsFiltre = batiments.batiments.filter((b) => b.cout === this.counterAdjTiles);
     this.currentBatiment = batimentsFiltre[Math.floor(Math.random() * batimentsFiltre.length)];
     this.tileService.placerBatiment(`500500`, this.currentBatiment.name);
 
@@ -116,25 +117,23 @@ export class AppComponent implements OnInit {
    */
   hexClick(hHex: any, vHex: any) {
     console.log(`click sur la tuile ${hHex}${vHex}`);
-    this.total++;
-    // Colorier les 6 cotés
+    this.counterTotalTiles++;
+
     for (let i = 0; i < 6; i++) {
       this.tileService.coloreCote(`${hHex}${vHex}`, i, this.currentColors[i]);
     }
-
-    // Placer le batiment
     this.tileService.placerBatiment(`${hHex}${vHex}`, this.currentBatiment.name);
 
     this.tileService.findTuilesAdjacentes(hHex, vHex);
-    this.adjCounter = this.tileService.createTuileBlancheAndReturnCost();
-    this.points = this.points + this.tileService.countPoints(hHex, vHex);
+    this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost();
+    this.counterPoints = this.counterPoints + this.tileService.countPoints(hHex, vHex);
 
     // Reinitialiser la tuile courante et le batiment
     this.fillTuileCurrent();
   }
 
   /**
-   * A bouger quand le sotore arrivera
+   * A bouger quand le store arrivera
    * @param event
    */
   @HostListener('window:keydown', ['$event'])
