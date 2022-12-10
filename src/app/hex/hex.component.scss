@@ -14,53 +14,6 @@
   left: 0px;
   z-index: 10;
   margin-left: -17px;
-  //background-color: red;
-}
-
-.t1 {
-  width: 40px;
-  @extend .triangle;
-  //background-image: url("../../assets/textures/triangle.png");
-
-  //transform: rotate(-60deg);
-  transform: translateY(29px);
-  //border-color: transparent transparent rgba(0, 0, 0, 0.425) transparent;
-}
-
-.t2 {
-  @extend .triangle;
-  transform: translateY(21.7px) translateX(12.7px) rotate(-60deg);
-  //border-color: transparent transparent rgba(0, 162, 255, 0.425) transparent;
-  border-color: transparent transparent $color-empty transparent;
-}
-
-.t3 {
-  @extend .triangle;
-  transform: translateY(7.1px) translateX(12.7px) rotate(-120deg);
-  // border-color: transparent transparent rgba(255, 217, 0, 0.452) transparent;
-  border-color: transparent transparent $color-empty transparent;
-}
-
-.t4 {
-  @extend .triangle;
-  transform: rotate(180deg);
-  //border-color: transparent transparent rgba(0, 255, 34, 0.452) transparent;
-  border-color: transparent transparent $color-empty transparent;
-}
-
-.t5 {
-  @extend .triangle;
-  transform: translateY(7.1px) translateX(-12.7px) rotate(120deg);
-  //border-color: transparent transparent rgba(255, 0, 191, 0.452) transparent;
-  border-color: transparent transparent $color-empty transparent;
-}
-
-.t6 {
-  @extend .triangle;
-  //border-color: transparent transparent rgba(38, 0, 128, 0.507) transparent;
-  border-color: transparent transparent $color-empty transparent;
-  color: rgb(84, 139, 170);
-  transform: translateY(21.7px) translateX(-12.7px) rotate(60deg);
 }
 
 .hex-wrapper {
@@ -69,6 +22,33 @@
   cursor: pointer;
 }
 
-.tt {
-  font-size: 8px;
+.cote-0 {
+  width: 40px;
+  @extend .triangle;
+  transform: translateY(29px);
+}
+
+.cote-1 {
+  @extend .triangle;
+  transform: translateY(21.7px) translateX(12.7px) rotate(-60deg);
+}
+
+.cote-2 {
+  @extend .triangle;
+  transform: translateY(7.1px) translateX(12.7px) rotate(-120deg);
+}
+
+.cote-3 {
+  @extend .triangle;
+  transform: rotate(180deg);
+}
+
+.cote-4 {
+  @extend .triangle;
+  transform: translateY(7.1px) translateX(-12.7px) rotate(120deg);
+}
+
+.cote-5 {
+  @extend .triangle;
+  transform: translateY(21.7px) translateX(-12.7px) rotate(60deg);
 }

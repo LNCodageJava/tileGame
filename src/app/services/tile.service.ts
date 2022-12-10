@@ -8,12 +8,9 @@ export class TileService {
   adjTuiles: string[] = [];
   adjTuiles2: string[] = [];
   constructor() {}
-  //adjCounter = 0;
+
   coloreCote(idTuile: string, cote: number, couleur: string): void {
-    // console.log('jecolorie', idTuile);
-    var tuileCote = document.getElementById(
-      `${idTuile}_${cote}`
-    ) as HTMLImageElement;
+    var tuileCote = document.getElementById(`${idTuile}_${cote}`) as HTMLImageElement;
     if (tuileCote) {
       tuileCote.src = `assets/textures/${couleur}.png`;
     }
@@ -32,14 +29,14 @@ export class TileService {
       // ! not null assertion
       currentColors.unshift(currentColors.pop()!);
       for (let i = 0; i <= 6; i++) {
-        this.coloreCote('500500', i + 1, currentColors[i]);
+        this.coloreCote('500500', i, currentColors[i]);
       }
     } else if (direction === 'droite') {
       //console.log(currentColors);
       // ! not null assertion
       currentColors.push(currentColors.shift()!);
       for (let i = 0; i <= 6; i++) {
-        this.coloreCote('500500', i + 1, currentColors[i]);
+        this.coloreCote('500500', i, currentColors[i]);
       }
     }
   }
@@ -86,9 +83,7 @@ export class TileService {
 
   countPoints(hHex: any, vHex: any): number {
     let turnPoints = 0;
-    let batiment = document.getElementById(
-      `${hHex}${vHex}_img`
-    ) as HTMLImageElement;
+    let batiment = document.getElementById(`${hHex}${vHex}_img`) as HTMLImageElement;
     // console.log('batiment', batiment.src.slice(39, batiment.src.length - 4));
     let batimentName = batiment.src.slice(39, batiment.src.length - 4);
     switch (batimentName) {
@@ -134,18 +129,17 @@ export class TileService {
     for (let i = 0; i < 6; i++) {
       let indexCote;
       if (i >= 0 && i < 3) {
-        indexCote = i + 4;
+        indexCote = i + 3;
       } else {
-        indexCote = i - 2;
+        indexCote = i - 3;
       }
-      let adj = document.getElementById(
-        `${this.adjTuiles[i]}_${indexCote}`
-      ) as HTMLImageElement;
-      let colorCote = adj.src.slice(38, adj.src.length - 4);
-      if (colorCote === color) {
-        turnPoints++;
+      let adj = document.getElementById(`${this.adjTuiles[i]}_${indexCote}`) as HTMLImageElement;
+      if (adj) {
+        let colorCote = adj.src.slice(38, adj.src.length - 4);
+        if (colorCote === color) {
+          turnPoints++;
+        }
       }
-      console.log(colorCote);
     }
     return turnPoints;
   }
@@ -159,47 +153,37 @@ export class TileService {
   countAdj2CoteBatiment(batiment: string, turnPoints: number): number {
     for (let i = 0; i < 6; i++) {
       // Trouver les noms des batiments adjacent2
-      let adjBatiment = document.getElementById(
-        `${this.adjTuiles[i]}_img`
-      ) as HTMLImageElement;
-      let adj2Batiment = document.getElementById(
-        `${this.adjTuiles2[i]}_img`
-      ) as HTMLImageElement;
+      let adjBatiment = document.getElementById(`${this.adjTuiles[i]}_img`) as HTMLImageElement;
+      let adj2Batiment = document.getElementById(`${this.adjTuiles2[i]}_img`) as HTMLImageElement;
 
-      let adjBatimentName = adjBatiment.src.slice(
-        39,
-        adjBatiment.src.length - 4
-      );
-      let adj2BatimentName = adj2Batiment.src.slice(
-        39,
-        adj2Batiment.src.length - 4
-      );
-
-      // Cas du colisée
-      if (
-        batiment === 'tout' &&
-        (adjBatimentName === 'bateau' ||
-          adjBatimentName === 'moulin' ||
-          adjBatimentName === 'colonne')
-      ) {
-        turnPoints = turnPoints + 2;
+      if (adjBatiment) {
+        let adjBatimentName = adjBatiment.src.slice(39, adjBatiment.src.length - 4);
+        // Cas du colisée
+        if (
+          batiment === 'tout' &&
+          (adjBatimentName === 'bateau' || adjBatimentName === 'moulin' || adjBatimentName === 'colonne')
+        ) {
+          turnPoints = turnPoints + 2;
+        }
+        // Autre cas
+        if (adjBatimentName === batiment) {
+          turnPoints = turnPoints + 2;
+        }
       }
 
-      if (
-        batiment === 'tout' &&
-        (adj2BatimentName === 'bateau' ||
-          adj2BatimentName === 'moulin' ||
-          adj2BatimentName === 'colonne')
-      ) {
-        turnPoints = turnPoints + 2;
-      }
-
-      // Autre cas
-      if (adjBatimentName === batiment) {
-        turnPoints = turnPoints + 2;
-      }
-      if (adj2BatimentName === batiment) {
-        turnPoints = turnPoints + 2;
+      if (adj2Batiment) {
+        let adj2BatimentName = adj2Batiment.src.slice(39, adj2Batiment.src.length - 4);
+        if (
+          // Cas du colisée
+          batiment === 'tout' &&
+          (adj2BatimentName === 'bateau' || adj2BatimentName === 'moulin' || adj2BatimentName === 'colonne')
+        ) {
+          turnPoints = turnPoints + 2;
+        }
+        // Autre cas
+        if (adj2BatimentName === batiment) {
+          turnPoints = turnPoints + 2;
+        }
       }
     }
     return turnPoints;
@@ -211,16 +195,12 @@ export class TileService {
     // colorier toutes les tuiles adj
     let adjCounter = 0;
     for (let i = 0; i < 6; i++) {
-      let elem = document.getElementById(
-        `${this.adjTuiles[i]}_1`
-      ) as HTMLImageElement;
-      if (elem.src === 'http://localhost:4200/assets/batiments/no-image.png') {
+      let elem = document.getElementById(`${this.adjTuiles[i]}_1`) as HTMLImageElement;
+      if (elem && elem.src === 'http://localhost:4200/assets/batiments/no-image.png') {
         for (let j = 0; j < 6; j++) {
-          this.coloreCote(this.adjTuiles[i], j + 1, 'no-image');
+          this.coloreCote(this.adjTuiles[i], j, 'no-image');
         }
-      } else if (
-        elem.src !== 'http://localhost:4200/assets/textures/no-image.png'
-      ) {
+      } else if (elem && elem.src !== 'http://localhost:4200/assets/textures/no-image.png') {
         adjCounter++;
       }
     }

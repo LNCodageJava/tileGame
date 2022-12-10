@@ -35,9 +35,9 @@ export class AppComponent implements OnInit {
 
   fillTuiledepart(): void {
     for (let i = 0; i < 6; i++) {
-      if (i >= 4) this.tileService.coloreCote('510', i + 1, 'w');
-      else if (i >= 2) this.tileService.coloreCote('510', i + 1, 's');
-      else this.tileService.coloreCote('510', i + 1, 'g');
+      if (i >= 4) this.tileService.coloreCote('510', i, 'w');
+      else if (i >= 2) this.tileService.coloreCote('510', i, 's');
+      else this.tileService.coloreCote('510', i, 'g');
     }
     this.tileService.findTuilesAdjacentes(5, 10);
     this.adjCounter = this.tileService.createTuileBlancheAndReturnCost();
@@ -98,25 +98,17 @@ export class AppComponent implements OnInit {
 
   fillTuileCurrent() {
     // remplir bâtiments
-    let batimentsFiltre = batiments.batiments.filter(
-      (b) => b.cout === this.adjCounter
-    );
-    this.currentBatiment =
-      batimentsFiltre[Math.floor(Math.random() * batimentsFiltre.length)];
+    let batimentsFiltre = batiments.batiments.filter((b) => b.cout === this.adjCounter);
+    this.currentBatiment = batimentsFiltre[Math.floor(Math.random() * batimentsFiltre.length)];
     this.tileService.placerBatiment(`500500`, this.currentBatiment.name);
 
     // remplir couleurs
     this.setCurrentColors();
-    //console.log(this.currentColors);
     for (let i = 0; i < 6; i++) {
-      this.tileService.coloreCote('500500', i + 1, this.currentColors[i]);
+      this.tileService.coloreCote('500500', i, this.currentColors[i]);
     }
-
-    // console.log(batiments.batiments);
-    // console.log(batimentsFiltre);
-    // console.log(this.currentBatiment);
-    // //this.colorerTuileCurrent();
   }
+
   /**
    * remplir le hex cliqué avec le hex courant
    * @param hHex
@@ -127,25 +119,17 @@ export class AppComponent implements OnInit {
     this.total++;
     // Colorier les 6 cotés
     for (let i = 0; i < 6; i++) {
-      this.tileService.coloreCote(
-        `${hHex}${vHex}`,
-        i + 1,
-        this.currentColors[i]
-      );
+      this.tileService.coloreCote(`${hHex}${vHex}`, i, this.currentColors[i]);
     }
 
     // Placer le batiment
-    this.tileService.placerBatiment(
-      `${hHex}${vHex}`,
-      this.currentBatiment.name
-    );
+    this.tileService.placerBatiment(`${hHex}${vHex}`, this.currentBatiment.name);
 
     this.tileService.findTuilesAdjacentes(hHex, vHex);
     this.adjCounter = this.tileService.createTuileBlancheAndReturnCost();
     this.points = this.points + this.tileService.countPoints(hHex, vHex);
 
     // Reinitialiser la tuile courante et le batiment
-    //this.colorerTuileCurrent();
     this.fillTuileCurrent();
   }
 
