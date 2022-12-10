@@ -1,7 +1,19 @@
 .bandeau-wrapper {
   background-color: white;
-  padding: 0px 5px;
-  border-radius: 2px;
+  padding: 2px 5px;
+  border-radius: 4px;
   font-weight: 400;
   font-family: cursive;
+}
+
+.separator {
+  height: 20px;
+}
+
+.active {
+  border: solid rgb(237, 210, 2);
+}
+
+.name {
+  color: rgb(237, 210, 2);
 }
