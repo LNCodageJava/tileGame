@@ -4,6 +4,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class TileService {
+  // S, SE, NE, N, NO, SO
+  adjTuiles: string[] = [];
+  adjTuiles2: string[] = [];
   constructor() {}
   //adjCounter = 0;
   coloreCote(idTuile: string, cote: number, couleur: string): void {
@@ -41,49 +44,179 @@ export class TileService {
     }
   }
 
-  findTuilesAdjacentes(hHex: any, vHex: any, adjCounter: number) {
-    // S, SE, NE, N, NO, SO
-    let adjTuile = [];
-    adjCounter = 0;
-
+  findTuilesAdjacentes(hHex: any, vHex: any) {
     // pair et impair
-    adjTuile[0] = `${hHex}${vHex + 2}`;
-    adjTuile[3] = `${hHex}${vHex - 2}`;
+    this.adjTuiles[0] = `${hHex}${vHex + 2}`;
+    this.adjTuiles[3] = `${hHex}${vHex - 2}`;
     // pair
     if (vHex % 2 === 0) {
-      adjTuile[1] = `${hHex}${vHex + 1}`;
-      adjTuile[2] = `${hHex}${vHex - 1}`;
-      adjTuile[4] = `${hHex - 1}${vHex - 1}`;
-      adjTuile[5] = `${hHex - 1}${vHex + 1}`;
+      this.adjTuiles[1] = `${hHex}${vHex + 1}`;
+      this.adjTuiles[2] = `${hHex}${vHex - 1}`;
+      this.adjTuiles[4] = `${hHex - 1}${vHex - 1}`;
+      this.adjTuiles[5] = `${hHex - 1}${vHex + 1}`;
     }
     // impair
     else {
-      adjTuile[1] = `${hHex + 1}${vHex + 1}`;
-      adjTuile[2] = `${hHex + 1}${vHex - 1}`;
-      adjTuile[4] = `${hHex}${vHex - 1}`;
-      adjTuile[5] = `${hHex}${vHex + 1}`;
+      this.adjTuiles[1] = `${hHex + 1}${vHex + 1}`;
+      this.adjTuiles[2] = `${hHex + 1}${vHex - 1}`;
+      this.adjTuiles[4] = `${hHex}${vHex - 1}`;
+      this.adjTuiles[5] = `${hHex}${vHex + 1}`;
+    }
+  }
+
+  findTuilesAdjacentes2(hHex: any, vHex: any) {
+    // pair et impair
+    this.adjTuiles2[0] = `${hHex}${vHex + 4}`;
+    this.adjTuiles2[3] = `${hHex}${vHex - 4}`;
+    // pair
+    if (vHex % 2 === 0) {
+      this.adjTuiles2[1] = `${hHex + 1}${vHex + 2}`;
+      this.adjTuiles2[2] = `${hHex + 1}${vHex - 2}`;
+      this.adjTuiles2[4] = `${hHex - 1}${vHex - 2}`;
+      this.adjTuiles2[5] = `${hHex - 1}${vHex + 2}`;
+    }
+    // impair
+    else {
+      this.adjTuiles2[1] = `${hHex + 1}${vHex + 2}`;
+      this.adjTuiles2[2] = `${hHex + 1}${vHex - 2}`;
+      this.adjTuiles2[4] = `${hHex - 1}${vHex - 2}`;
+      this.adjTuiles2[5] = `${hHex - 1}${vHex + 2}`;
+    }
+  }
+
+  countPoints(hHex: any, vHex: any): number {
+    let turnPoints = 0;
+    let batiment = document.getElementById(
+      `${hHex}${vHex}_img`
+    ) as HTMLImageElement;
+    // console.log('batiment', batiment.src.slice(39, batiment.src.length - 4));
+    let batimentName = batiment.src.slice(39, batiment.src.length - 4);
+    switch (batimentName) {
+      case 'bateau':
+        turnPoints = this.countAdjCoteColor('w', turnPoints);
+        break;
+      case 'moulin':
+        turnPoints = this.countAdjCoteColor('g', turnPoints);
+        break;
+      case 'colonne':
+        turnPoints = this.countAdjCoteColor('s', turnPoints);
+        break;
+      case 'phare':
+        this.findTuilesAdjacentes2(hHex, vHex);
+        turnPoints = this.countAdj2CoteBatiment('bateau', turnPoints);
+        break;
+      case 'temple':
+        this.findTuilesAdjacentes2(hHex, vHex);
+        turnPoints = this.countAdj2CoteBatiment('colonne', turnPoints);
+        break;
+      case 'marche':
+        this.findTuilesAdjacentes2(hHex, vHex);
+        turnPoints = this.countAdj2CoteBatiment('moulin', turnPoints);
+        break;
+      case 'colisee':
+        this.findTuilesAdjacentes2(hHex, vHex);
+        turnPoints = this.countAdj2CoteBatiment('tout', turnPoints);
+        break;
+      default:
+        break;
     }
 
-    //sert a trigger le coté adjacent
-    // for (let i = 0; i < 6; i++) {
-    //   if (i >= 0 && i < 3) {
-    //     // nom du coté est + 1 par rapport a nom du tableau
-    //     this.coloreCote(adjTuile[i], i + 4, 'water');
-    //   } else {
-    //     this.coloreCote(adjTuile[i], i - 2, 'water');
-    //   }
-    // }
+    return turnPoints;
+  }
 
-    /// TODO ajouter conditionbord
+  /**
+   * Compte le nombre de cotés adjacents de même couleur que celle en input
+   * @param color
+   * @param turnPoints
+   * @returns
+   */
+  countAdjCoteColor(color: string, turnPoints: number): number {
+    for (let i = 0; i < 6; i++) {
+      let indexCote;
+      if (i >= 0 && i < 3) {
+        indexCote = i + 4;
+      } else {
+        indexCote = i - 2;
+      }
+      let adj = document.getElementById(
+        `${this.adjTuiles[i]}_${indexCote}`
+      ) as HTMLImageElement;
+      let colorCote = adj.src.slice(38, adj.src.length - 4);
+      if (colorCote === color) {
+        turnPoints++;
+      }
+      console.log(colorCote);
+    }
+    return turnPoints;
+  }
 
+  /**
+   * Compte le nombre de batiment adjacents2 comme celui en input
+   * @param color
+   * @param turnPoints
+   * @returns
+   */
+  countAdj2CoteBatiment(batiment: string, turnPoints: number): number {
+    for (let i = 0; i < 6; i++) {
+      // Trouver les noms des batiments adjacent2
+      let adjBatiment = document.getElementById(
+        `${this.adjTuiles[i]}_img`
+      ) as HTMLImageElement;
+      let adj2Batiment = document.getElementById(
+        `${this.adjTuiles2[i]}_img`
+      ) as HTMLImageElement;
+
+      let adjBatimentName = adjBatiment.src.slice(
+        39,
+        adjBatiment.src.length - 4
+      );
+      let adj2BatimentName = adj2Batiment.src.slice(
+        39,
+        adj2Batiment.src.length - 4
+      );
+
+      // Cas du colisée
+      if (
+        batiment === 'tout' &&
+        (adjBatimentName === 'bateau' ||
+          adjBatimentName === 'moulin' ||
+          adjBatimentName === 'colonne')
+      ) {
+        turnPoints = turnPoints + 2;
+      }
+
+      if (
+        batiment === 'tout' &&
+        (adj2BatimentName === 'bateau' ||
+          adj2BatimentName === 'moulin' ||
+          adj2BatimentName === 'colonne')
+      ) {
+        turnPoints = turnPoints + 2;
+      }
+
+      // Autre cas
+      if (adjBatimentName === batiment) {
+        turnPoints = turnPoints + 2;
+      }
+      if (adj2BatimentName === batiment) {
+        turnPoints = turnPoints + 2;
+      }
+    }
+    return turnPoints;
+  }
+
+  /// TODO ajouter conditionbord
+
+  createTuileBlancheAndReturnCost(): number {
     // colorier toutes les tuiles adj
+    let adjCounter = 0;
     for (let i = 0; i < 6; i++) {
       let elem = document.getElementById(
-        `${adjTuile[i]}_1`
+        `${this.adjTuiles[i]}_1`
       ) as HTMLImageElement;
       if (elem.src === 'http://localhost:4200/assets/batiments/no-image.png') {
         for (let j = 0; j < 6; j++) {
-          this.coloreCote(adjTuile[i], j + 1, 'no-image');
+          this.coloreCote(this.adjTuiles[i], j + 1, 'no-image');
         }
       } else if (
         elem.src !== 'http://localhost:4200/assets/textures/no-image.png'
@@ -91,7 +224,6 @@ export class TileService {
         adjCounter++;
       }
     }
-    console.log(adjCounter);
     return adjCounter;
   }
 }

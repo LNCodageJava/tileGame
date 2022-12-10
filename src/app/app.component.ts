@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   title = 'tileGame';
   gridSizeX = Array.from(Array(10).keys());
   gridSizeY = Array.from(Array(20).keys());
-  //batiment = 'no-image';
+
   currentBatiment: BatimentDto = {
     name: 'no-image',
     cout: 0,
@@ -22,26 +22,28 @@ export class AppComponent implements OnInit {
   // S, SE, NE, N, NO, SO
   currentColors: string[] = ['', '', '', '', '', ''];
   adjCounter = 0;
+  points = 0;
+  total = 0;
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.colorerTuileDepart();
+    this.fillTuiledepart();
     // this.colorerTuileCurrent();
     this.fillTuileCurrent();
   }
 
-  colorerTuileDepart(): void {
+  fillTuiledepart(): void {
     for (let i = 0; i < 6; i++) {
       if (i >= 4) this.tileService.coloreCote('510', i + 1, 'w');
       else if (i >= 2) this.tileService.coloreCote('510', i + 1, 's');
       else this.tileService.coloreCote('510', i + 1, 'g');
     }
-    this.tileService.findTuilesAdjacentes(5, 10, this.adjCounter);
+    this.tileService.findTuilesAdjacentes(5, 10);
+    this.adjCounter = this.tileService.createTuileBlancheAndReturnCost();
   }
 
   setCurrentColors() {
-    //console.log('batimentcourrant', this.currentBatiment);
     this.currentColors = ['', '', '', '', '', ''];
     // On remplit d'abord la couleur requise
     if (this.currentBatiment.color_required) {
@@ -72,15 +74,11 @@ export class AppComponent implements OnInit {
         for (let i = 0; i < 6; i++) {
           if (this.currentColors[i] === '') {
             this.currentColors[i] = this.takeRandomElementFromArray(colors);
-            console.log('AAAAA', this.currentColors[i]);
           }
         }
       }
     }
-    console.log(this.currentColors);
     this.currentColors = this.shuffle(this.currentColors);
-    console.log(this.currentColors);
-    // console.log('couleurscourantes', this.currentColors);
   }
 
   takeRandomElementFromArray(array: any[]): any {
@@ -126,7 +124,7 @@ export class AppComponent implements OnInit {
    */
   hexClick(hHex: any, vHex: any) {
     console.log(`click sur la tuile ${hHex}${vHex}`);
-
+    this.total++;
     // Colorier les 6 cotés
     for (let i = 0; i < 6; i++) {
       this.tileService.coloreCote(
@@ -142,11 +140,9 @@ export class AppComponent implements OnInit {
       this.currentBatiment.name
     );
 
-    this.adjCounter = this.tileService.findTuilesAdjacentes(
-      hHex,
-      vHex,
-      this.adjCounter
-    );
+    this.tileService.findTuilesAdjacentes(hHex, vHex);
+    this.adjCounter = this.tileService.createTuileBlancheAndReturnCost();
+    this.points = this.points + this.tileService.countPoints(hHex, vHex);
 
     // Reinitialiser la tuile courante et le batiment
     //this.colorerTuileCurrent();
