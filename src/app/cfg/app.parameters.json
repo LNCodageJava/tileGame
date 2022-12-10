@@ -1,5 +1,5 @@
 {
-  "colors": ["sand", "grass", "triangle"],
+  "colors": ["s", "g", "w"],
   "batiments": ["st1", "sw1", "no-image"],
   "batiments_0": ["no-image"],
   "batiments_1": ["s1", "g1", "w1"],

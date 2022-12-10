@@ -2,60 +2,64 @@
   "batiments": [
     {
       "name": "no-image",
-      "color_2": "wsg",
-      "color_3": "wsg",
+      "color": "3wsg",
       "cout": 0
     },
     {
       "name": "no-image",
-      "color_2": "wsg",
-      "color_3": "wsg",
+      "color": "3wsg",
       "cout": 1
     },
     {
       "name": "bateau",
       "color_required": "3w",
-      "color_2": "wsg",
+      "color": "2wsg",
       "cout": 2
     },
     {
       "name": "moulin",
       "color_required": "3g",
-      "color_2": "wsg",
+      "color": "2wsg",
       "cout": 2
     },
     {
       "name": "colonne",
       "color_required": "3s",
-      "color_2": "wsg",
+      "color": "2wsg",
       "cout": 2
     },
     {
       "name": "phare",
       "color_required": "2w",
-      "color_2": "wsg",
-      "color_3": "wsg",
+      "color": "3wsg",
       "cout": 3
     },
     {
       "name": "temple",
       "color_required": "2s",
-      "color_2": "wsg",
-      "color_3": "wsg",
+      "color": "3wsg",
       "cout": 3
     },
     {
       "name": "marche",
       "color_required": "2g",
-      "color_2": "wsg",
-      "color_3": "wsg",
+      "color": "3wsg",
       "cout": 3
     },
     {
       "name": "colisee",
-      "color_2": "wsg",
-      "color_3": "wsg",
+      "color": "3wsg",
       "cout": 4
+    },
+    {
+      "name": "colisee",
+      "color": "3wsg",
+      "cout": 5
+    },
+    {
+      "name": "colisee",
+      "color": "3wsg",
+      "cout": 6
     }
   ]
 }
