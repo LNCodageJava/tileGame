@@ -79,38 +79,37 @@ export class TileService {
 
   countPoints(hHex: any, vHex: any): number {
     let turnPoints = 0;
-    let batiment = document.getElementById(`${hHex}${vHex}_img`) as HTMLImageElement;
-    // console.log('batiment', batiment.src.slice(39, batiment.src.length - 4));
-    let batimentName = batiment.src.slice(39, batiment.src.length - 4);
-    switch (batimentName) {
-      case 'bateau':
-        turnPoints = this.countAdjCoteColor('w', turnPoints);
-        break;
-      case 'moulin':
-        turnPoints = this.countAdjCoteColor('g', turnPoints);
-        break;
-      case 'colonne':
-        turnPoints = this.countAdjCoteColor('s', turnPoints);
-        break;
-      case 'phare':
-        this.findTuilesAdjacentes2(hHex, vHex);
-        turnPoints = this.countAdj2CoteBatiment('bateau', turnPoints);
-        break;
-      case 'temple':
-        this.findTuilesAdjacentes2(hHex, vHex);
-        turnPoints = this.countAdj2CoteBatiment('colonne', turnPoints);
-        break;
-      case 'marche':
-        this.findTuilesAdjacentes2(hHex, vHex);
-        turnPoints = this.countAdj2CoteBatiment('moulin', turnPoints);
-        break;
-      case 'colisee':
-        this.findTuilesAdjacentes2(hHex, vHex);
-        turnPoints = this.countAdj2CoteBatiment('tout', turnPoints);
-        break;
-      default:
-        break;
-    }
+    // let batiment = document.getElementById(`${hHex}${vHex}_img`) as HTMLImageElement;
+    // let batimentName = batiment.src.slice(39, batiment.src.length - 4);
+    // switch (batimentName) {
+    //   case 'bateau':
+    //     turnPoints = this.countAdjCoteColor('w', turnPoints);
+    //     break;
+    //   case 'moulin':
+    //     turnPoints = this.countAdjCoteColor('g', turnPoints);
+    //     break;
+    //   case 'colonne':
+    //     turnPoints = this.countAdjCoteColor('s', turnPoints);
+    //     break;
+    //   case 'phare':
+    //     this.findTuilesAdjacentes2(hHex, vHex);
+    //     turnPoints = this.countAdj2CoteBatiment('bateau', turnPoints);
+    //     break;
+    //   case 'temple':
+    //     this.findTuilesAdjacentes2(hHex, vHex);
+    //     turnPoints = this.countAdj2CoteBatiment('colonne', turnPoints);
+    //     break;
+    //   case 'marche':
+    //     this.findTuilesAdjacentes2(hHex, vHex);
+    //     turnPoints = this.countAdj2CoteBatiment('moulin', turnPoints);
+    //     break;
+    //   case 'colisee':
+    //     this.findTuilesAdjacentes2(hHex, vHex);
+    //     turnPoints = this.countAdj2CoteBatiment('tout', turnPoints);
+    //     break;
+    //   default:
+    //     break;
+    // }
 
     return turnPoints;
   }
@@ -198,5 +197,47 @@ export class TileService {
       }
     }
     return counterAdjTiles;
+  }
+
+  changeMode(batimentName: string): string {
+    switch (batimentName) {
+      case 'kraken':
+      case 'scorpion':
+        this.setCurrentTileToSelect();
+        return 'supprimer';
+      case 'voler':
+        this.setCurrentTileToSelect();
+        return 'voler';
+      case 'copier':
+        this.setCurrentTileToSelect();
+        return 'copier';
+      default:
+        return 'normal';
+    }
+
+    // if (batimentName === 'kraken' || batimentName === 'scorpion') {
+    // } else if (batimentName === 'kraken' || batimentName === 'scorpion') {
+    //   return 'supprimer';
+    // } else {
+    //   return 'normal';
+    // }
+  }
+
+  setCurrentTileToSelect() {
+    this.placerBatiment(`500500`, 'no-image');
+    for (let j = 0; j < 6; j++) {
+      this.coloreCote(`500500`, j, 'select');
+    }
+  }
+
+  placerPlayer(idTuile: string, cout: number, player1: any, player2: any) {
+    var div = document.getElementById(`${idTuile}_player`);
+    if (player1.active && div && cout > 2) {
+      div.style.backgroundColor = player1.color;
+    } else if (div && cout > 2) {
+      div.style.backgroundColor = player2.color;
+    } else if (div) {
+      div.style.backgroundColor = 'transparent';
+    }
   }
 }

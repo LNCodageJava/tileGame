@@ -16,6 +16,21 @@
   margin-left: -17px;
 }
 
+.player {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 4px;
+  //background-color: transparent;
+  z-index: 100000000000000000000000000000;
+  left: 0px;
+  top: 0px;
+  margin-top: 27.5px;
+  margin-left: 11.5px;
+  //margin-left: -47.5px;
+  //margin-top: -7.5px;
+}
+
 .hex-wrapper {
   display: inline;
   position: relative;

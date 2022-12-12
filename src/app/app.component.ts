@@ -3,7 +3,7 @@ import { TileService } from './services/tile.service';
 import parameters from './cfg/app.parameters.json';
 import batiments from './cfg/batiment-colors.json';
 import { BatimentDto } from './dto/batimentDto';
-
+const COUNTER_ADJ_START = 1000;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,6 +12,7 @@ import { BatimentDto } from './dto/batimentDto';
 export class AppComponent implements OnInit {
   constructor(private tileService: TileService) {}
   title = 'tileGame';
+
   gridSizeX = Array.from(Array(10).keys());
   gridSizeY = Array.from(Array(20).keys());
   currentBatiment: BatimentDto = {
@@ -23,20 +24,24 @@ export class AppComponent implements OnInit {
   counterAdjTiles = 0;
   counterPoints = 0;
   counterTotalTiles = 0;
+  mode = 'normal';
 
   player1 = {
     nom: 'Scratch',
     active: true,
-    counterAdjTiles: 0,
+    counterAdjTiles: COUNTER_ADJ_START,
     counterPoints: 0,
+    color: '#2C63BF',
   };
 
   player2 = {
     nom: 'LNC',
     active: false,
-    counterAdjTiles: 0,
+    counterAdjTiles: COUNTER_ADJ_START,
     counterPoints: 0,
+    color: '#BF352C',
   };
+  previousTileId = '';
 
   ngOnInit(): void {}
 
@@ -52,7 +57,7 @@ export class AppComponent implements OnInit {
       else this.tileService.coloreCote('510', i, 'g');
     }
     this.tileService.findTuilesAdjacentes(5, 10);
-    this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost();
+    this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost() + COUNTER_ADJ_START;
   }
 
   /**
@@ -132,19 +137,79 @@ export class AppComponent implements OnInit {
   hexClick(hHex: any, vHex: any) {
     console.log(`click sur la tuile ${hHex}${vHex}`);
     this.counterTotalTiles++;
+    switch (this.mode) {
+      case 'normal':
+        this.hexClickNormalMode(hHex, vHex);
+        break;
+      case 'supprimer':
+        this.hexClickSupprimerMode(hHex, vHex);
+        break;
+      case 'copier':
+        this.hexClickCopierMode(this.previousTileId, hHex, vHex);
+        break;
+      case 'voler':
+        this.hexClickVolerMode(hHex, vHex);
+        break;
+    }
 
+    // on change de mode que au placement d'une tuile donc en mode normal
+    if (this.mode === 'normal') {
+      this.previousTileId = `${hHex}${vHex}`;
+      this.mode = this.tileService.changeMode(this.currentBatiment.name);
+    }
+
+    // si le mode a changé on passe pas le tour
+    console.log('modeAfter', this.mode);
+    if (this.mode !== 'normal' && this.mode !== 'nextTurn') {
+      return;
+    }
+    // Reinitialiser la tuile courante et le batiment et le joueur
+    this.changePlayer();
+    this.fillTuileCurrent();
+    this.mode = 'normal';
+  }
+
+  hexClickNormalMode(hHex: any, vHex: any) {
     for (let i = 0; i < 6; i++) {
       this.tileService.coloreCote(`${hHex}${vHex}`, i, this.currentColors[i]);
     }
     this.tileService.placerBatiment(`${hHex}${vHex}`, this.currentBatiment.name);
+    this.tileService.placerPlayer(`${hHex}${vHex}`, this.currentBatiment.cout, this.player1, this.player2);
 
     this.tileService.findTuilesAdjacentes(hHex, vHex);
     this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost();
     this.counterPoints = this.counterPoints + this.tileService.countPoints(hHex, vHex);
+  }
 
-    this.changePlayer();
-    // Reinitialiser la tuile courante et le batiment
-    this.fillTuileCurrent();
+  hexClickSupprimerMode(hHex: any, vHex: any) {
+    for (let i = 0; i < 6; i++) {
+      this.tileService.coloreCote(`${hHex}${vHex}`, i, 'no-image');
+    }
+    this.tileService.placerBatiment(`${hHex}${vHex}`, 'no-image');
+    this.tileService.placerPlayer(`${hHex}${vHex}`, 0, this.player1, this.player2);
+    this.mode = 'nextTurn';
+  }
+
+  hexClickCopierMode(previousTileId: string, hHex: any, vHex: any) {
+    console.log('copie');
+    // let copiedColors = [];
+    let adjBatiment = document.getElementById(`${hHex}${vHex}_img`) as HTMLImageElement;
+    for (let i = 0; i < 6; i++) {
+      // let elem = document.getElementById(`${hHex}${vHex}_${i}`) as HTMLImageElement;
+      // copiedColors[i] = elem.src.slice(38, elem.src.length - 4);
+      // this.tileService.coloreCote(previousTileId, i, copiedColors[i]);
+      if (adjBatiment) {
+        let batimentName = adjBatiment.src.slice(39, adjBatiment.src.length - 4);
+        this.tileService.placerBatiment(previousTileId, batimentName);
+      }
+    }
+    this.mode = 'nextTurn';
+  }
+
+  hexClickVolerMode(hHex: any, vHex: any) {
+    console.log('voler');
+    this.tileService.placerPlayer(`${hHex}${vHex}`, 99, this.player1, this.player2);
+    this.mode = 'nextTurn';
   }
 
   changePlayer() {

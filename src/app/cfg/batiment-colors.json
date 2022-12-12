@@ -12,37 +12,47 @@
     },
     {
       "name": "bateau",
-      "color_required": "3w",
+      "color_required": "4w",
       "color": "2wsg",
       "cout": 2
     },
     {
       "name": "moulin",
-      "color_required": "3g",
+      "color_required": "4g",
       "color": "2wsg",
       "cout": 2
     },
     {
       "name": "colonne",
-      "color_required": "3s",
+      "color_required": "4s",
       "color": "2wsg",
       "cout": 2
     },
     {
+      "name": "kraken",
+      "color": "2wsg",
+      "cout": 3
+    },
+    {
+      "name": "radeau",
+      "color": "3wsg",
+      "cout": 2
+    },
+    {
       "name": "phare",
-      "color_required": "2w",
+      "color_required": "3w",
       "color": "3wsg",
       "cout": 3
     },
     {
       "name": "temple",
-      "color_required": "2s",
+      "color_required": "3s",
       "color": "3wsg",
       "cout": 3
     },
     {
       "name": "marche",
-      "color_required": "2g",
+      "color_required": "3g",
       "color": "3wsg",
       "cout": 3
     },
@@ -60,6 +70,39 @@
       "name": "colisee",
       "color": "3wsg",
       "cout": 6
+    },
+    {
+      "name": "copier",
+      "color": "3wsg",
+      "cout": 3
+    },
+    {
+      "name": "voler",
+      "color": "3wsg",
+      "cout": 3
+    },
+    {
+      "name": "zoo",
+      "color": "3wsg",
+      "cout": 3
+    },
+    {
+      "name": "phare",
+      "color_required": "3w",
+      "color": "3wsg",
+      "cout": 1000
+    },
+    {
+      "name": "temple",
+      "color_required": "3s",
+      "color": "3wsg",
+      "cout": 1000
+    },
+    {
+      "name": "marche",
+      "color_required": "3g",
+      "color": "3wsg",
+      "cout": 1000
     }
   ]
 }
