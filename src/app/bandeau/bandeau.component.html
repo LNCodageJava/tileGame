@@ -1,11 +1,43 @@
 <div class="bandeau-wrapper" [ngClass]="{ active1: player1.active }">
-  <span [ngClass]="{ name1: player1.active }">{{ player1.nom }}</span> <br />
-  {{ player1.counterAdjTiles }} C <br />
+  <div class="info-wrapper">
+    <span [ngClass]="{ name1: player1.active }">{{ player1.nom }}</span>
+    {{ player1.counterAdjTiles }}
+  </div>
+  <div>
+    <app-hex
+      [ngClass]="{ opacity: player1.active && tuileActive === 1 }"
+      class="hex1"
+      [hHex]="400"
+      [vHex]="11"
+    ></app-hex>
+    <app-hex
+      [ngClass]="{ opacity: player1.active && tuileActive === 2 }"
+      class="hex2"
+      [hHex]="400"
+      [vHex]="12"
+    ></app-hex>
+  </div>
   <!-- {{ player1.counterPoints }} points<br /> -->
 </div>
 <div class="separator"></div>
 <div class="bandeau-wrapper" [ngClass]="{ active2: player2.active }">
-  <span [ngClass]="{ name2: player2.active }">{{ player2.nom }}</span> <br />
-  {{ player2.counterAdjTiles }} C <br />
-  <!-- {{ player2.counterPoints }} points<br /> -->
+  <div class="info-wrapper">
+    <span [ngClass]="{ name2: player2.active }">{{ player2.nom }}</span>
+    {{ player2.counterAdjTiles }}
+  </div>
+  <div>
+    <app-hex
+      class="hex1"
+      [hHex]="400"
+      [vHex]="21"
+      [ngClass]="{ opacity: player2.active && tuileActive === 1 }"
+    ></app-hex>
+    <app-hex
+      class="hex2"
+      [hHex]="400"
+      [vHex]="22"
+      [ngClass]="{ opacity: player2.active && tuileActive === 2 }"
+    ></app-hex>
+  </div>
+  <!-- {{ player1.counterPoints }} points<br /> -->
 </div>

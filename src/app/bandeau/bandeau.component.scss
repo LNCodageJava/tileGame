@@ -1,17 +1,20 @@
 .bandeau-wrapper {
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   padding: 2px 5px;
   border-radius: 4px;
   font-weight: 400;
   font-family: cursive;
+  height: 95px;
+  width: 180px;
+  text-align: center;
 }
 
 .separator {
-  height: 20px;
+  height: 10px;
 }
 
 .active1 {
-  border: solid #2c63bf;
+  box-shadow: inset 0px 0px 0px 2px #2c63bf;
 }
 
 .active2 {
@@ -24,4 +27,21 @@
 
 .name2 {
   color: #bf352c;
+}
+
+.hex1 {
+  margin-left: -34px;
+}
+
+.hex2 {
+  margin-left: 87px;
+}
+
+.opacity {
+  opacity: 0.5;
+}
+
+.info-wrapper {
+  display: inline;
+  padding: auto;
 }

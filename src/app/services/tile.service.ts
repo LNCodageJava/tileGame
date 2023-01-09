@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TuileDto } from '../dto/tuileDto';
 
 @Injectable({
   providedIn: 'root',
@@ -203,41 +204,68 @@ export class TileService {
     switch (batimentName) {
       case 'kraken':
       case 'scorpion':
-        this.setCurrentTileToSelect();
+        this.changeCurrentTileToSelect();
         return 'supprimer';
       case 'voler':
-        this.setCurrentTileToSelect();
+        this.changeCurrentTileToSelect();
         return 'voler';
       case 'copier':
-        this.setCurrentTileToSelect();
+        this.changeCurrentTileToSelect();
         return 'copier';
       default:
         return 'normal';
     }
-
-    // if (batimentName === 'kraken' || batimentName === 'scorpion') {
-    // } else if (batimentName === 'kraken' || batimentName === 'scorpion') {
-    //   return 'supprimer';
-    // } else {
-    //   return 'normal';
-    // }
   }
 
-  setCurrentTileToSelect() {
+  changeCurrentTileToSelect() {
     this.placerBatiment(`500500`, 'no-image');
     for (let j = 0; j < 6; j++) {
       this.coloreCote(`500500`, j, 'select');
     }
   }
 
-  placerPlayer(idTuile: string, cout: number, player1: any, player2: any) {
+  placerJetonPlayer(idTuile: string, tuile: TuileDto, player1: any, player2: any) {
     var div = document.getElementById(`${idTuile}_player`);
-    if (player1.active && div && cout > 2) {
-      div.style.backgroundColor = player1.color;
-    } else if (div && cout > 2) {
-      div.style.backgroundColor = player2.color;
+    if (div && (tuile.batimentName === 'phare' || tuile.batimentName === 'marche' || tuile.batimentName === 'temple')) {
+      if (player1.active) {
+        div.style.backgroundColor = player1.color;
+      } else {
+        div.style.backgroundColor = player2.color;
+      }
     } else if (div) {
       div.style.backgroundColor = 'transparent';
+    }
+  }
+
+  changeTuileActive(playerActive: any, tuileActive: any) {
+    if (tuileActive === 1) {
+      tuileActive = 2;
+    } else {
+      tuileActive = 1;
+    }
+    let tuile = this.getTuileData(`400${playerActive}${tuileActive}`);
+    this.setTuileData('500500', tuile.batimentName, tuile.colors);
+    return tuileActive;
+  }
+
+  getTuileData(idTuile: string): TuileDto {
+    let tuile: TuileDto = {
+      batimentName: '',
+      colors: [],
+    };
+    let batimentTargetTuile = document.getElementById(`${idTuile}_img`) as HTMLImageElement;
+    tuile.batimentName = batimentTargetTuile.src.slice(39, batimentTargetTuile.src.length - 4);
+    for (let i = 0; i < 6; i++) {
+      let colors = document.getElementById(`${idTuile}_${i}`) as HTMLImageElement;
+      tuile.colors[i] = colors.src.slice(38, colors.src.length - 4);
+    }
+    return tuile;
+  }
+
+  setTuileData(idTuile: string, batiment: string, colors: string[]) {
+    this.placerBatiment(idTuile, batiment);
+    for (let i = 0; i < 6; i++) {
+      this.coloreCote(idTuile, i, colors[i]);
     }
   }
 }

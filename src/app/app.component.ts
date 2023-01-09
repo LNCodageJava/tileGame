@@ -3,7 +3,8 @@ import { TileService } from './services/tile.service';
 import parameters from './cfg/app.parameters.json';
 import batiments from './cfg/batiment-colors.json';
 import { BatimentDto } from './dto/batimentDto';
-const COUNTER_ADJ_START = 1000;
+import { TuileDto } from './dto/tuileDto';
+const COUNTER_ADJ_START = 9;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,10 +16,7 @@ export class AppComponent implements OnInit {
 
   gridSizeX = Array.from(Array(10).keys());
   gridSizeY = Array.from(Array(20).keys());
-  currentBatiment: BatimentDto = {
-    name: 'no-image',
-    cout: 0,
-  };
+
   // S, SE, NE, N, NO, SO
   currentColors: string[] = ['', '', '', '', '', ''];
   counterAdjTiles = 0;
@@ -41,13 +39,19 @@ export class AppComponent implements OnInit {
     counterPoints: 0,
     color: '#BF352C',
   };
+
+  playerActive = 1;
+  tuileActive = 1;
   previousTileId = '';
+  currentTuile: TuileDto = { batimentName: '', colors: [] };
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.fillTuileDepart();
-    this.fillTuileCurrent();
+    this.fillHandRandomTiles(1);
+    this.fillHandRandomTiles(2);
+    this.startTurn();
   }
 
   fillTuileDepart(): void {
@@ -58,47 +62,6 @@ export class AppComponent implements OnInit {
     }
     this.tileService.findTuilesAdjacentes(5, 10);
     this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost() + COUNTER_ADJ_START;
-  }
-
-  /**
-   * Remplit
-   */
-  setCurrentColors() {
-    this.currentColors = ['', '', '', '', '', ''];
-    // On remplit d'abord la couleur requise
-    if (this.currentBatiment.color_required) {
-      let color_required = this.currentBatiment.color_required.split('');
-      for (let i = 0; i < +color_required[0]; i++) {
-        this.currentColors[i] = color_required[1];
-      }
-    }
-    // On remplit les autres couleurs
-    if (this.currentBatiment.color) {
-      // on extrait le nombre de couleurs et les couleurs possibles
-      let colors = this.currentBatiment.color.split('');
-      let nbColor = colors.shift()!;
-
-      // Pour 2 couleurs on fixe la 2eme couleur et on colore les cotés restants avec
-      if (+nbColor === 2) {
-        let color2 = this.takeRandomElementFromArray(colors);
-        console.log('couleur2', color2);
-        for (let i = 0; i < 6; i++) {
-          if (this.currentColors[i] === '') {
-            this.currentColors[i] = color2;
-          }
-        }
-      }
-
-      // Pour 3 couleurs on remplit chaque couleur aléatoirement
-      else if (+nbColor === 3) {
-        for (let i = 0; i < 6; i++) {
-          if (this.currentColors[i] === '') {
-            this.currentColors[i] = this.takeRandomElementFromArray(colors);
-          }
-        }
-      }
-    }
-    this.currentColors = this.shuffle(this.currentColors);
   }
 
   takeRandomElementFromArray(array: any[]): any {
@@ -116,17 +79,49 @@ export class AppComponent implements OnInit {
     return array;
   }
 
-  fillTuileCurrent() {
-    // remplir bâtiments
+  fillHandRandomTiles(player: number) {
     let batimentsFiltre = batiments.batiments.filter((b) => b.cout === this.counterAdjTiles);
-    this.currentBatiment = batimentsFiltre[Math.floor(Math.random() * batimentsFiltre.length)];
-    this.tileService.placerBatiment(`500500`, this.currentBatiment.name);
 
-    // remplir couleurs
-    this.setCurrentColors();
-    for (let i = 0; i < 6; i++) {
-      this.tileService.coloreCote('500500', i, this.currentColors[i]);
+    let batiment1 = this.takeRandomElementFromArray(batimentsFiltre);
+    this.tileService.setTuileData(`400${player}1`, batiment1.name, this.setBatimentColors(batiment1));
+
+    let batiment2 = this.takeRandomElementFromArray(batimentsFiltre);
+    this.tileService.setTuileData(`400${player}2`, batiment2.name, this.setBatimentColors(batiment2));
+  }
+
+  setBatimentColors(batiment: BatimentDto) {
+    let currentColors = ['', '', '', '', '', ''];
+    // On remplit d'abord la couleur requise
+    if (batiment.color_required) {
+      let color_required = batiment.color_required.split('');
+      for (let i = 0; i < +color_required[0]; i++) {
+        currentColors[i] = color_required[1];
+      }
     }
+    // On remplit les autres couleurs
+    if (batiment.color) {
+      // on extrait le nombre de couleurs et les couleurs possibles
+      let colors = batiment.color.split('');
+      let nbColor = colors.shift()!;
+      // Pour 2 couleurs on fixe la 2eme couleur et on colore les cotés restants avec
+      if (+nbColor === 2) {
+        let color2 = this.takeRandomElementFromArray(colors);
+        for (let i = 0; i < 6; i++) {
+          if (currentColors[i] === '') {
+            currentColors[i] = color2;
+          }
+        }
+      }
+      // Pour 3 couleurs on remplit chaque couleur aléatoirement
+      else if (+nbColor === 3) {
+        for (let i = 0; i < 6; i++) {
+          if (this.currentColors[i] === '') {
+            this.currentColors[i] = this.takeRandomElementFromArray(colors);
+          }
+        }
+      }
+    }
+    return this.shuffle(this.currentColors);
   }
 
   /**
@@ -136,6 +131,7 @@ export class AppComponent implements OnInit {
    */
   hexClick(hHex: any, vHex: any) {
     console.log(`click sur la tuile ${hHex}${vHex}`);
+    this.currentTuile = this.tileService.getTuileData('500500');
     this.counterTotalTiles++;
     switch (this.mode) {
       case 'normal':
@@ -155,27 +151,33 @@ export class AppComponent implements OnInit {
     // on change de mode que au placement d'une tuile donc en mode normal
     if (this.mode === 'normal') {
       this.previousTileId = `${hHex}${vHex}`;
-      this.mode = this.tileService.changeMode(this.currentBatiment.name);
+      this.mode = this.tileService.changeMode(this.currentTuile.batimentName);
     }
 
-    // si le mode a changé on passe pas le tour
-    console.log('modeAfter', this.mode);
+    // si le mode a changé on finit pas le tour
     if (this.mode !== 'normal' && this.mode !== 'nextTurn') {
       return;
     }
-    // Reinitialiser la tuile courante et le batiment et le joueur
+    this.endturn();
+    this.startTurn();
+  }
+
+  startTurn() {
+    let tuile = this.tileService.getTuileData(`400${this.playerActive}1`);
+    this.tileService.setTuileData('500500', tuile.batimentName, tuile.colors);
+  }
+
+  endturn() {
+    this.fillHandRandomTiles(this.playerActive);
     this.changePlayer();
-    this.fillTuileCurrent();
     this.mode = 'normal';
+    this.tuileActive = 1;
   }
 
   hexClickNormalMode(hHex: any, vHex: any) {
-    for (let i = 0; i < 6; i++) {
-      this.tileService.coloreCote(`${hHex}${vHex}`, i, this.currentColors[i]);
-    }
-    this.tileService.placerBatiment(`${hHex}${vHex}`, this.currentBatiment.name);
-    this.tileService.placerPlayer(`${hHex}${vHex}`, this.currentBatiment.cout, this.player1, this.player2);
-
+    let tuileRef = this.tileService.getTuileData('500500');
+    this.tileService.setTuileData(`${hHex}${vHex}`, tuileRef.batimentName, tuileRef.colors);
+    this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
     this.tileService.findTuilesAdjacentes(hHex, vHex);
     this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost();
     this.counterPoints = this.counterPoints + this.tileService.countPoints(hHex, vHex);
@@ -186,18 +188,14 @@ export class AppComponent implements OnInit {
       this.tileService.coloreCote(`${hHex}${vHex}`, i, 'no-image');
     }
     this.tileService.placerBatiment(`${hHex}${vHex}`, 'no-image');
-    this.tileService.placerPlayer(`${hHex}${vHex}`, 0, this.player1, this.player2);
+    this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
     this.mode = 'nextTurn';
   }
 
   hexClickCopierMode(previousTileId: string, hHex: any, vHex: any) {
     console.log('copie');
-    // let copiedColors = [];
     let adjBatiment = document.getElementById(`${hHex}${vHex}_img`) as HTMLImageElement;
     for (let i = 0; i < 6; i++) {
-      // let elem = document.getElementById(`${hHex}${vHex}_${i}`) as HTMLImageElement;
-      // copiedColors[i] = elem.src.slice(38, elem.src.length - 4);
-      // this.tileService.coloreCote(previousTileId, i, copiedColors[i]);
       if (adjBatiment) {
         let batimentName = adjBatiment.src.slice(39, adjBatiment.src.length - 4);
         this.tileService.placerBatiment(previousTileId, batimentName);
@@ -208,7 +206,7 @@ export class AppComponent implements OnInit {
 
   hexClickVolerMode(hHex: any, vHex: any) {
     console.log('voler');
-    this.tileService.placerPlayer(`${hHex}${vHex}`, 99, this.player1, this.player2);
+    this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
     this.mode = 'nextTurn';
   }
 
@@ -219,17 +217,17 @@ export class AppComponent implements OnInit {
       this.counterAdjTiles = this.player2.counterAdjTiles;
       this.player1.counterPoints = this.counterPoints;
       this.counterPoints = this.player2.counterPoints;
+      this.playerActive = 2;
     } // Passer du joueur 2 au joueur 1
     else {
       this.player2.counterAdjTiles = this.counterAdjTiles;
       this.counterAdjTiles = this.player1.counterAdjTiles;
       this.player2.counterPoints = this.counterPoints;
       this.counterPoints = this.player1.counterPoints;
+      this.playerActive = 1;
     }
     this.player1.active = !this.player1.active;
     this.player2.active = !this.player1.active;
-
-    console.log(this.player1);
   }
 
   /**
@@ -242,6 +240,8 @@ export class AppComponent implements OnInit {
       this.tileService.pivoterTuile('droite', this.currentColors);
     } else if (event.key === 'b') {
       this.tileService.pivoterTuile('gauche', this.currentColors);
+    } else if (event.key === 'v' && this.mode === 'normal') {
+      this.tuileActive = this.tileService.changeTuileActive(this.playerActive, this.tuileActive);
     }
   }
 }
