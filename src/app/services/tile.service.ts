@@ -137,6 +137,7 @@ export class TileService {
         }
       }
     }
+    console.log(turnPoints);
     return turnPoints;
   }
 
@@ -189,11 +190,11 @@ export class TileService {
     let counterAdjTiles = 0;
     for (let i = 0; i < 6; i++) {
       let elem = document.getElementById(`${this.adjTuiles[i]}_1`) as HTMLImageElement;
-      if (elem && elem.src === 'http://localhost:4200/assets/batiments/no-image.png') {
+      if (elem && elem.src === 'http://localhost:4200/assets/textures/no-image.png') {
         for (let j = 0; j < 6; j++) {
-          this.coloreCote(this.adjTuiles[i], j, 'no-image');
+          this.coloreCote(this.adjTuiles[i], j, 'white');
         }
-      } else if (elem && elem.src !== 'http://localhost:4200/assets/textures/no-image.png') {
+      } else if (elem && elem.src !== 'http://localhost:4200/assets/textures/white.png') {
         counterAdjTiles++;
       }
     }
@@ -224,6 +225,14 @@ export class TileService {
     }
   }
 
+  changeCurrentTileToBete(bete: string) {
+    this.placerBatiment(`500500`, 'no-image');
+    for (let j = 0; j < 6; j++) {
+      this.coloreCote(`500500`, j, 'no-image');
+    }
+    this.placerBete(500, 500, 'dragon');
+  }
+
   placerJetonPlayer(idTuile: string, tuile: TuileDto, player1: any, player2: any) {
     var div = document.getElementById(`${idTuile}_player`);
     if (
@@ -242,6 +251,13 @@ export class TileService {
       }
     } else if (div) {
       div.style.backgroundColor = 'transparent';
+    }
+  }
+
+  placerBete(hHex: any, vHex: any, bete: string) {
+    var img = document.getElementById(`${hHex}${vHex}_magic`) as HTMLImageElement;
+    if (img) {
+      img.src = `assets/betes_magique/${bete}.png`;
     }
   }
 

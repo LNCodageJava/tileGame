@@ -29,8 +29,6 @@
   position: absolute;
   pointer-events: none;
   z-index: 1000000000000000;
-  //transform: scale(0.7);
-  // position: fixed;
 }
 
 #bandeau-p2 {
@@ -40,41 +38,17 @@
   bottom: 20px;
 }
 
-// .draggable {
-//   width: 100px;
-//   height: 100px;
-//   background-color: aqua;
-//   position: absolute;
-//   z-index: 10000000000000000000000;
-// }
-
-[draggable="true"] {
-  cursor: move;
-}
-
-.resizable {
-  overflow: scroll;
-  resize: both;
-  max-width: 300px;
-  max-height: 460px;
-  border: 1px solid black;
-  min-width: 50px;
-  min-height: 50px;
-  background-color: skyblue;
+.dice {
+  position: absolute;
+  z-index: 500000000000000000000000000;
+  top: 0;
+  right: 20px;
 }
 
 .all {
   overflow: auto;
   height: 500px;
   width: 1000px;
-}
-
-.header {
-  // position: fixed;
-  // width: 100px;
-  // height: 100px;
-  // background-color: red;
-  // z-index: 10000;
 }
 
 .player1 {
@@ -91,11 +65,3 @@
   height: 2000px;
   width: 5000px;
 }
-
-// .content {
-//   height: 200vh;
-//   width: 200vw;
-//   background: linear-gradient(217deg, rgba(255, 0, 0, 0.8), rgba(255, 0, 0, 0) 70.71%),
-//     linear-gradient(127deg, rgba(0, 255, 0, 0.8), rgba(0, 255, 0, 0) 70.71%),
-//     linear-gradient(336deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%);
-// }

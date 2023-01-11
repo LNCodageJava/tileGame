@@ -4,6 +4,8 @@ import parameters from './cfg/app.parameters.json';
 import batiments from './cfg/batiment-colors.json';
 import { BatimentDto } from './dto/batimentDto';
 import { TuileDto } from './dto/tuileDto';
+import { GlobalStore } from './store/global.store';
+import { StateKeys } from './store/global.state';
 const COUNTER_ADJ_START = 9;
 @Component({
   selector: 'app-root',
@@ -11,7 +13,7 @@ const COUNTER_ADJ_START = 9;
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private tileService: TileService) {}
+  constructor(private tileService: TileService, private store: GlobalStore) {}
   title = 'tileGame';
 
   gridSizeX = Array.from(Array(10).keys());
@@ -47,7 +49,9 @@ export class AppComponent implements OnInit {
   previousTileId = '';
   currentTuile: TuileDto = { batimentName: '', colors: [] };
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.store.get(StateKeys.DICE_RESULT));
+  }
 
   ngAfterViewInit(): void {
     this.fillTuileDepart();
@@ -158,6 +162,9 @@ export class AppComponent implements OnInit {
       case 'voler':
         this.hexClickVolerMode(hHex, vHex);
         break;
+      case 'dragon':
+        this.hexClickPlacerBete(hHex, vHex, 'dragon');
+        return;
     }
 
     // on change de mode que au placement d'une tuile donc en mode normal
@@ -197,7 +204,7 @@ export class AppComponent implements OnInit {
 
   hexClickSupprimerMode(hHex: any, vHex: any) {
     for (let i = 0; i < 6; i++) {
-      this.tileService.coloreCote(`${hHex}${vHex}`, i, 'no-image');
+      this.tileService.coloreCote(`${hHex}${vHex}`, i, 'white');
     }
     this.tileService.placerBatiment(`${hHex}${vHex}`, 'no-image');
     this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
@@ -220,6 +227,12 @@ export class AppComponent implements OnInit {
     console.log('voler');
     this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
     this.mode = 'nextTurn';
+  }
+
+  hexClickPlacerBete(hHex: any, vHex: any, bete: string) {
+    this.tileService.placerBete(hHex, vHex, 'dragon');
+    this.tileService.placerBete(500, 500, 'no-image');
+    this.mode = 'normal';
   }
 
   changePlayer() {
@@ -254,6 +267,9 @@ export class AppComponent implements OnInit {
       this.tileService.pivoterTuile('gauche', this.currentColors);
     } else if (event.key === 'v' && this.mode === 'normal') {
       this.tuileActive = this.tileService.changeTuileActive(this.playerActive, this.tuileActive);
+    } else if (event.key === 'd') {
+      this.tileService.changeCurrentTileToBete('dragon');
+      this.mode = 'dragon';
     }
   }
 }
