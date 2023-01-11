@@ -1,43 +1,35 @@
-<div class="bandeau-wrapper" [ngClass]="{ active1: player1.active }">
+<div class="bandeau-wrapper" id="{{ player.id }}1">
   <div class="info-wrapper">
-    <span [ngClass]="{ name1: player1.active }">{{ player1.nom }}</span>
-    {{ player1.counterAdjTiles }}
+    <span
+      [ngClass]="{
+        name1: player.id === 1 && player.active,
+        name2: player.id === 2 && player.active
+      }"
+      >{{ player.nom }}</span
+    >
+    {{ player.counterAdjTiles }}
   </div>
   <div>
-    <app-hex
-      [ngClass]="{ opacity: player1.active && tuileActive === 1 }"
-      class="hex1"
-      [hHex]="400"
-      [vHex]="11"
-    ></app-hex>
-    <app-hex
-      [ngClass]="{ opacity: player1.active && tuileActive === 2 }"
-      class="hex2"
-      [hHex]="400"
-      [vHex]="12"
-    ></app-hex>
-  </div>
-  <!-- {{ player1.counterPoints }} points<br /> -->
-</div>
-<div class="separator"></div>
-<div class="bandeau-wrapper" [ngClass]="{ active2: player2.active }">
-  <div class="info-wrapper">
-    <span [ngClass]="{ name2: player2.active }">{{ player2.nom }}</span>
-    {{ player2.counterAdjTiles }}
-  </div>
-  <div>
-    <app-hex
-      class="hex1"
-      [hHex]="400"
-      [vHex]="21"
-      [ngClass]="{ opacity: player2.active && tuileActive === 1 }"
-    ></app-hex>
-    <app-hex
-      class="hex2"
-      [hHex]="400"
-      [vHex]="22"
-      [ngClass]="{ opacity: player2.active && tuileActive === 2 }"
-    ></app-hex>
+    <img
+      [ngClass]="{
+        border11: player.id === 1 && player.active && tuileActive === 1,
+        border21: player.id === 2 && player.active && tuileActive === 1,
+        'border-none': tuileActive === 2 || !player.active
+      }"
+      src="assets/autres/hex-border.svg"
+    />
+    <img
+      [ngClass]="{
+        border12: player.id === 1 && player.active && tuileActive === 2,
+        border22: player.id === 2 && player.active && tuileActive === 2,
+        'border-none': tuileActive === 1 || !player.active
+      }"
+      src="assets/autres/hex-border.svg"
+    />
+    <div class="hex-wrapper">
+      <app-hex class="hex1" [hHex]="400" [vHex]="[player.id + '1']"></app-hex>
+      <app-hex class="hex2" [hHex]="400" [vHex]="[player.id + '2']"></app-hex>
+    </div>
   </div>
   <!-- {{ player1.counterPoints }} points<br /> -->
 </div>

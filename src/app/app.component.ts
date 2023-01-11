@@ -25,19 +25,21 @@ export class AppComponent implements OnInit {
   mode = 'normal';
 
   player1 = {
+    id: 1,
     nom: 'Scratch',
     active: true,
     counterAdjTiles: COUNTER_ADJ_START,
     counterPoints: 0,
-    color: '#2C63BF',
+    color: '#A6035D',
   };
 
   player2 = {
+    id: 2,
     nom: 'LNC',
     active: false,
     counterAdjTiles: COUNTER_ADJ_START,
     counterPoints: 0,
-    color: '#BF352C',
+    color: '#F28705',
   };
 
   playerActive = 1;
@@ -52,6 +54,16 @@ export class AppComponent implements OnInit {
     this.fillHandRandomTiles(1);
     this.fillHandRandomTiles(2);
     this.startTurn();
+    this.resizeWindow();
+  }
+
+  resizeWindow() {
+    console.log(document.documentElement.clientHeight);
+    let myWindow = document.getElementById('all');
+    if (myWindow) {
+      myWindow.style.height = `${document.documentElement.clientHeight}px`;
+      myWindow.style.width = `${document.documentElement.clientWidth}px`;
+    }
   }
 
   fillTuileDepart(): void {

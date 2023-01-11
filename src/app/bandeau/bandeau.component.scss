@@ -1,40 +1,40 @@
+@import "src/assets/style-var.scss";
+
 .bandeau-wrapper {
   background-color: rgb(255, 255, 255);
   padding: 2px 5px;
   border-radius: 4px;
   font-weight: 400;
   font-family: cursive;
-  height: 95px;
-  width: 180px;
+  height: 330px;
+  width: 155px;
   text-align: center;
 }
 
-.separator {
-  height: 10px;
-}
-
 .active1 {
-  box-shadow: inset 0px 0px 0px 2px #2c63bf;
+  box-shadow: inset 0px 0px 0px 2px $color-player1;
 }
 
 .active2 {
-  border: solid #bf352c;
+  border: solid $color-player2;
 }
 
 .name1 {
-  color: #2c63bf;
+  color: $color-player1;
 }
 
 .name2 {
-  color: #bf352c;
+  color: $color-player2;
 }
 
 .hex1 {
-  margin-left: -34px;
+  margin-left: 45px;
+  margin-top: 20px;
 }
 
 .hex2 {
-  margin-left: 87px;
+  margin-left: 45px;
+  margin-top: 140px;
 }
 
 .opacity {
@@ -45,3 +45,51 @@
   display: inline;
   padding: auto;
 }
+
+.hex-wrapper {
+  left: 0;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  // fixer ces tuiles a une taille de 70
+  transform: scale(70 / $size);
+}
+
+/// BORDERS ////
+
+.border11,
+.border21,
+.border12,
+.border22 {
+  width: 144px;
+  z-index: 100;
+  position: absolute;
+}
+
+.border11,
+.border21 {
+  margin-left: -71px;
+  margin-top: 0px;
+}
+
+.border12,
+.border22 {
+  margin-left: -71px;
+  margin-top: 162px;
+}
+
+.border11,
+.border12 {
+  filter: invert(13%) sepia(63%) saturate(4181%) hue-rotate(311deg) brightness(102%) contrast(112%);
+}
+
+.border21,
+.border22 {
+  filter: invert(64%) sepia(32%) saturate(3751%) hue-rotate(354deg) brightness(93%) contrast(104%);
+}
+
+.border-none {
+  display: none;
+}
+
+///// EN BORDERS ////

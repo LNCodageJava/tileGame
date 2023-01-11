@@ -1,3 +1,5 @@
+@import "src/assets/style-var.scss";
+
 .h1 {
   position: relative;
 }
@@ -5,29 +7,95 @@
 .app-hex {
   position: relative;
   // espacement coté
-  margin-left: 122px;
+  margin-left: $size * 3.04px;
 
   transform: translateX(100px) !important;
 }
 
 .wrapper {
   // espacement haut
-  margin-top: 16px;
+  margin-top: 34px;
 }
 
 #currentTile {
   position: absolute;
-  margin-left: -15px;
-  margin-top: -20px;
+  margin-left: -35px;
+  margin-top: -60px;
   z-index: 1500;
   pointer-events: none;
 }
 
-#bandeau {
+#bandeau-p1 {
   position: absolute;
-  margin-left: -210px;
-  margin-top: -95px;
   pointer-events: none;
   z-index: 1000000000000000;
-  transform: scale(0.7);
+  //transform: scale(0.7);
+  // position: fixed;
 }
+
+#bandeau-p2 {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1000000000000000;
+  bottom: 20px;
+}
+
+// .draggable {
+//   width: 100px;
+//   height: 100px;
+//   background-color: aqua;
+//   position: absolute;
+//   z-index: 10000000000000000000000;
+// }
+
+[draggable="true"] {
+  cursor: move;
+}
+
+.resizable {
+  overflow: scroll;
+  resize: both;
+  max-width: 300px;
+  max-height: 460px;
+  border: 1px solid black;
+  min-width: 50px;
+  min-height: 50px;
+  background-color: skyblue;
+}
+
+.all {
+  overflow: auto;
+  height: 500px;
+  width: 1000px;
+}
+
+.header {
+  // position: fixed;
+  // width: 100px;
+  // height: 100px;
+  // background-color: red;
+  // z-index: 10000;
+}
+
+.player1 {
+  top: 0;
+  left: 0;
+}
+
+.player2 {
+  bottom: 0;
+  margin-top: 500px !important;
+}
+
+.content {
+  height: 2000px;
+  width: 5000px;
+}
+
+// .content {
+//   height: 200vh;
+//   width: 200vw;
+//   background: linear-gradient(217deg, rgba(255, 0, 0, 0.8), rgba(255, 0, 0, 0) 70.71%),
+//     linear-gradient(127deg, rgba(0, 255, 0, 0.8), rgba(0, 255, 0, 0) 70.71%),
+//     linear-gradient(336deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%);
+// }

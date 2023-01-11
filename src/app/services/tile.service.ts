@@ -226,7 +226,15 @@ export class TileService {
 
   placerJetonPlayer(idTuile: string, tuile: TuileDto, player1: any, player2: any) {
     var div = document.getElementById(`${idTuile}_player`);
-    if (div && (tuile.batimentName === 'phare' || tuile.batimentName === 'marche' || tuile.batimentName === 'temple')) {
+    if (
+      div &&
+      (tuile.batimentName === 'phare' ||
+        tuile.batimentName === 'marche' ||
+        tuile.batimentName === 'temple' ||
+        tuile.batimentName === 'zoo' ||
+        tuile.batimentName === 'colisee' ||
+        tuile.batimentName === 'copier')
+    ) {
       if (player1.active) {
         div.style.backgroundColor = player1.color;
       } else {

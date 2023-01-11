@@ -6,8 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./bandeau.component.scss'],
 })
 export class BandeauComponent implements OnInit {
-  @Input() player1: any;
-  @Input() player2: any;
+  @Input() player: any;
   @Input() tuileActive: any;
   constructor() {}
 

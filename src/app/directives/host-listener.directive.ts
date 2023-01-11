@@ -17,7 +17,16 @@ export class HostListenerDirective {
     this.currentTile.style.left = `${event.pageX}px`;
     this.currentTile.style.top = `${event.pageY}px`;
 
-    this.bandeau.style.left = `${event.pageX}px`;
-    this.bandeau.style.top = `${event.pageY}px`;
+    // this.bandeau.style.left = `${event.pageX}px`;
+    // this.bandeau.style.top = `${event.pageY}px`;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    let myWindow = document.getElementById('all');
+    if (myWindow) {
+      myWindow.style.height = `${document.documentElement.clientHeight}px`;
+      myWindow.style.width = `${document.documentElement.clientWidth}px`;
+    }
   }
 }

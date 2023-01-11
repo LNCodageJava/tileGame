@@ -2,4 +2,11 @@
 
 html {
   background-color: rgb(201, 197, 197);
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0 !important;
+  padding: 0;
 }
