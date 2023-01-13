@@ -12,26 +12,18 @@
     },
     {
       "name": "bateau",
-      "color_required": "4w",
-      "color": "2wsg",
+      "color_required": "6w",
       "cout": 2
     },
     {
       "name": "moulin",
-      "color_required": "4g",
-      "color": "2wsg",
+      "color_required": "6g",
       "cout": 2
     },
     {
       "name": "colonne",
-      "color_required": "4s",
-      "color": "2wsg",
+      "color_required": "6s",
       "cout": 2
-    },
-    {
-      "name": "kraken",
-      "color": "2wsg",
-      "cout": 3
     },
     {
       "name": "radeau",
@@ -55,21 +47,6 @@
       "color_required": "3g",
       "color": "3wsg",
       "cout": 3
-    },
-    {
-      "name": "colisee",
-      "color": "3wsg",
-      "cout": 4
-    },
-    {
-      "name": "colisee",
-      "color": "3wsg",
-      "cout": 5
-    },
-    {
-      "name": "colisee",
-      "color": "3wsg",
-      "cout": 6
     },
     {
       "name": "copier",
@@ -108,6 +85,72 @@
       "name": "scorpion",
       "color": "3wsg",
       "cout": 2
+    },
+    {
+      "name": "bateausacre",
+      "color_required": "4w",
+      "color": "2sg",
+      "cout": 2
+    },
+    {
+      "name": "moulinsacre",
+      "color_required": "4g",
+      "color": "2ws",
+      "cout": 2
+    },
+    {
+      "name": "colonnesacre",
+      "color_required": "4s",
+      "color": "2wg",
+      "cout": 2
+    },
+    {
+      "name": "pharesacre",
+      "color_required": "3w",
+      "color": "3wsg",
+      "cout": 3
+    },
+    {
+      "name": "templesacre",
+      "color_required": "3s",
+      "color": "3wsg",
+      "cout": 3
+    },
+    {
+      "name": "marchesacre",
+      "color_required": "3g",
+      "color": "3wsg",
+      "cout": 3
+    },
+    {
+      "name": "colisee",
+      "color": "3wsg",
+      "cout": 4
+    },
+    {
+      "name": "colisee",
+      "color": "3wsg",
+      "cout": 5
+    },
+    {
+      "name": "colisee",
+      "color": "3wsg",
+      "cout": 6
+    },
+    {
+      "name": "grandtemple",
+      "color": "3wsg",
+      "cout": 4
+    },
+    {
+      "name": "grandtemple",
+      "color": "3wsg",
+      "cout": 5
+    },
+    {
+      "name": "grandtemple",
+      "color": "3wsg",
+      "cout": 6
     }
   ]
 }

@@ -28,7 +28,7 @@ export class DiceComponent implements OnInit {
             button.className = 'spin';
             button.classList.add(myDiceValues[this.result]);
           }
-          this.store.set(StateKeys.MODE, 'dice');
+          this.store.set(StateKeys.MODE, 'move');
           this.store.set(StateKeys.DICE_RESULT, this.result);
           this.tileService.setCurrentTileMode('no-image', 'arrow');
         }, 1000);

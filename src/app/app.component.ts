@@ -19,8 +19,6 @@ export class AppComponent implements OnInit {
   gridSizeX = Array.from(Array(10).keys());
   gridSizeY = Array.from(Array(20).keys());
 
-  // S, SE, NE, N, NO, SO
-  currentColors: string[] = ['', '', '', '', '', ''];
   counterAdjTiles = 0;
   counterPoints = 0;
   counterTotalTiles = 0;
@@ -115,13 +113,12 @@ export class AppComponent implements OnInit {
   }
 
   setBatimentColors(batiment: BatimentDto) {
-    console.log(batiment);
-    this.currentColors = ['', '', '', '', '', ''];
+    let currentColors = ['', '', '', '', '', ''];
     // On remplit d'abord la couleur requise
     if (batiment.color_required) {
       let color_required = batiment.color_required.split('');
       for (let i = 0; i < +color_required[0]; i++) {
-        this.currentColors[i] = color_required[1];
+        currentColors[i] = color_required[1];
       }
     }
     // On remplit les autres couleurs
@@ -133,21 +130,21 @@ export class AppComponent implements OnInit {
       if (+nbColor === 2) {
         let color2 = this.takeRandomElementFromArray(colors);
         for (let i = 0; i < 6; i++) {
-          if (this.currentColors[i] === '') {
-            this.currentColors[i] = color2;
+          if (currentColors[i] === '') {
+            currentColors[i] = color2;
           }
         }
       }
       // Pour 3 couleurs on remplit chaque couleur aléatoirement
       else if (+nbColor === 3) {
         for (let i = 0; i < 6; i++) {
-          if (this.currentColors[i] === '') {
-            this.currentColors[i] = this.takeRandomElementFromArray(colors);
+          if (currentColors[i] === '') {
+            currentColors[i] = this.takeRandomElementFromArray(colors);
           }
         }
       }
     }
-    return this.shuffle(this.currentColors);
+    return this.shuffle(currentColors);
   }
 
   /**
@@ -157,7 +154,6 @@ export class AppComponent implements OnInit {
    */
   hexClick(hHex: any, vHex: any) {
     console.log(`click sur la tuile: ${hHex}${vHex}`);
-    this.currentTuile = this.tileService.getTuileData('500500');
     this.counterTotalTiles++;
     switch (this.mode) {
       case 'normal':
@@ -176,7 +172,7 @@ export class AppComponent implements OnInit {
       case 'golden':
         this.hexClickPlacerBete(hHex, vHex, this.mode);
         break;
-      case 'dice':
+      case 'move':
         this.tileService.getBete(`${hHex}${vHex}`);
         break;
     }
@@ -185,6 +181,7 @@ export class AppComponent implements OnInit {
   startTurn() {
     let tuile = this.tileService.getTuileData(`400${this.playerActive}1`);
     this.tileService.setTuileData('500500', tuile.batimentName, tuile.colors);
+    this.currentTuile = this.tileService.getTuileData('500500');
   }
 
   endturn() {
@@ -263,11 +260,14 @@ export class AppComponent implements OnInit {
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     if (event.key === 'n') {
-      this.tileService.pivoterTuile('droite', this.currentColors);
+      this.tileService.pivoterTuile('droite', this.currentTuile.colors);
+      this.currentTuile = this.tileService.getTuileData('500500');
     } else if (event.key === 'b') {
-      this.tileService.pivoterTuile('gauche', this.currentColors);
+      this.tileService.pivoterTuile('gauche', this.currentTuile.colors);
+      this.currentTuile = this.tileService.getTuileData('500500');
     } else if (event.key === 'v' && this.mode === 'normal') {
       this.tuileActive = this.tileService.changeTuileActive(this.playerActive, this.tuileActive);
+      this.currentTuile = this.tileService.getTuileData('500500');
     } else if (event.key === 'd') {
       this.tileService.changeModeToBete('dragon');
     } else if (event.key === 'g') {

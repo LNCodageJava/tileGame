@@ -31,7 +31,7 @@ body {
   }
 
   &.three {
-    background-image: url(../../assets/batiments/moulin.png);
+    background-image: url(../../assets/betes/mage.png);
   }
 
   &.four {
@@ -47,13 +47,13 @@ body {
   }
 
   &.spin {
-    animation: spin 2s ease-out;
+    animation: spin 1s ease-out;
   }
 }
 
 @keyframes spin {
   100% {
-    transform: rotate(1080deg);
+    transform: rotate(540deg);
   }
 }
 

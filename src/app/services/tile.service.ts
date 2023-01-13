@@ -215,6 +215,11 @@ export class TileService {
       case 'copier':
         this.setCurrentTileMode('no-image', 'select');
         return 'copier';
+      case 'colonnesacre':
+      case 'bateausacre':
+      case 'moulinsacre':
+        this.setCurrentTileMode('no-image', 'arrow');
+        return 'move';
       default:
         return 'nextTurn';
     }
@@ -252,16 +257,24 @@ export class TileService {
       (tuile.batimentName === 'phare' ||
         tuile.batimentName === 'marche' ||
         tuile.batimentName === 'temple' ||
+        tuile.batimentName === 'pharesacre' ||
+        tuile.batimentName === 'marchesacre' ||
+        tuile.batimentName === 'templesacre' ||
         tuile.batimentName === 'zoo' ||
         tuile.batimentName === 'colisee' ||
-        tuile.batimentName === 'copier')
+        tuile.batimentName === 'grandtemple' ||
+        tuile.batimentName === 'copier' ||
+        this.store.get(StateKeys.MODE) === 'voler')
     ) {
       if (player1.active) {
+        console.log('p1');
         div.style.backgroundColor = player1.color;
       } else {
+        console.log('p2');
         div.style.backgroundColor = player2.color;
       }
     } else if (div) {
+      console.log('rien');
       div.style.backgroundColor = 'transparent';
     }
   }
