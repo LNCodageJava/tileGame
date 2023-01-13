@@ -2,7 +2,7 @@
   <app-dice class="dice"></app-dice>
   <app-bandeau id="bandeau-p1" [player]="player1" [tuileActive]="tuileActive" class="player1"></app-bandeau>
   <app-bandeau id="bandeau-p2" [player]="player2" [tuileActive]="tuileActive" class="player2"></app-bandeau>
-  <div class="content">
+  <div class="content" id="content">
     <ng-container *ngFor="let j of gridSizeY">
       <div class="wrapper">
         <ng-container *ngFor="let i of gridSizeX"

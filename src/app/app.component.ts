@@ -50,19 +50,25 @@ export class AppComponent implements OnInit {
   currentTuile: TuileDto = { batimentName: '', colors: [] };
 
   ngOnInit(): void {
-    console.log(this.store.get(StateKeys.DICE_RESULT));
+    this.store.select(StateKeys.MODE).subscribe((mode) => {
+      this.mode = mode;
+      console.log('Mode: ', mode);
+      if (mode === 'nextTurn') {
+        this.endturn();
+        this.startTurn();
+      }
+    });
   }
 
   ngAfterViewInit(): void {
+    this.resizeWindow();
     this.fillTuileDepart();
     this.fillHandRandomTiles(1);
     this.fillHandRandomTiles(2);
     this.startTurn();
-    this.resizeWindow();
   }
 
   resizeWindow() {
-    console.log(document.documentElement.clientHeight);
     let myWindow = document.getElementById('all');
     if (myWindow) {
       myWindow.style.height = `${document.documentElement.clientHeight}px`;
@@ -78,6 +84,9 @@ export class AppComponent implements OnInit {
     }
     this.tileService.findTuilesAdjacentes(5, 10);
     this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost() + COUNTER_ADJ_START;
+    this.tileService.placerBete('11', 'dragon');
+    this.tileService.placerBete('13', 'golden');
+    this.tileService.initMage();
   }
 
   takeRandomElementFromArray(array: any[]): any {
@@ -106,12 +115,13 @@ export class AppComponent implements OnInit {
   }
 
   setBatimentColors(batiment: BatimentDto) {
-    let currentColors = ['', '', '', '', '', ''];
+    console.log(batiment);
+    this.currentColors = ['', '', '', '', '', ''];
     // On remplit d'abord la couleur requise
     if (batiment.color_required) {
       let color_required = batiment.color_required.split('');
       for (let i = 0; i < +color_required[0]; i++) {
-        currentColors[i] = color_required[1];
+        this.currentColors[i] = color_required[1];
       }
     }
     // On remplit les autres couleurs
@@ -123,8 +133,8 @@ export class AppComponent implements OnInit {
       if (+nbColor === 2) {
         let color2 = this.takeRandomElementFromArray(colors);
         for (let i = 0; i < 6; i++) {
-          if (currentColors[i] === '') {
-            currentColors[i] = color2;
+          if (this.currentColors[i] === '') {
+            this.currentColors[i] = color2;
           }
         }
       }
@@ -146,7 +156,7 @@ export class AppComponent implements OnInit {
    * @param vHex
    */
   hexClick(hHex: any, vHex: any) {
-    console.log(`click sur la tuile ${hHex}${vHex}`);
+    console.log(`click sur la tuile: ${hHex}${vHex}`);
     this.currentTuile = this.tileService.getTuileData('500500');
     this.counterTotalTiles++;
     switch (this.mode) {
@@ -163,22 +173,13 @@ export class AppComponent implements OnInit {
         this.hexClickVolerMode(hHex, vHex);
         break;
       case 'dragon':
-        this.hexClickPlacerBete(hHex, vHex, 'dragon');
-        return;
+      case 'golden':
+        this.hexClickPlacerBete(hHex, vHex, this.mode);
+        break;
+      case 'dice':
+        this.tileService.getBete(`${hHex}${vHex}`);
+        break;
     }
-
-    // on change de mode que au placement d'une tuile donc en mode normal
-    if (this.mode === 'normal') {
-      this.previousTileId = `${hHex}${vHex}`;
-      this.mode = this.tileService.changeMode(this.currentTuile.batimentName);
-    }
-
-    // si le mode a changé on finit pas le tour
-    if (this.mode !== 'normal' && this.mode !== 'nextTurn') {
-      return;
-    }
-    this.endturn();
-    this.startTurn();
   }
 
   startTurn() {
@@ -189,7 +190,7 @@ export class AppComponent implements OnInit {
   endturn() {
     this.fillHandRandomTiles(this.playerActive);
     this.changePlayer();
-    this.mode = 'normal';
+    this.store.set(StateKeys.MODE, 'normal');
     this.tuileActive = 1;
   }
 
@@ -200,6 +201,8 @@ export class AppComponent implements OnInit {
     this.tileService.findTuilesAdjacentes(hHex, vHex);
     this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost();
     this.counterPoints = this.counterPoints + this.tileService.countPoints(hHex, vHex);
+    this.previousTileId = `${hHex}${vHex}`;
+    this.store.set(StateKeys.MODE, this.tileService.changeMode(this.currentTuile.batimentName));
   }
 
   hexClickSupprimerMode(hHex: any, vHex: any) {
@@ -208,11 +211,10 @@ export class AppComponent implements OnInit {
     }
     this.tileService.placerBatiment(`${hHex}${vHex}`, 'no-image');
     this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
-    this.mode = 'nextTurn';
+    this.store.set(StateKeys.MODE, 'nextTurn');
   }
 
   hexClickCopierMode(previousTileId: string, hHex: any, vHex: any) {
-    console.log('copie');
     let adjBatiment = document.getElementById(`${hHex}${vHex}_img`) as HTMLImageElement;
     for (let i = 0; i < 6; i++) {
       if (adjBatiment) {
@@ -220,19 +222,18 @@ export class AppComponent implements OnInit {
         this.tileService.placerBatiment(previousTileId, batimentName);
       }
     }
-    this.mode = 'nextTurn';
+    this.store.set(StateKeys.MODE, 'nextTurn');
   }
 
   hexClickVolerMode(hHex: any, vHex: any) {
-    console.log('voler');
     this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
-    this.mode = 'nextTurn';
+    this.store.set(StateKeys.MODE, 'nextTurn');
   }
 
   hexClickPlacerBete(hHex: any, vHex: any, bete: string) {
-    this.tileService.placerBete(hHex, vHex, 'dragon');
-    this.tileService.placerBete(500, 500, 'no-image');
-    this.mode = 'normal';
+    this.tileService.placerBete(`${hHex}${vHex}`, bete);
+    this.tileService.placerBete('500500', 'no-image');
+    this.store.set(StateKeys.MODE, 'nextTurn');
   }
 
   changePlayer() {
@@ -268,8 +269,11 @@ export class AppComponent implements OnInit {
     } else if (event.key === 'v' && this.mode === 'normal') {
       this.tuileActive = this.tileService.changeTuileActive(this.playerActive, this.tuileActive);
     } else if (event.key === 'd') {
-      this.tileService.changeCurrentTileToBete('dragon');
-      this.mode = 'dragon';
+      this.tileService.changeModeToBete('dragon');
+    } else if (event.key === 'g') {
+      this.tileService.changeModeToBete('golden');
+    } else if (event.key === 'm') {
+      this.tileService.turnMage();
     }
   }
 }

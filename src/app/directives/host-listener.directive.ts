@@ -16,16 +16,11 @@ export class HostListenerDirective {
   onMouseMouve(event: MouseEvent) {
     this.currentTile.style.left = `${event.pageX}px`;
     this.currentTile.style.top = `${event.pageY}px`;
-    console.log(event.pageX);
-    console.log(event.pageY);
     if (event.pageX < 159 || (event.pageX > document.documentElement.clientWidth - 100 && event.pageY < 80)) {
       this.currentTile.style.visibility = 'hidden';
     } else {
       this.currentTile.style.visibility = 'visible';
     }
-
-    // this.bandeau.style.left = `${event.pageX}px`;
-    // this.bandeau.style.top = `${event.pageY}px`;
   }
 
   @HostListener('window:resize', ['$event'])

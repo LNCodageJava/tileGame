@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TuileDto } from '../dto/tuileDto';
+import { StateKeys } from '../store/global.state';
+import { GlobalStore } from '../store/global.store';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +10,8 @@ export class TileService {
   // S, SE, NE, N, NO, SO
   adjTuiles: string[] = [];
   adjTuiles2: string[] = [];
-  constructor() {}
+  mageAngle: number = 0;
+  constructor(private store: GlobalStore) {}
 
   coloreCote(idTuile: string, cote: number, couleur: string): void {
     var tuileCote = document.getElementById(`${idTuile}_${cote}`) as HTMLImageElement;
@@ -137,7 +140,6 @@ export class TileService {
         }
       }
     }
-    console.log(turnPoints);
     return turnPoints;
   }
 
@@ -205,32 +207,42 @@ export class TileService {
     switch (batimentName) {
       case 'kraken':
       case 'scorpion':
-        this.changeCurrentTileToSelect();
+        this.setCurrentTileMode('no-image', 'select');
         return 'supprimer';
       case 'voler':
-        this.changeCurrentTileToSelect();
+        this.setCurrentTileMode('no-image', 'select');
         return 'voler';
       case 'copier':
-        this.changeCurrentTileToSelect();
+        this.setCurrentTileMode('no-image', 'select');
         return 'copier';
       default:
-        return 'normal';
+        return 'nextTurn';
     }
   }
 
-  changeCurrentTileToSelect() {
-    this.placerBatiment(`500500`, 'no-image');
-    for (let j = 0; j < 6; j++) {
-      this.coloreCote(`500500`, j, 'select');
+  getBete(idTuile: string) {
+    let beteTargetTuile = document.getElementById(`${idTuile}_bete`) as HTMLImageElement;
+    let beteName = beteTargetTuile.src.slice(35, beteTargetTuile.src.length - 4);
+    this.placerBete(idTuile, 'no-image');
+    if (beteName !== 'no-image') {
+      this.changeModeToBete(beteName);
+    }
+    if (document.getElementById(`${idTuile}`)!.id === '510') {
+      this.store.set(StateKeys.MODE, 'nextTurn');
     }
   }
 
-  changeCurrentTileToBete(bete: string) {
-    this.placerBatiment(`500500`, 'no-image');
+  setCurrentTileMode(batiment: string, cotes: string) {
+    this.placerBatiment(`500500`, batiment);
     for (let j = 0; j < 6; j++) {
-      this.coloreCote(`500500`, j, 'no-image');
+      this.coloreCote(`500500`, j, cotes);
     }
-    this.placerBete(500, 500, 'dragon');
+  }
+
+  changeModeToBete(bete: string) {
+    this.setTuileData('500500', 'no-image', ['no-image', 'no-image', 'no-image', 'no-image', 'no-image', 'no-image']);
+    this.placerBete('500500', bete);
+    this.store.set(StateKeys.MODE, bete);
   }
 
   placerJetonPlayer(idTuile: string, tuile: TuileDto, player1: any, player2: any) {
@@ -254,10 +266,10 @@ export class TileService {
     }
   }
 
-  placerBete(hHex: any, vHex: any, bete: string) {
-    var img = document.getElementById(`${hHex}${vHex}_magic`) as HTMLImageElement;
+  placerBete(idTuile: string, bete: string) {
+    var img = document.getElementById(`${idTuile}_bete`) as HTMLImageElement;
     if (img) {
-      img.src = `assets/betes_magique/${bete}.png`;
+      img.src = `assets/betes/${bete}.png`;
     }
   }
 
@@ -291,5 +303,20 @@ export class TileService {
     for (let i = 0; i < 6; i++) {
       this.coloreCote(idTuile, i, colors[i]);
     }
+  }
+
+  turnMage() {
+    let image = document.getElementById('mage');
+    image!.style.rotate = `${this.mageAngle + 120}deg`;
+    this.mageAngle = this.mageAngle + 120;
+  }
+
+  initMage() {
+    var startTile = document.getElementById('510');
+    var image = document.createElement('img');
+    image.src = 'assets/betes/mage.png';
+    image.className = 'mage';
+    image.id = 'mage';
+    startTile?.appendChild(image);
   }
 }
