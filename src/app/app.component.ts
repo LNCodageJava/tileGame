@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   counterPoints = 0;
   counterTotalTiles = 0;
   mode = 'normal';
+  rotate = 0;
 
   player1 = {
     id: 1,
@@ -194,6 +195,7 @@ export class AppComponent implements OnInit {
   hexClickNormalMode(hHex: any, vHex: any) {
     let tuileRef = this.tileService.getTuileData('500500');
     this.tileService.setTuileData(`${hHex}${vHex}`, tuileRef.batimentName, tuileRef.colors);
+    document.getElementById(`${hHex}${vHex}_img`)?.classList.add(`r${this.rotate}`);
     this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
     this.tileService.findTuilesAdjacentes(hHex, vHex);
     this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost();
@@ -262,9 +264,25 @@ export class AppComponent implements OnInit {
     if (event.key === 'n') {
       this.tileService.pivoterTuile('droite', this.currentTuile.colors);
       this.currentTuile = this.tileService.getTuileData('500500');
+
+      this.rotate = this.rotate + 60;
+      document.getElementById(`500500_img`)?.classList.remove('r60', 'r120', 'r0', 'r180', 'r240', 'r300', 'r360');
+      document.getElementById(`500500_img`)?.classList.add(`r${this.rotate}`);
+      if (this.rotate === 360) {
+        this.rotate = 0;
+      }
+
+      console.log(this.rotate);
     } else if (event.key === 'b') {
       this.tileService.pivoterTuile('gauche', this.currentTuile.colors);
       this.currentTuile = this.tileService.getTuileData('500500');
+
+      if (this.rotate === 0) {
+        this.rotate = 360;
+      }
+      this.rotate = this.rotate - 60;
+      document.getElementById(`500500_img`)?.classList.remove('r60', 'r120', 'r0', 'r180', 'r240', 'r300', 'r360');
+      document.getElementById(`500500_img`)?.classList.add(`r${this.rotate}`);
     } else if (event.key === 'v' && this.mode === 'normal') {
       this.tuileActive = this.tileService.changeTuileActive(this.playerActive, this.tuileActive);
       this.currentTuile = this.tileService.getTuileData('500500');
