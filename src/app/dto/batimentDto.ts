@@ -1,6 +1,7 @@
 export interface BatimentDto {
   name: string;
-  color_required?: string;
-  color?: string;
-  cout: number;
+  color: string;
+  cost: string;
+  points: string;
+  power: string;
 }

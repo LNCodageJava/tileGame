@@ -1,0 +1,9 @@
+{
+  "batiments": [
+    { "name": "bateau", "color": "w", "cost": "100", "points": "i2f", "power": "" },
+    { "name": "1-casa-solar", "color": "s", "cost": "011", "points": "i1s", "power": "" },
+
+    { "name": "phare", "color": "w", "cost": "210", "points": "p2w", "power": "" },
+    { "name": "marchesacre", "color": "g", "cost": "120", "points": "p1e", "power": "deplacer" }
+  ]
+}

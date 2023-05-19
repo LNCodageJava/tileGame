@@ -9,6 +9,10 @@ export class HexComponent implements OnInit, AfterViewInit {
   @Input() vHex: any;
   @Input() hHex: any;
   batiment: any = 'no-image';
+  @Input() logos: any;
+  @Input() pointsLogo: any;
+  @Input() points: any;
+  @Input() power: any;
 
   constructor() {}
 

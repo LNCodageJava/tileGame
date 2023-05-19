@@ -1,156 +1,44 @@
 {
-  "batiments": [
-    {
-      "name": "no-image",
-      "color": "3wsg",
-      "cout": 0
-    },
-    {
-      "name": "no-image",
-      "color": "3wsg",
-      "cout": 1
-    },
-    {
-      "name": "bateau",
-      "color_required": "6w",
-      "cout": 2
-    },
-    {
-      "name": "moulin",
-      "color_required": "6g",
-      "cout": 2
-    },
-    {
-      "name": "colonne",
-      "color_required": "6s",
-      "cout": 2
-    },
-    {
-      "name": "radeau",
-      "color": "3wsg",
-      "cout": 2
-    },
-    {
-      "name": "phare",
-      "color_required": "3w",
-      "color": "3wsg",
-      "cout": 3
-    },
-    {
-      "name": "temple",
-      "color_required": "3s",
-      "color": "3wsg",
-      "cout": 3
-    },
-    {
-      "name": "marche",
-      "color_required": "3g",
-      "color": "3wsg",
-      "cout": 3
-    },
-    {
-      "name": "copier",
-      "color": "3wsg",
-      "cout": 3
-    },
-    {
-      "name": "voler",
-      "color": "3wsg",
-      "cout": 3
-    },
-    {
-      "name": "zoo",
-      "color": "3wsg",
-      "cout": 3
-    },
-    {
-      "name": "phare",
-      "color_required": "3w",
-      "color": "3wsg",
-      "cout": 9
-    },
-    {
-      "name": "temple",
-      "color_required": "3s",
-      "color": "3wsg",
-      "cout": 9
-    },
-    {
-      "name": "marche",
-      "color_required": "3g",
-      "color": "3wsg",
-      "cout": 9
-    },
-    {
-      "name": "scorpion",
-      "color": "3wsg",
-      "cout": 2
-    },
-    {
-      "name": "bateausacre",
-      "color_required": "4w",
-      "color": "2sg",
-      "cout": 2
-    },
-    {
-      "name": "moulinsacre",
-      "color_required": "4g",
-      "color": "2ws",
-      "cout": 2
-    },
-    {
-      "name": "colonnesacre",
-      "color_required": "4s",
-      "color": "2wg",
-      "cout": 2
-    },
-    {
-      "name": "pharesacre",
-      "color_required": "3w",
-      "color": "3wsg",
-      "cout": 3
-    },
-    {
-      "name": "templesacre",
-      "color_required": "3s",
-      "color": "3wsg",
-      "cout": 3
-    },
-    {
-      "name": "marchesacre",
-      "color_required": "3g",
-      "color": "3wsg",
-      "cout": 3
-    },
-    {
-      "name": "colisee",
-      "color": "3wsg",
-      "cout": 4
-    },
-    {
-      "name": "colisee",
-      "color": "3wsg",
-      "cout": 5
-    },
-    {
-      "name": "colisee",
-      "color": "3wsg",
-      "cout": 6
-    },
-    {
-      "name": "grandtemple",
-      "color": "3wsg",
-      "cout": 4
-    },
-    {
-      "name": "grandtemple",
-      "color": "3wsg",
-      "cout": 5
-    },
-    {
-      "name": "grandtemple",
-      "color": "3wsg",
-      "cout": 6
-    }
+  "pool": [
+    { "color": "s", "cost": "s", "points": "i2f", "power": "", "name": "colonne" },
+    { "color": "s", "cost": "w", "points": "i2f", "power": "", "name": "colonne" },
+    { "color": "s", "cost": "g", "points": "i2f", "power": "", "name": "colonne" },
+
+    { "color": "s", "cost": "ss", "points": "p1s", "power": "", "name": "1-casa-solar" },
+    { "color": "s", "cost": "sw", "points": "p1s", "power": "", "name": "1-casa-solar" },
+    { "color": "s", "cost": "sg", "points": "p1s", "power": "", "name": "1-casa-solar" },
+
+    { "color": "g", "cost": "g", "points": "i2f", "power": "", "name": "moulin" },
+    { "color": "g", "cost": "s", "points": "i2f", "power": "", "name": "moulin" },
+    { "color": "g", "cost": "w", "points": "i2f", "power": "", "name": "moulin" },
+
+    { "color": "g", "cost": "gg", "points": "p1g", "power": "", "name": "moulinsacre" },
+    { "color": "g", "cost": "gw", "points": "p1g", "power": "", "name": "moulinsacre" },
+    { "color": "g", "cost": "gs", "points": "p1g", "power": "", "name": "moulinsacre" },
+
+    { "color": "w", "cost": "w", "points": "i2f", "power": "", "name": "radeau" },
+    { "color": "w", "cost": "g", "points": "i2f", "power": "", "name": "radeau" },
+    { "color": "w", "cost": "w", "points": "i2f", "power": "", "name": "radeau" },
+
+    { "color": "w", "cost": "ww", "points": "p1w", "power": "", "name": "bateausacre" },
+    { "color": "w", "cost": "wg", "points": "p1w", "power": "", "name": "bateausacre" },
+    { "color": "w", "cost": "ws", "points": "p1w", "power": "", "name": "bateausacre" },
+
+    { "color": "x", "cost": "wgs", "points": "i6f", "power": "", "name": "ballon" },
+    { "color": "x", "cost": "wgs", "points": "i6f", "power": "", "name": "ballon" },
+    { "color": "x", "cost": "wgs", "points": "i6f", "power": "", "name": "ballon" }
+  ],
+  "hand": [
+    { "color": "s", "cost": "ss", "points": "", "power": "deplacer", "name": "temple" },
+    { "color": "s", "cost": "ss", "points": "", "power": "deplacer", "name": "temple" },
+    { "color": "s", "cost": "ssx", "points": "p3a", "power": "", "name": "temple" },
+
+    { "color": "s", "cost": "sss", "points": "p2s", "power": "", "name": "templesacre" },
+    { "color": "s", "cost": "ssg", "points": "p2s", "power": "", "name": "templesacre" },
+    { "color": "s", "cost": "ssw", "points": "p2s", "power": "", "name": "templesacre" },
+
+    { "color": "g", "cost": "gg", "points": "", "power": "deplacer", "name": "marche" },
+    { "color": "g", "cost": "gg", "points": "", "power": "deplacer", "name": "marche" },
+    { "color": "g", "cost": "ggx", "points": "p3a", "power": "", "name": "marche" }
   ]
 }

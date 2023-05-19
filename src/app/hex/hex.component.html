@@ -1,12 +1,20 @@
 <div id="{{ hHex }}{{ vHex }}" class="hex-wrapper">
-  <div id="{{ hHex }}{{ vHex }}_player" class="player"></div>
-  <img id="{{ hHex }}{{ vHex }}_bete" class="bete" src="assets/betes/no-image.png" />
-  <img id="{{ hHex }}{{ vHex }}_img" class="img" src="assets/batiments/{{ batiment }}.png" />
+  <img class="img" src="assets/textures/mask.png" style="z-index: 10" />
+  <img id="{{ hHex }}{{ vHex }}_couleur" class="img" />
+  <img id="{{ hHex }}{{ vHex }}_batiment" class="img" />
+  <div id="rectangle">
+    <div class="wrapper" id="wrapper">
+      <ng-container *ngFor="let logo of logos">
+        <img src="assets/textures/{{ logo }}.png" class="logo" />
+      </ng-container>
+    </div>
+  </div>
+  <div id="points-wrapper">
+    <div class="points">{{ points }}</div>
+    <img *ngIf="pointsLogo" src="assets/textures/{{ pointsLogo }}.png" id="points-logo" class="points-logo" />
+  </div>
 
-  <img id="{{ hHex }}{{ vHex }}_0" class="cote-0" src="assets/textures/no-image.png" />
-  <img id="{{ hHex }}{{ vHex }}_1" class="cote-1" src="assets/textures/no-image.png" />
-  <img id="{{ hHex }}{{ vHex }}_2" class="cote-2" src="assets/textures/no-image.png" />
-  <img id="{{ hHex }}{{ vHex }}_3" class="cote-3" src="assets/textures/no-image.png" />
-  <img id="{{ hHex }}{{ vHex }}_4" class="cote-4" src="assets/textures/no-image.png" />
-  <img id="{{ hHex }}{{ vHex }}_5" class="cote-5" src="assets/textures/no-image.png" />
+  <div id="power-wrapper">
+    <img *ngIf="power" src="assets/textures/{{ power }}.png" id="power" class="points-logo" />
+  </div>
 </div>
