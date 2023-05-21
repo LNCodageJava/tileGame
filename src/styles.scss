@@ -43,3 +43,35 @@ body {
 .r360 {
   transform: rotate(360deg);
 }
+
+.logo {
+  width: 10px;
+  padding: 1px;
+}
+
+.point {
+  position: absolute;
+  font-size: 13px;
+  left: 58px;
+  top: 5px;
+  z-index: 10000;
+  font-family: fantasy;
+  color: black;
+  //-webkit-text-stroke: 0.7px black;
+}
+
+.point-empty {
+  position: absolute;
+  font-size: 13px;
+  left: 65px;
+  top: 5px;
+  z-index: 10000;
+  font-family: fantasy;
+  color: black;
+  // -webkit-text-stroke: 0.7px black;
+}
+
+// SIZE impair
+.odd {
+  top: 45px;
+}

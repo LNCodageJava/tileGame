@@ -8,7 +8,12 @@ import { Component, OnInit, Input } from '@angular/core';
 export class BandeauComponent implements OnInit {
   @Input() player: any;
   @Input() tuileActive: any;
+
+  gridSizeX = Array.from(Array(2).keys());
+  gridSizeY = Array.from(Array(4).keys());
   constructor() {}
 
   ngOnInit(): void {}
+
+  hexClick(i: any, j: any) {}
 }

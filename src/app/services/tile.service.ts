@@ -286,30 +286,30 @@ export class TileService {
     }
   }
 
-  changeTuileActive(playerActive: any, tuileActive: any) {
-    if (tuileActive === 1) {
-      tuileActive = 2;
-    } else {
-      tuileActive = 1;
-    }
-    let tuile = this.getTuileData(`400${playerActive}${tuileActive}`);
-    this.setTuileData('500500', tuile.batimentName, tuile.colors);
-    return tuileActive;
-  }
+  // changeTuileActive(playerActive: any, tuileActive: any) {
+  //   if (tuileActive === 1) {
+  //     tuileActive = 2;
+  //   } else {
+  //     tuileActive = 1;
+  //   }
+  //   let tuile = this.getTuileData(`400${playerActive}${tuileActive}`);
+  //   this.setTuileData('500500', tuile.batimentName, tuile.colors);
+  //   return tuileActive;
+  // }
 
-  getTuileData(idTuile: string): TuileDto {
-    let tuile: TuileDto = {
-      batimentName: '',
-      colors: [],
-    };
-    let batimentTargetTuile = document.getElementById(`${idTuile}_img`) as HTMLImageElement;
-    tuile.batimentName = batimentTargetTuile.src.slice(39, batimentTargetTuile.src.length - 4);
-    for (let i = 0; i < 6; i++) {
-      let colors = document.getElementById(`${idTuile}_${i}`) as HTMLImageElement;
-      tuile.colors[i] = colors.src.slice(38, colors.src.length - 4);
-    }
-    return tuile;
-  }
+  // getTuileData(idTuile: string): TuileDto {
+  //   let tuile: TuileDto = {
+  //     batimentName: '',
+  //     colors: [],
+  //   };
+  //   let batimentTargetTuile = document.getElementById(`${idTuile}_img`) as HTMLImageElement;
+  //   tuile.batimentName = batimentTargetTuile.src.slice(39, batimentTargetTuile.src.length - 4);
+  //   for (let i = 0; i < 6; i++) {
+  //     let colors = document.getElementById(`${idTuile}_${i}`) as HTMLImageElement;
+  //     tuile.colors[i] = colors.src.slice(38, colors.src.length - 4);
+  //   }
+  //   return tuile;
+  // }
 
   setTuileData(idTuile: string, batiment: string, colors: string[]) {
     this.placerBatiment(idTuile, batiment);

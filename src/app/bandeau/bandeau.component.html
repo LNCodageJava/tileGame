@@ -1,35 +1,15 @@
-<div class="bandeau-wrapper" id="{{ player.id }}1">
-  <div class="info-wrapper">
-    <span
-      [ngClass]="{
-        name1: player.id === 1 && player.active,
-        name2: player.id === 2 && player.active
-      }"
-      >{{ player.nom }}</span
-    >
-    {{ player.counterAdjTiles }}
-  </div>
-  <div>
-    <img
-      [ngClass]="{
-        border11: player.id === 1 && player.active && tuileActive === 1,
-        border21: player.id === 2 && player.active && tuileActive === 1,
-        'border-none': tuileActive === 2 || !player.active
-      }"
-      src="assets/autres/hex-border.svg"
-    />
-    <img
-      [ngClass]="{
-        border12: player.id === 1 && player.active && tuileActive === 2,
-        border22: player.id === 2 && player.active && tuileActive === 2,
-        'border-none': tuileActive === 1 || !player.active
-      }"
-      src="assets/autres/hex-border.svg"
-    />
-    <div class="hex-wrapper">
-      <app-hex class="hex1" [hHex]="400" [vHex]="[player.id + '1']"></app-hex>
-      <app-hex class="hex2" [hHex]="400" [vHex]="[player.id + '2']"></app-hex>
+<div class="content">
+  <ng-container *ngFor="let j of gridSizeY">
+    <div class="wrapper">
+      <ng-container *ngFor="let i of gridSizeX"
+        ><app-hex
+          (click)="hexClick(i, j)"
+          class="app-hex"
+          [hHex]="400 + i"
+          [vHex]="j"
+          [ngClass]="{ odd: i % 2 === 0, even: i % 2 === 1 }"
+        ></app-hex
+      ></ng-container>
     </div>
-  </div>
-  <!-- {{ player1.counterPoints }} points<br /> -->
+  </ng-container>
 </div>

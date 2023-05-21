@@ -14,11 +14,10 @@ export class HexComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {}
 
-  ngAfterViewInit(): void {
-    var t = document.getElementById(`${this.hHex}${this.vHex}`);
-    if (t && this.vHex % 2 !== 0 && this.hHex === 0) {
-      // décalage colonnes impaires
-      t.style.marginLeft = `${TUILE_WIDTH * 1.52}px`;
-    }
-  }
+  ngAfterViewInit(): void {}
+
+  @Input() logos: any;
+  @Input() pointsLogo: any;
+  @Input() points: any = 0;
+  @Input() power: any;
 }
