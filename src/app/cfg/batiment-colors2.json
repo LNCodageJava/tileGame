@@ -1,11 +1,18 @@
 {
   "pool": [
-    { "color": "s", "cost": "s", "points": "i2f", "power": "", "name": "1-casa-solar", "idPrint": "10" },
-    { "color": "w", "cost": "ww", "points": "", "power": "deplacer", "name": "2-skull-ship", "idPrint": "20" },
+    { "color": "s", "cost": "s", "points": "i2f", "power": "", "name": "4-casa-solar", "idPrint": "10" },
+    { "color": "w", "cost": "ww", "points": "", "power": "deplacer", "name": "5-skull-ship", "idPrint": "20" },
     { "color": "w", "cost": "www", "points": "i2w", "power": "", "name": "phare", "idPrint": "21" },
+    { "color": "w", "cost": "wx", "points": "", "power": "deplacer", "name": "7-phare-camp", "idPrint": "11" },
     { "color": "w", "cost": "w", "points": "i2f", "power": "", "name": "bateau", "idPrint": "22" },
     { "color": "x", "cost": "swg", "points": "i6f", "power": "", "name": "ballon", "idPrint": "12" },
     { "color": "s", "cost": "sss", "points": "i6f", "power": "", "name": "6-temple-dome", "idPrint": "11" },
+
+    { "color": "x", "cost": "", "points": "", "power": "", "name": "no-image" },
+    { "color": "x", "cost": "", "points": "", "power": "", "name": "no-image" },
+    { "color": "x", "cost": "", "points": "", "power": "", "name": "no-image" },
+    { "color": "x", "cost": "", "points": "", "power": "", "name": "no-image" },
+    { "color": "x", "cost": "", "points": "", "power": "", "name": "no-image" },
 
     { "color": "g", "cost": "g", "points": "i2f", "power": "", "name": "moulin", "idPrint": "40" },
     { "color": "g", "cost": "g", "points": "i2f", "power": "", "name": "moulinsacre", "idPrint": "41" },
@@ -13,5 +20,6 @@
     { "color": "w", "cost": "g", "points": "i2f", "power": "", "name": "pharesacre", "idPrint": "50" },
     { "color": "s", "cost": "g", "points": "i2f", "power": "", "name": "temple", "idPrint": "51" },
     { "color": "s", "cost": "gggg", "points": "i2f", "power": "", "name": "grandtemple", "idPrint": "52" }
-  ]
+  ],
+  "hand": [{ "color": "w", "cost": "wx", "points": "", "power": "deplacer", "name": "7-phare-camp", "idPrint": "11" }]
 }

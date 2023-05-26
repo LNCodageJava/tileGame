@@ -6,6 +6,8 @@ import { BatimentDto } from './dto/batimentDto';
 import { TuileDto } from './dto/tuileDto';
 import { GlobalStore } from './store/global.store';
 import { StateKeys } from './store/global.state';
+import { FillTileService } from './services/fill-tile.service';
+import { DemoService } from './services/demo.service';
 const COUNTER_ADJ_START = 9;
 @Component({
   selector: 'app-root',
@@ -13,7 +15,12 @@ const COUNTER_ADJ_START = 9;
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private tileService: TileService, private store: GlobalStore) {}
+  constructor(
+    private tileService: TileService,
+    private store: GlobalStore,
+    private fillTileService: FillTileService,
+    private demoService: DemoService
+  ) {}
   title = 'tileGame';
 
   gridSizeX = Array.from(Array(25).keys());
@@ -24,6 +31,7 @@ export class AppComponent implements OnInit {
   counterTotalTiles = 0;
   mode = 'normal';
   rotate = 0;
+  demoMode = false;
 
   player1 = {
     id: 1,
@@ -52,8 +60,6 @@ export class AppComponent implements OnInit {
   pointsLogo: string = '';
   points = '0';
   power = '';
-  i = 1;
-  j = 0;
 
   ngOnInit(): void {
     this.store.select(StateKeys.MODE).subscribe((mode) => {
@@ -69,63 +75,14 @@ export class AppComponent implements OnInit {
   ngAfterViewInit(): void {
     this.resizeWindow();
     // this.fillTuileDepart();
-    // this.fillHandRandomTiles(1);
-    // this.fillHandRandomTiles(2);
     this.startTurn();
-    // ONLY FOR DEMO
-    batiments.pool.forEach((batiment, index) => this.generate(this.calculateIdPrint(index), index, batiments.pool));
-    batiments?.hand?.forEach((batiment, index) =>
-      this.generate(this.calculateIdPrint(index + batiments.pool.length), index, batiments.hand)
-    );
-  }
+    this.fillHandRandomTiles();
 
-  calculateIdPrint(index: number) {
-    // this.j = this.j + 1;
-    // let x = 4;
-    // if (
-    //   index === 0 ||
-    //   index === x ||
-    //   index === x * 2 - 1 ||
-    //   index === x * 3 - 1 ||
-    //   index === x * 4 - 2 ||
-    //   index === x * 5 - 2 ||
-    //   index === x * 6 - 3 ||
-    //   index === x * 7 - 3 ||
-    //   index === x * 8 - 3 ||
-    //   index === x * 9 - 3 ||
-    //   index === x * 10 - 3
-    // ) {
-    //   this.i = this.i + 1;
-    //   if (this.i % 2 === 0) {
-    //     this.j = 0;
-    //   } else {
-    //     this.j = 1;
-    //   }
-    // }
-    // console.log(`${this.i}${this.j}`);
-    // return `${this.i}${this.j}`;
-
-    this.j = this.j + 1;
-    let x = 3;
-    if (index === 0 || index % x == 0) {
-      this.i = this.i + 1;
-      this.j = 0;
+    if (this.demoMode) {
+      this.demoService.fillDemoMode(batiments);
+    } else {
+      this.fillTuileDepart();
     }
-    console.log(`${this.i}${this.j}`);
-    return `${this.i}${this.j}`;
-  }
-
-  generate(idTuile: string, batimentIndex: number, batimentArray: any[]) {
-    //console.log('generation de la tuile:' + this.TILE_NUMBER);
-
-    this.setTuileData(
-      idTuile,
-      batimentArray[batimentIndex].name,
-      batimentArray[batimentIndex].color,
-      batimentArray[batimentIndex].points,
-      batimentArray[batimentIndex].cost,
-      batimentArray[batimentIndex].power
-    );
   }
 
   resizeWindow() {
@@ -136,130 +93,19 @@ export class AppComponent implements OnInit {
     }
   }
 
-  setTuileData(idTuile: string, batiment: string, color: string, points: string, cost: string, power: string) {
-    console.log('AAAAAAAAAAAA', idTuile);
-    var img = document.getElementById(`${idTuile}_batiment`) as HTMLImageElement;
-    img.src = `assets/batiments/${batiment}.png`;
-
-    var img = document.getElementById(`${idTuile}_couleur`) as HTMLImageElement;
-    img.src = `assets/textures/${color}.png`;
-
-    this.setCost(idTuile, cost);
-    this.setPoints(idTuile, points, power);
-
-    this.power = power;
-  }
-
-  setCost(idTuile: string, cost: string) {
-    this.logos = [];
-    let nbWaterLogo = cost.slice(0, 1);
-    console.log(cost.length);
-    var ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
-    let innerHTML = '';
-    for (let i = 0; i < cost.length; i++) {
-      let eleSymbol = cost.slice(i, i + 1);
-      let elementName;
-      switch (eleSymbol) {
-        case 'w':
-          elementName = 'waterlogo';
-          break;
-        case 'g':
-          elementName = 'leaflogo';
-          break;
-        case 's':
-          elementName = 'sandlogo';
-          break;
-        case 'x':
-          elementName = 'multicolorlogo';
-          break;
-      }
-      innerHTML = innerHTML + `<img src="assets/textures/${elementName}.png" class="logo" />`;
-    }
-    ele.innerHTML = innerHTML;
-  }
-
-  setPoints(idTuile: string, points: string, power: string) {
-    let pointLogo = points.slice(2, 3);
-    let isBlack = points.slice(0, 1) == 'i';
-    switch (pointLogo) {
-      case 'a':
-        this.pointsLogo = 'allylogo';
-        break;
-      case 'e':
-        this.pointsLogo = 'foelogo';
-        break;
-      case 'w':
-        this.pointsLogo = 'waterlogo';
-        break;
-      case 's':
-        this.pointsLogo = 'sandlogo';
-        break;
-      case 'g':
-        this.pointsLogo = 'leaflogo';
-        break;
-      case 'f':
-        this.pointsLogo = 'fulllogo';
-        break;
-    }
-    if (pointLogo === 'a' || pointLogo === 'e' || pointLogo === 'w' || pointLogo === 's' || pointLogo === 'g') {
-      var img = document.getElementById(`${idTuile}_point-logo`) as HTMLImageElement;
-      img.src = `assets/textures/${this.pointsLogo}.png`;
-
-      this.points = points.slice(1, 2);
-      var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
-      ele.className = 'point';
-      ele.innerHTML = this.points;
-      ele.setAttribute('style', 'color: white!important;');
-
-      var img = document.getElementById(`${idTuile}_corner`) as HTMLImageElement;
-      isBlack ? (img.src = `assets/textures/corner-black.png`) : (img.src = `assets/textures/corner.png`);
-    } else {
-      var img = document.getElementById(`${idTuile}_corner`) as HTMLImageElement;
-      isBlack ? (img.src = `assets/textures/corner-empty-black.png`) : (img.src = `assets/textures/corner-empty.png`);
-      this.points = points.slice(1, 2);
-      var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
-      ele.className = 'point-empty';
-      ele.innerHTML = this.points;
-    }
-
-    if (power != '') {
-      var img = document.getElementById(`${idTuile}_corner`) as HTMLImageElement;
-      isBlack ? (img.src = `assets/textures/corner-power-black.png`) : (img.src = `assets/textures/corner-power.png`);
-      var img = document.getElementById(`${idTuile}_power`) as HTMLImageElement;
-      img.src = `assets/textures/${power}.png`;
-    }
-
-    var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
-    isBlack
-      ? ele.setAttribute('style', 'color: white!important;')
-      : ele.setAttribute('style', 'color: black!important;');
-
-    var ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
-    isBlack
-      ? ele.setAttribute('style', 'background-color: black')
-      : ele.setAttribute('style', 'background-color: white');
-  }
-
-  fillArray(idTuile: string, nb: string, elementName: string) {
-    console.log(idTuile, nb);
-    var ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
-    for (let i = 0; i < parseInt(nb); i++) {
-      console.log(ele);
-      ele.innerHTML = `<img src="assets/textures/${elementName}.png" class="logo" />`;
-    }
-  }
-
   fillTuileDepart(): void {
-    for (let i = 0; i < 6; i++) {
-      if (i >= 4) this.tileService.coloreCote('510', i, 'w');
-      else if (i >= 2) this.tileService.coloreCote('510', i, 's');
-      else this.tileService.coloreCote('510', i, 'g');
-    }
+    //this.fillTileService.generate('01',)
+    var img = document.getElementById(`66_couleur`) as HTMLImageElement;
+    img.src = `assets/textures/w.png`;
+
+    var img = document.getElementById(`67_couleur`) as HTMLImageElement;
+    img.src = `assets/textures/s.png`;
+
+    var img = document.getElementById(`77_couleur`) as HTMLImageElement;
+    img.src = `assets/textures/g.png`;
+
     this.tileService.findTuilesAdjacentes(5, 10);
     this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost() + COUNTER_ADJ_START;
-    this.tileService.placerBete('11', 'dragon');
-    this.tileService.placerBete('13', 'golden');
-    this.tileService.initMage();
   }
 
   takeRandomElementFromArray(array: any[]): any {
@@ -277,12 +123,16 @@ export class AppComponent implements OnInit {
     return array;
   }
 
-  fillHandRandomTiles(player: number) {
-    // let batimentsFiltre = batiments.batiments;
-    // let batiment1 = this.takeRandomElementFromArray(batimentsFiltre);
-    // this.tileService.setTuileData(`400${player}1`, batiment1.name, this.setBatimentColors(batiment1));
-    // let batiment2 = this.takeRandomElementFromArray(batimentsFiltre);
-    // this.tileService.setTuileData(`400${player}2`, batiment2.name, this.setBatimentColors(batiment2));
+  fillHandRandomTiles() {
+    this.fillTileService.generate('4000', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4010', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+
+    this.fillTileService.generate('4001', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
+    this.fillTileService.generate('4011', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
+    this.fillTileService.generate('4002', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
+    this.fillTileService.generate('4003', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
+    this.fillTileService.generate('4012', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
+    this.fillTileService.generate('4013', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
   }
 
   setBatimentColors(batiment: BatimentDto) {
@@ -326,49 +176,20 @@ export class AppComponent implements OnInit {
    * @param vHex
    */
   hexClick(hHex: any, vHex: any) {
-    console.log(`click sur la tuile: ${hHex}${vHex}`);
-    // this.counterTotalTiles++;
-    // switch (this.mode) {
-    //   case 'normal':
-    //     this.hexClickNormalMode(hHex, vHex);
-    //     break;
-    //   case 'supprimer':
-    //     this.hexClickSupprimerMode(hHex, vHex);
-    //     break;
-    //   case 'copier':
-    //     this.hexClickCopierMode(this.previousTileId, hHex, vHex);
-    //     break;
-    //   case 'voler':
-    //     this.hexClickVolerMode(hHex, vHex);
-    //     break;
-    //   case 'dragon':
-    //   case 'golden':
-    //     this.hexClickPlacerBete(hHex, vHex, this.mode);
-    //     break;
-    //   case 'move':
-    //     this.tileService.getBete(`${hHex}${vHex}`);
-    //     break;
-    // }
-    this.generate(`${hHex}${vHex}`, Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    var index = document.getElementById(`500500_index`) as HTMLElement;
+    this.fillTileService.getPlayer(this.player1);
+    if (index.innerHTML.slice(0, 1) === 'p') {
+      this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML.slice(1)), batiments.pool);
+    } else {
+      this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML.slice(1)), batiments.hand);
+    }
+    this.endturn();
   }
 
-  startTurn() {
-    // let tuile = this.tileService.getTuileData(`400${this.playerActive}1`);
-    // this.tileService.setTuileData('500500', tuile.batimentName, tuile.colors);
-    // this.currentTuile = this.tileService.getTuileData('500500');
-    this.generate('4001', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-    this.generate('4011', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-    this.generate('4000', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-    this.generate('4010', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-
-    this.generate('4002', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-    this.generate('4003', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-    this.generate('4012', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-    this.generate('4013', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-  }
+  startTurn() {}
 
   endturn() {
-    this.fillHandRandomTiles(this.playerActive);
+    // this.fillHandRandomTiles(this.playerActive);
     this.changePlayer();
     this.store.set(StateKeys.MODE, 'normal');
     this.tuileActive = 1;
