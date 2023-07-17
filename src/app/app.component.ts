@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { TileService } from './services/tile.service';
 import parameters from './cfg/app.parameters.json';
-import batiments from './cfg/batiment-colors.json';
+import batiments from './cfg/batiment-colors3.json';
 import { BatimentDto } from './dto/batimentDto';
 import { TuileDto } from './dto/tuileDto';
 import { GlobalStore } from './store/global.store';
@@ -24,14 +24,15 @@ export class AppComponent implements OnInit {
   title = 'tileGame';
 
   gridSizeX = Array.from(Array(25).keys());
-  gridSizeY = Array.from(Array(12).keys());
+  gridSizeY = Array.from(Array(10).keys());
 
   counterAdjTiles = 0;
   counterPoints = 0;
   counterTotalTiles = 0;
   mode = 'normal';
   rotate = 0;
-  demoMode = false;
+  demoMode = 'ALL';
+  displayIndex = 0;
 
   player1 = {
     id: 1,
@@ -78,7 +79,9 @@ export class AppComponent implements OnInit {
     this.startTurn();
     this.fillHandRandomTiles();
 
-    if (this.demoMode) {
+    if (this.demoMode === 'PRINT') {
+      this.fillTileService.generate('00', this.displayIndex, batiments.pool);
+    } else if (this.demoMode === 'ALL') {
       this.demoService.fillDemoMode(batiments);
     } else {
       this.fillTuileDepart();
@@ -124,15 +127,14 @@ export class AppComponent implements OnInit {
   }
 
   fillHandRandomTiles() {
-    this.fillTileService.generate('4000', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-    this.fillTileService.generate('4010', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-
-    this.fillTileService.generate('4001', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
-    this.fillTileService.generate('4011', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
-    this.fillTileService.generate('4002', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
-    this.fillTileService.generate('4003', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
-    this.fillTileService.generate('4012', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
-    this.fillTileService.generate('4013', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
+    // this.fillTileService.generate('4000', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    // this.fillTileService.generate('4010', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    // this.fillTileService.generate('4001', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
+    // this.fillTileService.generate('4011', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
+    // this.fillTileService.generate('4002', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
+    // this.fillTileService.generate('4003', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
+    // this.fillTileService.generate('4012', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
+    // this.fillTileService.generate('4013', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
   }
 
   setBatimentColors(batiment: BatimentDto) {
@@ -181,7 +183,7 @@ export class AppComponent implements OnInit {
     if (index.innerHTML.slice(0, 1) === 'p') {
       this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML.slice(1)), batiments.pool);
     } else {
-      this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML.slice(1)), batiments.hand);
+      //this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML.slice(1)), batiments.hand);
     }
     this.endturn();
   }
@@ -264,15 +266,10 @@ export class AppComponent implements OnInit {
    */
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
-    //   if (event.key === 'n') {
-    //     this.tileService.pivoterTuile('droite', this.currentTuile.colors);
-    //     this.currentTuile = this.tileService.getTuileData('500500');
-    //     this.rotate = this.rotate + 60;
-    //     document.getElementById(`500500_img`)?.classList.remove('r60', 'r120', 'r0', 'r180', 'r240', 'r300', 'r360');
-    //     document.getElementById(`500500_img`)?.classList.add(`r${this.rotate}`);
-    //     if (this.rotate === 360) {
-    //       this.rotate = 0;
-    //     }
+    if (event.key === 'p') {
+      this.displayIndex = this.displayIndex + 1;
+      this.fillTileService.generate('00', this.displayIndex, batiments.pool);
+    }
     //     console.log(this.rotate);
     //   } else if (event.key === 'b') {
     //     this.tileService.pivoterTuile('gauche', this.currentTuile.colors);

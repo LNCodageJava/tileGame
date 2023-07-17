@@ -16,7 +16,7 @@ export class FillTileService {
 
   generate(idTuile: string, batimentIndex: any, batimentArray: any[]) {
     //console.log('generation de la tuile:' + this.TILE_NUMBER);
-
+    console.log(idTuile);
     var divIndex = document.getElementById(`${idTuile}_index`) as HTMLElement;
 
     batimentArray === batiments.hand
@@ -29,18 +29,37 @@ export class FillTileService {
       batimentArray[batimentIndex].color,
       batimentArray[batimentIndex].points,
       batimentArray[batimentIndex].cost,
-      batimentArray[batimentIndex].power
+      batimentArray[batimentIndex].power,
+      batimentIndex
     );
   }
-  setTuileData(idTuile: string, batiment: string, color: string, points: string, cost: string, power: string) {
+  setTuileData(
+    idTuile: string,
+    batiment: string,
+    color: string,
+    points: string,
+    cost: string,
+    power: string,
+    batimentIndex: number
+  ) {
     var img = document.getElementById(`${idTuile}_batiment`) as HTMLImageElement;
     img.src = `assets/batiments/${batiment}.png`;
 
     var img = document.getElementById(`${idTuile}_couleur`) as HTMLImageElement;
     img.src = `assets/textures/${color}.png`;
 
-    this.setCost(idTuile, cost);
+    var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
+    if (color === 'w' || batimentIndex === 27) {
+      ele.setAttribute('style', 'color:#29abe1!important');
+    } else if (color === 'g' || batimentIndex === 28) {
+      ele.setAttribute('style', 'color:#33cc33!important');
+    } else if (color === 's' || batimentIndex === 29) {
+      ele.setAttribute('style', 'color:#d2c223!important');
+    }
+
     this.setPoints(idTuile, points, power);
+
+    this.setCost(idTuile, cost);
   }
 
   getPlayer(player: any) {
@@ -52,8 +71,8 @@ export class FillTileService {
     this.logos = [];
     let nbWaterLogo = cost.slice(0, 1);
     console.log(cost.length);
-    var ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
     let innerHTML = '';
+    let objCost = [];
     for (let i = 0; i < cost.length; i++) {
       let eleSymbol = cost.slice(i, i + 1);
       let elementName;
@@ -70,16 +89,30 @@ export class FillTileService {
         case 'x':
           elementName = 'multicolorlogo';
           break;
+        default:
+          objCost[i] = eleSymbol;
+          elementName = 'no-image';
+          break;
       }
       innerHTML = innerHTML + `<img src="assets/textures/${elementName}.png" class="logo" />`;
     }
+    var ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
     ele.innerHTML = innerHTML;
+
+    var ele = document.getElementById(`${idTuile}_obj`) as HTMLElement;
+    ele.innerHTML = `<span class="number"> ${objCost[0]} &nbsp; ${objCost[1]} &nbsp; ${objCost[2]} </span>`;
+    if (objCost.length > 0) {
+      ele.setAttribute('style', 'display:flex');
+      var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
+      ele.setAttribute('style', 'color:#c86fc9!important');
+    }
   }
 
   setPoints(idTuile: string, points: string, power: string) {
     let pointLogo = points.slice(2, 3);
     let isBlack = points.slice(0, 1) == 'i';
-    this.placerJetonPlayer(idTuile, isBlack);
+    // this.placerJetonPlayer(idTuile, isBlack);
+    console.log(pointLogo);
     switch (pointLogo) {
       case 'a':
         this.pointsLogo = 'allylogo';
@@ -99,6 +132,9 @@ export class FillTileService {
       case 'f':
         this.pointsLogo = 'fulllogo';
         break;
+      default:
+        this.pointsLogo = 'fulllogo';
+        break;
     }
     if (pointLogo === 'a' || pointLogo === 'e' || pointLogo === 'w' || pointLogo === 's' || pointLogo === 'g') {
       var img = document.getElementById(`${idTuile}_point-logo`) as HTMLImageElement;
@@ -108,17 +144,23 @@ export class FillTileService {
       var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
       ele.className = 'point';
       ele.innerHTML = this.points;
-      ele.setAttribute('style', 'color: white!important;');
+      // ele.setAttribute('style', 'color: white!important;');
 
       var img = document.getElementById(`${idTuile}_corner`) as HTMLImageElement;
       isBlack ? (img.src = `assets/textures/corner-black.png`) : (img.src = `assets/textures/corner.png`);
+      var img = document.getElementById(`${idTuile}_power`) as HTMLImageElement;
+      img.src = `assets/textures/no-image.png`;
     } else {
       var img = document.getElementById(`${idTuile}_corner`) as HTMLImageElement;
       isBlack ? (img.src = `assets/textures/corner-empty-black.png`) : (img.src = `assets/textures/corner-empty.png`);
       this.points = points.slice(1, 2);
+      var img = document.getElementById(`${idTuile}_point-logo`) as HTMLImageElement;
+      img.src = `assets/textures/${this.pointsLogo}.png`;
       var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
       ele.className = 'point-empty';
       ele.innerHTML = this.points;
+      var img = document.getElementById(`${idTuile}_power`) as HTMLImageElement;
+      img.src = `assets/textures/no-image.png`;
     }
 
     if (power != '') {
@@ -129,9 +171,9 @@ export class FillTileService {
     }
 
     var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
-    isBlack
-      ? ele.setAttribute('style', 'color: white!important;')
-      : ele.setAttribute('style', 'color: black!important;');
+    isBlack;
+    // ? ele.setAttribute('style', 'color: white!important;')
+    // : ele.setAttribute('style', 'color: black!important;');
 
     var ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
     isBlack

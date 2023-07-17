@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
 html {
-  background-color: rgb(240, 231, 204);
+  //background-color: rgb(240, 231, 204);
+  background-color: white;
   height: 100%;
   overflow: hidden;
 }
@@ -74,4 +75,9 @@ body {
 // SIZE impair
 .odd {
   top: 45px;
+}
+
+.number {
+  font-size: 13px;
+  font-family: cursive;
 }

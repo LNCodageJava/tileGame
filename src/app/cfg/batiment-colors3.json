@@ -26,9 +26,7 @@
 
     { "color": "x", "cost": "wgx", "points": "p1f", "power": "", "name": "ballon" },
     { "color": "x", "cost": "gsx", "points": "p1f", "power": "", "name": "ballon" },
-    { "color": "x", "cost": "wsx", "points": "p1f", "power": "", "name": "ballon" }
-  ],
-  "hand": [
+    { "color": "x", "cost": "wsx", "points": "p1f", "power": "", "name": "ballon" },
     { "color": "s", "cost": "ss", "points": "", "power": "deplacer", "name": "temple" },
     { "color": "s", "cost": "wg", "points": "", "power": "penurie", "name": "temple" },
     { "color": "s", "cost": "ss", "points": "", "power": "double", "name": "temple" },
@@ -67,9 +65,7 @@
 
     { "color": "n", "cost": "wx", "points": "i1e", "power": "", "name": "tente" },
     { "color": "n", "cost": "gx", "points": "i1e", "power": "", "name": "tente" },
-    { "color": "n", "cost": "sx", "points": "i1e", "power": "", "name": "tente" }
-  ],
-  "obj": [
+    { "color": "n", "cost": "sx", "points": "i1e", "power": "", "name": "tente" },
     { "color": "s", "cost": "003", "points": "i2f", "power": "", "name": "colonne" },
     { "color": "s", "cost": "113", "points": "p1s", "power": "", "name": "4-casa-solar" },
     { "color": "g", "cost": "030", "points": "i2f", "power": "", "name": "moulin" },
@@ -78,11 +74,11 @@
     { "color": "w", "cost": "311", "points": "p1w", "power": "", "name": "bateau" },
     { "color": "x", "cost": "222", "points": "i4f", "power": "", "name": "ballon" },
     { "color": "s", "cost": "005", "points": "p2a", "power": "", "name": "temple" },
-    { "color": "s", "cost": "225", "points": "p2s", "power": "", "name": "6-temple-dome" },
+    { "color": "s", "cost": "225", "points": "p3s", "power": "", "name": "6-temple-dome" },
     { "color": "g", "cost": "050", "points": "p2a", "power": "", "name": "marche" },
-    { "color": "g", "cost": "252", "points": "p2g", "power": "", "name": "colonnesacre" },
+    { "color": "g", "cost": "252", "points": "p3g", "power": "", "name": "colonnesacre" },
     { "color": "w", "cost": "500", "points": "p2a", "power": "", "name": "5-skull-ship" },
-    { "color": "w", "cost": "522", "points": "p2w", "power": "", "name": "7-phare-camp" },
+    { "color": "w", "cost": "522", "points": "p3w", "power": "", "name": "7-phare-camp" },
     { "color": "x", "cost": "444", "points": "p4a", "power": "", "name": "colisee" },
     { "color": "x", "cost": "333", "points": "i8f", "power": "", "name": "zoo" },
     { "color": "n", "cost": "333", "points": "i8f", "power": "", "name": "grandtemple" },

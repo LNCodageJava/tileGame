@@ -15,9 +15,16 @@ export class DemoService {
     batiments.pool.forEach((_: any, index: any) =>
       this.fillTileService.generate(this.calculateIdPrint(index), index, batiments.pool)
     );
-    batiments?.hand?.forEach((_: any, index: any) =>
-      this.fillTileService.generate(this.calculateIdPrint(index + batiments.pool.length), index, batiments.hand)
-    );
+    // batiments?.hand?.forEach((_: any, index: any) =>
+    //   this.fillTileService.generate(this.calculateIdPrint(index + batiments.pool.length), index, batiments.hand)
+    // );
+    // batiments?.obj?.forEach((_: any, index: any) =>
+    //   this.fillTileService.generate(
+    //     this.calculateIdPrint(index + batiments.pool.length + batiments.hand.length),
+    //     index,
+    //     batiments.obj
+    //   )
+    // );
   }
 
   calculateIdPrint(index: number) {
