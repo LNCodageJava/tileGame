@@ -68,6 +68,12 @@
     { "color": "s", "cost": "223", "points": "p2s", "power": "", "name": "6-temple-dome" },
     { "color": "g", "cost": "030", "points": "i1a", "power": "", "name": "moulin" },
     { "color": "g", "cost": "131", "points": "p1g", "power": "", "name": "moulinsacre" },
-    { "color": "g", "cost": "232", "points": "p2g", "power": "", "name": "8-temple-maya" }
+    { "color": "g", "cost": "232", "points": "p2g", "power": "", "name": "8-temple-maya" },
+    { "color": "w", "cost": "300", "points": "i1a", "power": "", "name": "5-skull-ship" },
+    { "color": "w", "cost": "311", "points": "p2w", "power": "", "name": "bateau" },
+    { "color": "w", "cost": "322", "points": "p2w", "power": "", "name": "7-phare-camp" },
+    { "color": "x", "cost": "222", "points": "p2a", "power": "", "name": "ballon" },
+    { "color": "x", "cost": "333", "points": "p2e", "power": "", "name": "colisee" },
+    { "color": "x", "cost": "111", "points": "i1e", "power": "", "name": "tente" }
   ]
 }
