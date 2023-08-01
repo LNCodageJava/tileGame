@@ -135,6 +135,10 @@ export class AppComponent implements OnInit {
     this.fillTileService.generate('4003', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
     this.fillTileService.generate('4012', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
     this.fillTileService.generate('4013', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+
+    this.fillTileService.generate('4020', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
+    this.fillTileService.generate('4021', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
+    this.fillTileService.generate('4022', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
   }
 
   // setBatimentColors(batiment: BatimentDto) {
@@ -179,10 +183,17 @@ export class AppComponent implements OnInit {
    */
   hexClick(hHex: any, vHex: any) {
     var index = document.getElementById(`500500_index`) as HTMLElement;
-    if (index.innerHTML === '0') {
+    var cc = document.getElementById(`500500_cost-container`) as HTMLElement;
+    if (index.innerHTML === 'p0') {
       this.tileService.removejetonPlayer(`${hHex}${vHex}`);
     } else {
-      this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML), batiments.pool);
+      console.log(index.innerHTML.slice(0, 1));
+      if (index.innerHTML.slice(0, 1) == 'p') {
+        this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML.slice(1)), batiments.pool);
+      } else {
+        this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML.slice(1)), batiments.wonder);
+      }
+
       this.tileService.placerJetonPlayer(this.playerActive, `${hHex}${vHex}`);
       this.endturn();
     }

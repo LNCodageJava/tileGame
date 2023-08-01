@@ -61,5 +61,13 @@
     { "color": "x", "cost": "gx", "points": "i1e", "power": "", "name": "tente" },
     { "color": "x", "cost": "sx", "points": "i1e", "power": "", "name": "tente" },
     { "color": "x", "cost": "sx", "points": "i1e", "power": "", "name": "tente" }
+  ],
+  "wonder": [
+    { "color": "s", "cost": "003", "points": "i1a", "power": "", "name": "colonne" },
+    { "color": "s", "cost": "113", "points": "p1s", "power": "", "name": "4-casa-solar" },
+    { "color": "s", "cost": "223", "points": "p2s", "power": "", "name": "6-temple-dome" },
+    { "color": "g", "cost": "030", "points": "i1a", "power": "", "name": "moulin" },
+    { "color": "g", "cost": "131", "points": "p1g", "power": "", "name": "moulinsacre" },
+    { "color": "g", "cost": "232", "points": "p2g", "power": "", "name": "8-temple-maya" }
   ]
 }
