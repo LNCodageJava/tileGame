@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FillTileService } from '../services/fill-tile.service';
 import batiments from '../cfg/batiment-colors3.json';
+import { TileService } from '../services/tile.service';
 
 @Component({
   selector: 'app-bandeau',
@@ -10,10 +11,18 @@ import batiments from '../cfg/batiment-colors3.json';
 export class BandeauComponent implements OnInit {
   @Input() player: any;
   @Input() tuileActive: any;
+  r: any = {
+    w1: 0,
+    g1: 0,
+    s1: 0,
+    w2: 0,
+    g2: 0,
+    s2: 0,
+  };
 
   gridSizeX = Array.from(Array(2).keys());
   gridSizeY = Array.from(Array(4).keys());
-  constructor(private fillTileService: FillTileService) {}
+  constructor(private fillTileService: FillTileService, private tileservice: TileService) {}
 
   ngOnInit(): void {}
 
@@ -34,5 +43,17 @@ export class BandeauComponent implements OnInit {
     this.fillTileService.generate('4003', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
     this.fillTileService.generate('4012', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
     this.fillTileService.generate('4013', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+  }
+
+  moins(a: any) {
+    this.r[a] = this.r[a] - 1;
+  }
+
+  plus(a: any) {
+    this.r[a] = this.r[a] + 1;
+  }
+
+  remove() {
+    this.fillTileService.generate('500500', 0, batiments.pool);
   }
 }

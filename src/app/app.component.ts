@@ -178,17 +178,14 @@ export class AppComponent implements OnInit {
    * @param vHex
    */
   hexClick(hHex: any, vHex: any) {
-    if (this.playerActive === 1) {
-      console.log('TOUR DU ORANGE');
-    } else {
-      console.log('TOUR DU VIOLET');
-    }
-
     var index = document.getElementById(`500500_index`) as HTMLElement;
-    //this.fillTileService.getPlayer(this.player1);
-    this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML), batiments.pool);
-    this.tileService.placerJetonPlayer(this.playerActive, `${hHex}${vHex}`);
-    this.endturn();
+    if (index.innerHTML === '0') {
+      this.tileService.removejetonPlayer(`${hHex}${vHex}`);
+    } else {
+      this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML), batiments.pool);
+      this.tileService.placerJetonPlayer(this.playerActive, `${hHex}${vHex}`);
+      this.endturn();
+    }
   }
 
   startTurn() {}

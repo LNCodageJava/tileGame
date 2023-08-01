@@ -12,5 +12,141 @@
       ></ng-container>
     </div>
   </ng-container>
-  <button style="position: absolute; left: 0; top: 0" (click)="flush()">FLUSH</button>
+  <button style="position: absolute; left: 0; top: 460px" (click)="flush()">FLUSH</button>
+  <button style="position: absolute; left: 100px; top: 460px" (click)="remove()">REMOVE</button>
+  <div style="position: absolute; left: 0; top: 500px">
+    <div
+      style="
+        background-color: #a6035d;
+        width: 40px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        color: white;
+        align-items: center;
+      "
+    ></div>
+  </div>
+
+  <div style="position: absolute; left: 40px; top: 500px">
+    <button style="width: 40px; height: 20px" (click)="plus('w1')">+</button>
+    <div
+      style="
+        background-color: #0002a3;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        color: white;
+        align-items: center;
+      "
+    >
+      {{ r.w1 }}
+    </div>
+    <button style="width: 40px; height: 20px" (click)="moins('w1')">-</button>
+  </div>
+
+  <div style="position: absolute; left: 80px; top: 500px">
+    <button style="width: 40px; height: 20px" (click)="plus('g1')">+</button>
+    <div
+      style="
+        background-color: #33cc33;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        color: white;
+        align-items: center;
+      "
+    >
+      {{ r.g1 }}
+    </div>
+    <button style="width: 40px; height: 20px" (click)="moins('g1')">-</button>
+  </div>
+
+  <div style="position: absolute; left: 120px; top: 500px">
+    <button style="width: 40px; height: 20px" (click)="plus('s1')">+</button>
+    <div
+      style="
+        background-color: #efca08;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        color: white;
+        align-items: center;
+      "
+    >
+      {{ r.s1 }}
+    </div>
+    <button style="width: 40px; height: 20px" (click)="moins('s1')">-</button>
+  </div>
+
+  <div style="position: absolute; left: 0; top: 600px">
+    <div
+      style="
+        background-color: #f28705;
+        width: 40px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        color: white;
+        align-items: center;
+      "
+    ></div>
+  </div>
+
+  <div style="position: absolute; left: 40px; top: 600px">
+    <button style="width: 40px; height: 20px" (click)="plus('w2')">+</button>
+    <div
+      style="
+        background-color: #0002a3;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        color: white;
+        align-items: center;
+      "
+    >
+      {{ r.w2 }}
+    </div>
+    <button style="width: 40px; height: 20px" (click)="moins('w2')">-</button>
+  </div>
+
+  <div style="position: absolute; left: 80px; top: 600px">
+    <button style="width: 40px; height: 20px" (click)="plus('g2')">+</button>
+    <div
+      style="
+        background-color: #33cc33;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        color: white;
+        align-items: center;
+      "
+    >
+      {{ r.g2 }}
+    </div>
+    <button style="width: 40px; height: 20px" (click)="moins('g2')">-</button>
+  </div>
+
+  <div style="position: absolute; left: 120px; top: 600px">
+    <button style="width: 40px; height: 20px" (click)="plus('s2')">+</button>
+    <div
+      style="
+        background-color: #efca08;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        color: white;
+        align-items: center;
+      "
+    >
+      {{ r.s2 }}
+    </div>
+    <button style="width: 40px; height: 20px" (click)="moins('s2')">-</button>
+  </div>
 </div>
