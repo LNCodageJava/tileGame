@@ -50,11 +50,11 @@ export class FillTileService {
 
     var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
     if (color === 'w' || batimentIndex === 27) {
-      ele.setAttribute('style', 'color:#29abe1!important');
+      ele.setAttribute('style', 'color:#0002A3!important');
     } else if (color === 'g' || batimentIndex === 28) {
       ele.setAttribute('style', 'color:#33cc33!important');
     } else if (color === 's' || batimentIndex === 29) {
-      ele.setAttribute('style', 'color:#d2c223!important');
+      ele.setAttribute('style', 'color:#EFCA08!important');
     }
 
     this.setPoints(idTuile, points, power);
@@ -89,6 +89,12 @@ export class FillTileService {
         case 'x':
           elementName = 'multicolorlogo';
           break;
+        case 'a':
+          elementName = 'allylogo';
+          break;
+        case 'e':
+          elementName = 'foelogo';
+          break;
         default:
           objCost[i] = eleSymbol;
           elementName = 'no-image';
@@ -104,13 +110,13 @@ export class FillTileService {
     if (objCost.length > 0) {
       ele.setAttribute('style', 'display:flex');
       var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
-      ele.setAttribute('style', 'color:#c86fc9!important');
+      ele.setAttribute('style', 'color:#FF7D00!important');
     }
   }
 
   setPoints(idTuile: string, points: string, power: string) {
     let pointLogo = points.slice(2, 3);
-    let isBlack = points.slice(0, 1) == 'i';
+    let isBlack = false;
     // this.placerJetonPlayer(idTuile, isBlack);
     console.log(pointLogo);
     switch (pointLogo) {
@@ -171,14 +177,11 @@ export class FillTileService {
     }
 
     var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
-    isBlack;
+
     // ? ele.setAttribute('style', 'color: white!important;')
     // : ele.setAttribute('style', 'color: black!important;');
 
     var ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
-    isBlack
-      ? ele.setAttribute('style', 'background-color: black')
-      : ele.setAttribute('style', 'background-color: white');
   }
 
   fillArray(idTuile: string, nb: string, elementName: string) {

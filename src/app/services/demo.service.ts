@@ -29,7 +29,7 @@ export class DemoService {
 
   calculateIdPrint(index: number) {
     this.j = this.j + 1;
-    let x = 3;
+    let x = 4;
     if (index === 0 || index % x == 0) {
       this.i = this.i + 1;
       this.j = 0;
