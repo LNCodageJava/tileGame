@@ -104,7 +104,7 @@ export class AppComponent implements OnInit {
     var img = document.getElementById(`67_couleur`) as HTMLImageElement;
     img.src = `assets/textures/s.png`;
 
-    var img = document.getElementById(`77_couleur`) as HTMLImageElement;
+    var img = document.getElementById(`65_couleur`) as HTMLImageElement;
     img.src = `assets/textures/g.png`;
 
     this.tileService.findTuilesAdjacentes(5, 10);
