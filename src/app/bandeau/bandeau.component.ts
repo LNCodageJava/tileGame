@@ -24,4 +24,15 @@ export class BandeauComponent implements OnInit {
     this.fillTileService.generate('500500', parseInt(index.innerHTML), batiments.pool);
     this.fillTileService.generate(`${400 + i}${j}`, Math.floor(Math.random() * batiments.pool.length), batiments.pool);
   }
+
+  flush() {
+    this.fillTileService.generate('4000', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4010', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4001', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4011', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4002', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4003', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4012', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4013', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+  }
 }
