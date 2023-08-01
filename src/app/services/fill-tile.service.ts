@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TuileDto } from '../dto/tuileDto';
 import { StateKeys } from '../store/global.state';
 import { GlobalStore } from '../store/global.store';
-import batiments from '../cfg/batiment-colors.json';
+import batiments from '../cfg/batiment-colors3.json';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +17,9 @@ export class FillTileService {
   generate(idTuile: string, batimentIndex: any, batimentArray: any[]) {
     //console.log('generation de la tuile:' + this.TILE_NUMBER);
     var divIndex = document.getElementById(`${idTuile}_index`) as HTMLElement;
-
-    divIndex.innerHTML = batimentIndex;
+    batimentArray === batiments.pool
+      ? (divIndex.innerHTML = 'p' + batimentIndex)
+      : (divIndex.innerHTML = 'w' + batimentIndex);
 
     this.setTuileData(
       idTuile,
@@ -100,12 +101,15 @@ export class FillTileService {
     var ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
     ele.innerHTML = innerHTML;
 
-    var ele = document.getElementById(`${idTuile}_obj`) as HTMLElement;
-    ele.innerHTML = `<span class="number"> ${objCost[0]} &nbsp; ${objCost[1]} &nbsp; ${objCost[2]} </span>`;
     if (objCost.length > 0) {
+      var ele = document.getElementById(`${idTuile}_obj`) as HTMLElement;
+      ele.innerHTML = `<span class="number"> ${objCost[0]} &nbsp; ${objCost[1]} &nbsp; ${objCost[2]} </span>`;
       ele.setAttribute('style', 'display:flex');
       var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
       ele.setAttribute('style', 'color:#FF7D00!important');
+    } else {
+      var ele = document.getElementById(`${idTuile}_obj`) as HTMLElement;
+      ele.setAttribute('style', 'display:none');
     }
   }
 

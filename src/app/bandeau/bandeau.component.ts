@@ -15,12 +15,14 @@ export class BandeauComponent implements OnInit {
     w1: 0,
     g1: 0,
     s1: 0,
+    r1: 0,
     w2: 0,
     g2: 0,
     s2: 0,
+    r2: 0,
   };
 
-  gridSizeX = Array.from(Array(2).keys());
+  gridSizeX = Array.from(Array(3).keys());
   gridSizeY = Array.from(Array(4).keys());
   constructor(private fillTileService: FillTileService, private tileservice: TileService) {}
 
@@ -30,8 +32,21 @@ export class BandeauComponent implements OnInit {
     var index = document.getElementById(`${400 + i}${j}_index`) as HTMLElement;
     console.log('BatimentIndex', index.innerHTML);
     console.log(`${i}${j}`);
-    this.fillTileService.generate('500500', parseInt(index.innerHTML), batiments.pool);
-    this.fillTileService.generate(`${400 + i}${j}`, Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    if (i == 2) {
+      this.fillTileService.generate('500500', parseInt(index.innerHTML.slice(1)), batiments.wonder);
+      this.fillTileService.generate(
+        `${400 + i}${j}`,
+        Math.floor(Math.random() * batiments.wonder.length),
+        batiments.wonder
+      );
+    } else {
+      this.fillTileService.generate('500500', parseInt(index.innerHTML.slice(1)), batiments.pool);
+      this.fillTileService.generate(
+        `${400 + i}${j}`,
+        Math.floor(Math.random() * batiments.pool.length),
+        batiments.pool
+      );
+    }
   }
 
   flush() {
@@ -43,6 +58,10 @@ export class BandeauComponent implements OnInit {
     this.fillTileService.generate('4003', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
     this.fillTileService.generate('4012', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
     this.fillTileService.generate('4013', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+
+    this.fillTileService.generate('4020', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
+    this.fillTileService.generate('4021', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
+    this.fillTileService.generate('4022', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
   }
 
   moins(a: any) {
