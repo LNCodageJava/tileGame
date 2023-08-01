@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
   counterTotalTiles = 0;
   mode = 'normal';
   rotate = 0;
-  demoMode = 'ALL';
+  demoMode = 'no';
   displayIndex = 0;
 
   player1 = {
@@ -127,50 +127,50 @@ export class AppComponent implements OnInit {
   }
 
   fillHandRandomTiles() {
-    // this.fillTileService.generate('4000', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-    // this.fillTileService.generate('4010', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-    // this.fillTileService.generate('4001', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
-    // this.fillTileService.generate('4011', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
-    // this.fillTileService.generate('4002', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
-    // this.fillTileService.generate('4003', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
-    // this.fillTileService.generate('4012', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
-    // this.fillTileService.generate('4013', Math.floor(Math.random() * batiments.hand.length), batiments.hand);
+    this.fillTileService.generate('4000', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4010', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4001', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4011', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4002', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4003', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4012', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('4013', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
   }
 
-  setBatimentColors(batiment: BatimentDto) {
-    let currentColors = ['', '', '', '', '', ''];
-    // On remplit d'abord la couleur requise
-    if (batiment.color_required) {
-      let color_required = batiment.color_required.split('');
-      for (let i = 0; i < +color_required[0]; i++) {
-        currentColors[i] = color_required[1];
-      }
-    }
-    // On remplit les autres couleurs
-    if (batiment.color) {
-      // on extrait le nombre de couleurs et les couleurs possibles
-      let colors = batiment.color.split('');
-      let nbColor = colors.shift()!;
-      // Pour 2 couleurs on fixe la 2eme couleur et on colore les cotés restants avec
-      if (+nbColor === 2) {
-        let color2 = this.takeRandomElementFromArray(colors);
-        for (let i = 0; i < 6; i++) {
-          if (currentColors[i] === '') {
-            currentColors[i] = color2;
-          }
-        }
-      }
-      // Pour 3 couleurs on remplit chaque couleur aléatoirement
-      else if (+nbColor === 3) {
-        for (let i = 0; i < 6; i++) {
-          if (currentColors[i] === '') {
-            currentColors[i] = this.takeRandomElementFromArray(colors);
-          }
-        }
-      }
-    }
-    return this.shuffle(currentColors);
-  }
+  // setBatimentColors(batiment: BatimentDto) {
+  //   let currentColors = ['', '', '', '', '', ''];
+  //   // On remplit d'abord la couleur requise
+  //   if (batiment.color_required) {
+  //     let color_required = batiment.color_required.split('');
+  //     for (let i = 0; i < +color_required[0]; i++) {
+  //       currentColors[i] = color_required[1];
+  //     }
+  //   }
+  //   // On remplit les autres couleurs
+  //   if (batiment.color) {
+  //     // on extrait le nombre de couleurs et les couleurs possibles
+  //     let colors = batiment.color.split('');
+  //     let nbColor = colors.shift()!;
+  //     // Pour 2 couleurs on fixe la 2eme couleur et on colore les cotés restants avec
+  //     if (+nbColor === 2) {
+  //       let color2 = this.takeRandomElementFromArray(colors);
+  //       for (let i = 0; i < 6; i++) {
+  //         if (currentColors[i] === '') {
+  //           currentColors[i] = color2;
+  //         }
+  //       }
+  //     }
+  //     // Pour 3 couleurs on remplit chaque couleur aléatoirement
+  //     else if (+nbColor === 3) {
+  //       for (let i = 0; i < 6; i++) {
+  //         if (currentColors[i] === '') {
+  //           currentColors[i] = this.takeRandomElementFromArray(colors);
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return this.shuffle(currentColors);
+  // }
 
   /**
    * remplir le hex cliqué avec le hex courant
@@ -178,13 +178,16 @@ export class AppComponent implements OnInit {
    * @param vHex
    */
   hexClick(hHex: any, vHex: any) {
-    var index = document.getElementById(`500500_index`) as HTMLElement;
-    this.fillTileService.getPlayer(this.player1);
-    if (index.innerHTML.slice(0, 1) === 'p') {
-      this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML.slice(1)), batiments.pool);
+    if (this.playerActive === 1) {
+      console.log('TOUR DU ORANGE');
     } else {
-      //this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML.slice(1)), batiments.hand);
+      console.log('TOUR DU VIOLET');
     }
+
+    var index = document.getElementById(`500500_index`) as HTMLElement;
+    //this.fillTileService.getPlayer(this.player1);
+    this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML), batiments.pool);
+    this.tileService.placerJetonPlayer(this.playerActive, `${hHex}${vHex}`);
     this.endturn();
   }
 
@@ -194,7 +197,7 @@ export class AppComponent implements OnInit {
     // this.fillHandRandomTiles(this.playerActive);
     this.changePlayer();
     this.store.set(StateKeys.MODE, 'normal');
-    this.tuileActive = 1;
+    this.fillTileService.generate('500500', 0, batiments.pool);
   }
 
   hexClickNormalMode(hHex: any, vHex: any) {
@@ -209,36 +212,36 @@ export class AppComponent implements OnInit {
     // this.store.set(StateKeys.MODE, this.tileService.changeMode(this.currentTuile.batimentName));
   }
 
-  hexClickSupprimerMode(hHex: any, vHex: any) {
-    for (let i = 0; i < 6; i++) {
-      this.tileService.coloreCote(`${hHex}${vHex}`, i, 'white');
-    }
-    this.tileService.placerBatiment(`${hHex}${vHex}`, 'no-image');
-    this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
-    this.store.set(StateKeys.MODE, 'nextTurn');
-  }
+  // hexClickSupprimerMode(hHex: any, vHex: any) {
+  //   for (let i = 0; i < 6; i++) {
+  //     this.tileService.coloreCote(`${hHex}${vHex}`, i, 'white');
+  //   }
+  //   this.tileService.placerBatiment(`${hHex}${vHex}`, 'no-image');
+  //   this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
+  //   this.store.set(StateKeys.MODE, 'nextTurn');
+  // }
 
-  hexClickCopierMode(previousTileId: string, hHex: any, vHex: any) {
-    let adjBatiment = document.getElementById(`${hHex}${vHex}_img`) as HTMLImageElement;
-    for (let i = 0; i < 6; i++) {
-      if (adjBatiment) {
-        let batimentName = adjBatiment.src.slice(39, adjBatiment.src.length - 4);
-        this.tileService.placerBatiment(previousTileId, batimentName);
-      }
-    }
-    this.store.set(StateKeys.MODE, 'nextTurn');
-  }
+  // hexClickCopierMode(previousTileId: string, hHex: any, vHex: any) {
+  //   let adjBatiment = document.getElementById(`${hHex}${vHex}_img`) as HTMLImageElement;
+  //   for (let i = 0; i < 6; i++) {
+  //     if (adjBatiment) {
+  //       let batimentName = adjBatiment.src.slice(39, adjBatiment.src.length - 4);
+  //       this.tileService.placerBatiment(previousTileId, batimentName);
+  //     }
+  //   }
+  //   this.store.set(StateKeys.MODE, 'nextTurn');
+  // }
 
-  hexClickVolerMode(hHex: any, vHex: any) {
-    this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
-    this.store.set(StateKeys.MODE, 'nextTurn');
-  }
+  // hexClickVolerMode(hHex: any, vHex: any) {
+  //   this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
+  //   this.store.set(StateKeys.MODE, 'nextTurn');
+  // }
 
-  hexClickPlacerBete(hHex: any, vHex: any, bete: string) {
-    this.tileService.placerBete(`${hHex}${vHex}`, bete);
-    this.tileService.placerBete('500500', 'no-image');
-    this.store.set(StateKeys.MODE, 'nextTurn');
-  }
+  // hexClickPlacerBete(hHex: any, vHex: any, bete: string) {
+  //   this.tileService.placerBete(`${hHex}${vHex}`, bete);
+  //   this.tileService.placerBete('500500', 'no-image');
+  //   this.store.set(StateKeys.MODE, 'nextTurn');
+  // }
 
   changePlayer() {
     // Passer du joueur 1 au joueur 2

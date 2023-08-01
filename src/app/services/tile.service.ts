@@ -250,33 +250,21 @@ export class TileService {
     this.store.set(StateKeys.MODE, bete);
   }
 
-  placerJetonPlayer(idTuile: string, tuile: TuileDto, player1: any, player2: any) {
+  placerJetonPlayer(playerActive: any, idTuile: any) {
     var div = document.getElementById(`${idTuile}_player`);
-    if (
-      div &&
-      (tuile.batimentName === 'phare' ||
-        tuile.batimentName === 'marche' ||
-        tuile.batimentName === 'temple' ||
-        tuile.batimentName === 'pharesacre' ||
-        tuile.batimentName === 'marchesacre' ||
-        tuile.batimentName === 'templesacre' ||
-        tuile.batimentName === 'zoo' ||
-        tuile.batimentName === 'colisee' ||
-        tuile.batimentName === 'grandtemple' ||
-        tuile.batimentName === 'copier' ||
-        this.store.get(StateKeys.MODE) === 'voler')
-    ) {
-      if (player1.active) {
-        console.log('p1');
-        div.style.backgroundColor = player1.color;
-      } else {
-        console.log('p2');
-        div.style.backgroundColor = player2.color;
-      }
-    } else if (div) {
-      console.log('rien');
-      div.style.backgroundColor = 'transparent';
+    var div2 = document.getElementById(`500500_player`);
+    if (playerActive === 1) {
+      div!.style.backgroundColor = '#A6035D';
+      div2!.style.backgroundColor = '#F28705';
+    } else {
+      div!.style.backgroundColor = '#F28705';
+      div2!.style.backgroundColor = '#A6035D';
     }
+  }
+
+  removejetonPlayer(idTuile: any) {
+    var div = document.getElementById(`${idTuile}_player`);
+    div!.style.backgroundColor = 'transparent';
   }
 
   placerBete(idTuile: string, bete: string) {

@@ -16,12 +16,9 @@ export class FillTileService {
 
   generate(idTuile: string, batimentIndex: any, batimentArray: any[]) {
     //console.log('generation de la tuile:' + this.TILE_NUMBER);
-    console.log(idTuile);
     var divIndex = document.getElementById(`${idTuile}_index`) as HTMLElement;
 
-    batimentArray === batiments.hand
-      ? (divIndex.innerHTML = 'h' + batimentIndex)
-      : (divIndex.innerHTML = 'p' + batimentIndex);
+    divIndex.innerHTML = batimentIndex;
 
     this.setTuileData(
       idTuile,
@@ -63,14 +60,12 @@ export class FillTileService {
   }
 
   getPlayer(player: any) {
-    console.log(player);
     this.player = player;
   }
 
   setCost(idTuile: string, cost: string) {
     this.logos = [];
     let nbWaterLogo = cost.slice(0, 1);
-    console.log(cost.length);
     let innerHTML = '';
     let objCost = [];
     for (let i = 0; i < cost.length; i++) {
@@ -117,8 +112,6 @@ export class FillTileService {
   setPoints(idTuile: string, points: string, power: string) {
     let pointLogo = points.slice(2, 3);
     let isBlack = false;
-    // this.placerJetonPlayer(idTuile, isBlack);
-    console.log(pointLogo);
     switch (pointLogo) {
       case 'a':
         this.pointsLogo = 'allylogo';
@@ -185,10 +178,8 @@ export class FillTileService {
   }
 
   fillArray(idTuile: string, nb: string, elementName: string) {
-    console.log(idTuile, nb);
     var ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
     for (let i = 0; i < parseInt(nb); i++) {
-      console.log(ele);
       ele.innerHTML = `<img src="assets/textures/${elementName}.png" class="logo" />`;
     }
   }
@@ -207,21 +198,21 @@ export class FillTileService {
   //   return index;
   // }
 
-  placerJetonPlayer(idTuile: string, isBlack: boolean) {
-    var div = document.getElementById(`${idTuile}_player`);
-    console.log(this.player);
-    let tuileGauche = (idTuile.length > 3 && idTuile.slice(0, 2) == '40') || idTuile.slice(0, 2) == '50';
-    if (div && !isBlack && !tuileGauche) {
-      if (this.player?.active) {
-        console.log('p1');
-        div.style.backgroundColor = this.player.color;
-      } else {
-        console.log('p2');
-        div.style.backgroundColor = 'orange';
-      }
-    } else if (div) {
-      console.log('rien');
-      div.style.backgroundColor = 'transparent';
-    }
-  }
+  // placerJetonPlayer(idTuile: string, isBlack: boolean) {
+  //   var div = document.getElementById(`${idTuile}_player`);
+  //   console.log(this.player);
+  //   let tuileGauche = (idTuile.length > 3 && idTuile.slice(0, 2) == '40') || idTuile.slice(0, 2) == '50';
+  //   if (div && !isBlack && !tuileGauche) {
+  //     if (this.player?.active) {
+  //       console.log('p1');
+  //       div.style.backgroundColor = this.player.color;
+  //     } else {
+  //       console.log('p2');
+  //       div.style.backgroundColor = 'orange';
+  //     }
+  //   } else if (div) {
+  //     console.log('rien');
+  //     div.style.backgroundColor = 'transparent';
+  //   }
+  // }
 }
