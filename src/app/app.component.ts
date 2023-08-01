@@ -132,9 +132,9 @@ export class AppComponent implements OnInit {
     this.fillTileService.generate('4001', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
     this.fillTileService.generate('4011', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
     this.fillTileService.generate('4002', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-    this.fillTileService.generate('4003', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
     this.fillTileService.generate('4012', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-    this.fillTileService.generate('4013', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    // this.fillTileService.generate('4003', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    // this.fillTileService.generate('4013', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
 
     this.fillTileService.generate('4020', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
     this.fillTileService.generate('4021', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
