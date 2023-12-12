@@ -45,8 +45,16 @@ body {
   transform: rotate(360deg);
 }
 
-.logo {
-  width: 12px;
+.reward {
+  width: 11px;
+  height: 11px;
+  margin-left: 1px;
+}
+
+.multi {
+  width: 11px;
+  height: 11px;
+  margin-right: 3px;
 }
 
 .point {
@@ -76,7 +84,33 @@ body {
   top: 45px;
 }
 
-.number {
+.w_cost,
+.g_cost,
+.s_cost,
+.max {
   font-size: 13px;
   font-family: cursive;
+  color: white;
+  z-index: 100000;
+  position: absolute;
+}
+
+.w_cost {
+  left: 25px;
+  top: 9px;
+}
+
+.g_cost {
+  left: 17px;
+  top: 23px;
+}
+
+.s_cost {
+  left: 9px;
+  top: 37px;
+}
+
+.max {
+  left: 17.5px;
+  top: 57px;
 }

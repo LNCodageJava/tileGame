@@ -182,10 +182,12 @@ export class AppComponent implements OnInit {
    * @param vHex
    */
   hexClick(hHex: any, vHex: any) {
+    console.log('click,', hHex, vHex);
     var index = document.getElementById(`500500_index`) as HTMLElement;
-    var cc = document.getElementById(`500500_cost-container`) as HTMLElement;
-    if (index.innerHTML === 'p0') {
-      this.tileService.removejetonPlayer(`${hHex}${vHex}`);
+
+    if (this.store.get('mode') == 'remove') {
+      this.tileService.placerJetonPlayer(this.playerActive, `${hHex}${vHex}`, true);
+      this.store.set(StateKeys.MODE, 'normal');
     } else {
       console.log(index.innerHTML.slice(0, 1));
       if (index.innerHTML.slice(0, 1) == 'p') {
@@ -193,7 +195,7 @@ export class AppComponent implements OnInit {
       } else {
         this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML.slice(1)), batiments.wonder);
       }
-
+      console.log(this.store.get('mode'));
       this.tileService.placerJetonPlayer(this.playerActive, `${hHex}${vHex}`);
       this.endturn();
     }

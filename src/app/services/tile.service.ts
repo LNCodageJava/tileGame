@@ -250,21 +250,18 @@ export class TileService {
     this.store.set(StateKeys.MODE, bete);
   }
 
-  placerJetonPlayer(playerActive: any, idTuile: any) {
+  placerJetonPlayer(playerActive: any, idTuile: any, remove?: boolean) {
     var div = document.getElementById(`${idTuile}_player`);
     var div2 = document.getElementById(`500500_player`);
-    if (playerActive === 1) {
+    if (remove) {
+      div!.style.backgroundColor = 'transparent';
+    } else if (playerActive === 1) {
       div!.style.backgroundColor = '#A6035D';
       div2!.style.backgroundColor = '#F28705';
     } else {
       div!.style.backgroundColor = '#F28705';
       div2!.style.backgroundColor = '#A6035D';
     }
-  }
-
-  removejetonPlayer(idTuile: any) {
-    var div = document.getElementById(`${idTuile}_player`);
-    div!.style.backgroundColor = 'transparent';
   }
 
   placerBete(idTuile: string, bete: string) {

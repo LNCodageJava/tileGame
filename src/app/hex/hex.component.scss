@@ -32,8 +32,8 @@
   z-index: 100000000000000000000000000000;
   left: 0px;
   top: 0px;
-  margin-top: 7px;
-  margin-left: 23px;
+  margin-top: 50px;
+  margin-left: 50px;
 }
 
 .hex-wrapper {
@@ -82,11 +82,13 @@
 // }
 
 .wrapper {
-  background-color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1px;
+  background: linear-gradient(to right, #0003a300 0, #0003a300 14px, #ffffff 14px, #ffffff 100%);
+  // border-radius: 4px;
   height: 13px;
-  border-radius: 4px;
   z-index: 100000000000000000;
   padding: 1px;
+  padding-right: 2px;
   position: absolute;
   align-items: center;
   display: flex;
@@ -111,11 +113,9 @@
   background-color: blue;
   position: absolute;
   display: flex;
-  transform: translateX(50%, -50%);
-
-  justify-content: center;
+  justify-content: left;
   align-items: center;
-  left: 0;
+  left: 23px;
   top: 85px;
 }
 
@@ -129,6 +129,7 @@
   top: -1px;
   left: 0px;
   z-index: 100;
+  display: none;
 }
 
 .point-logo {

@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FillTileService } from '../services/fill-tile.service';
 import batiments from '../cfg/batiment-colors3.json';
 import { TileService } from '../services/tile.service';
+import { GlobalStore } from '../store/global.store';
+import { StateKeys } from '../store/global.state';
 
 @Component({
   selector: 'app-bandeau',
@@ -12,19 +14,19 @@ export class BandeauComponent implements OnInit {
   @Input() player: any;
   @Input() tuileActive: any;
   r: any = {
-    w1: 0,
-    g1: 0,
-    s1: 0,
+    w1: 1,
+    g1: 1,
+    s1: 1,
     r1: 0,
-    w2: 0,
-    g2: 0,
-    s2: 0,
+    w2: 1,
+    g2: 1,
+    s2: 1,
     r2: 0,
   };
 
   gridSizeX = Array.from(Array(3).keys());
   gridSizeY = Array.from(Array(4).keys());
-  constructor(private fillTileService: FillTileService, private tileservice: TileService) {}
+  constructor(private fillTileService: FillTileService, private tileservice: TileService, private store: GlobalStore) {}
 
   ngOnInit(): void {}
 
@@ -73,6 +75,8 @@ export class BandeauComponent implements OnInit {
   }
 
   remove() {
-    this.fillTileService.generate('500500', 0, batiments.pool);
+    //this.fillTileService.generate('500500', 0, batiments.pool);
+    this.store.set(StateKeys.MODE, 'remove');
+    this.fillTileService.generate('500500', 0, batiments.empty);
   }
 }

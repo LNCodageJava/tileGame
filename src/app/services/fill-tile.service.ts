@@ -25,9 +25,10 @@ export class FillTileService {
       idTuile,
       batimentArray[batimentIndex].name,
       batimentArray[batimentIndex].color,
-      batimentArray[batimentIndex].points,
       batimentArray[batimentIndex].cost,
-      batimentArray[batimentIndex].power,
+      batimentArray[batimentIndex].max,
+      batimentArray[batimentIndex].multi,
+      batimentArray[batimentIndex].reward,
       batimentIndex
     );
   }
@@ -35,9 +36,10 @@ export class FillTileService {
     idTuile: string,
     batiment: string,
     color: string,
-    points: string,
     cost: string,
-    power: string,
+    max: string,
+    multi: string,
+    reward: string,
     batimentIndex: number
   ) {
     var img = document.getElementById(`${idTuile}_batiment`) as HTMLImageElement;
@@ -46,41 +48,64 @@ export class FillTileService {
     var img = document.getElementById(`${idTuile}_couleur`) as HTMLImageElement;
     img.src = `assets/textures/${color}.png`;
 
-    var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
-    if (color === 'w' || batimentIndex === 27) {
-      ele.setAttribute('style', 'color:#0002A3!important');
-    } else if (color === 'g' || batimentIndex === 28) {
-      ele.setAttribute('style', 'color:#33cc33!important');
-    } else if (color === 's' || batimentIndex === 29) {
-      ele.setAttribute('style', 'color:#EFCA08!important');
-    }
+    var ele = document.getElementById(`${idTuile}_corner`) as HTMLElement;
+    ele.setAttribute('style', 'display:flex');
 
-    this.setPoints(idTuile, points, power);
-
-    this.setCost(idTuile, cost);
+    this.setRewardMulti(idTuile, reward, multi);
+    this.setCostMax(idTuile, cost, max);
   }
 
   getPlayer(player: any) {
     this.player = player;
   }
 
-  setCost(idTuile: string, cost: string) {
+  setRewardMulti(idTuile: string, reward: string, multi: string) {
     this.logos = [];
-    let nbWaterLogo = cost.slice(0, 1);
     let innerHTML = '';
-    let objCost = [];
-    for (let i = 0; i < cost.length; i++) {
-      let eleSymbol = cost.slice(i, i + 1);
+
+    // MULTI
+    let multiName;
+    switch (multi) {
+      case 'w':
+        multiName = 'waterlogo';
+        break;
+      case 'g':
+        multiName = 'leaflogo';
+        break;
+      case 's':
+        multiName = 'sandlogo';
+        break;
+      case 'x':
+        multiName = 'multicolorlogo';
+        break;
+      case 'a':
+        multiName = 'allylogo';
+        break;
+      case 'e':
+        multiName = 'foelogo';
+        break;
+      default:
+        multiName = 'no-image';
+        break;
+    }
+    innerHTML = innerHTML + `<img src="assets/textures/${multiName}.png" class="multi" />`;
+
+    // REWARD
+    for (let i = 0; i < reward.length; i++) {
+      let eleSymbol = reward.slice(i, i + 1);
       let elementName;
       switch (eleSymbol) {
         case 'w':
-          elementName = 'waterlogo';
+          elementName = 'carrewater';
           break;
         case 'g':
-          elementName = 'leaflogo';
+          elementName = 'carreleaf';
           break;
         case 's':
-          elementName = 'sandlogo';
+          elementName = 'carresand';
+          break;
+        case 'v':
+          elementName = 'carrevictory';
           break;
         case 'x':
           elementName = 'multicolorlogo';
@@ -92,101 +117,36 @@ export class FillTileService {
           elementName = 'foelogo';
           break;
         default:
-          objCost[i] = eleSymbol;
           elementName = 'no-image';
           break;
       }
-      innerHTML = innerHTML + `<img src="assets/textures/${elementName}.png" class="logo" />`;
+      innerHTML = innerHTML + `<img src="assets/textures/${elementName}.png" class="reward" />`;
     }
-    var ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
+    let ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
     ele.innerHTML = innerHTML;
-
-    if (objCost.length > 0) {
-      var ele = document.getElementById(`${idTuile}_obj`) as HTMLElement;
-      ele.innerHTML = `<span class="number"> ${objCost[0]} &nbsp; ${objCost[1]} &nbsp; ${objCost[2]} </span>`;
-      ele.setAttribute('style', 'display:flex');
-      var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
-      ele.setAttribute('style', 'color:#FF7D00!important');
-    } else {
-      var ele = document.getElementById(`${idTuile}_obj`) as HTMLElement;
-      ele.setAttribute('style', 'display:none');
-    }
+    // ele.innerHTML = `<span class="b_cost"> ${objCost[0]} </span>`;
+    // ele.innerHTML = `<span class="v_cost"> ${objCost[1]}</span>`;
+    // ele.innerHTML = `<span class="j_cost"> ${objCost[2]} </span>`;
   }
 
-  setPoints(idTuile: string, points: string, power: string) {
-    let pointLogo = points.slice(2, 3);
-    let isBlack = false;
-    switch (pointLogo) {
-      case 'a':
-        this.pointsLogo = 'allylogo';
-        break;
-      case 'e':
-        this.pointsLogo = 'foelogo';
-        break;
-      case 'w':
-        this.pointsLogo = 'waterlogo';
-        break;
-      case 's':
-        this.pointsLogo = 'sandlogo';
-        break;
-      case 'g':
-        this.pointsLogo = 'leaflogo';
-        break;
-      case 'f':
-        this.pointsLogo = 'fulllogo';
-        break;
-      default:
-        this.pointsLogo = 'fulllogo';
-        break;
-    }
-    if (pointLogo === 'a' || pointLogo === 'e' || pointLogo === 'w' || pointLogo === 's' || pointLogo === 'g') {
-      var img = document.getElementById(`${idTuile}_point-logo`) as HTMLImageElement;
-      img.src = `assets/textures/${this.pointsLogo}.png`;
-
-      this.points = points.slice(1, 2);
-      var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
-      ele.className = 'point';
-      ele.innerHTML = this.points;
-      // ele.setAttribute('style', 'color: white!important;');
-
-      var img = document.getElementById(`${idTuile}_corner`) as HTMLImageElement;
-      isBlack ? (img.src = `assets/textures/corner-black.png`) : (img.src = `assets/textures/corner.png`);
-      var img = document.getElementById(`${idTuile}_power`) as HTMLImageElement;
-      img.src = `assets/textures/no-image.png`;
-    } else {
-      var img = document.getElementById(`${idTuile}_corner`) as HTMLImageElement;
-      isBlack ? (img.src = `assets/textures/corner-empty-black.png`) : (img.src = `assets/textures/corner-empty.png`);
-      this.points = points.slice(1, 2);
-      var img = document.getElementById(`${idTuile}_point-logo`) as HTMLImageElement;
-      img.src = `assets/textures/${this.pointsLogo}.png`;
-      var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
-      ele.className = 'point-empty';
-      ele.innerHTML = this.points;
-      var img = document.getElementById(`${idTuile}_power`) as HTMLImageElement;
-      img.src = `assets/textures/no-image.png`;
-    }
-
-    if (power != '') {
-      var img = document.getElementById(`${idTuile}_corner`) as HTMLImageElement;
-      isBlack ? (img.src = `assets/textures/corner-power-black.png`) : (img.src = `assets/textures/corner-power.png`);
-      var img = document.getElementById(`${idTuile}_power`) as HTMLImageElement;
-      img.src = `assets/textures/${power}.png`;
-    }
-
-    var ele = document.getElementById(`${idTuile}_point`) as HTMLElement;
-
-    // ? ele.setAttribute('style', 'color: white!important;')
-    // : ele.setAttribute('style', 'color: black!important;');
-
-    var ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
+  setCostMax(idTuile: string, cost: string, max: string) {
+    console.log(cost[0]);
+    let ele = document.getElementById(`${idTuile}_w_cost`) as HTMLElement;
+    ele.innerHTML = cost[0];
+    let ele2 = document.getElementById(`${idTuile}_g_cost`) as HTMLElement;
+    ele2.innerHTML = cost[1];
+    let ele3 = document.getElementById(`${idTuile}_s_cost`) as HTMLElement;
+    ele3.innerHTML = cost[2];
+    let ele4 = document.getElementById(`${idTuile}_max`) as HTMLElement;
+    ele4.innerHTML = max;
   }
 
-  fillArray(idTuile: string, nb: string, elementName: string) {
-    var ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
-    for (let i = 0; i < parseInt(nb); i++) {
-      ele.innerHTML = `<img src="assets/textures/${elementName}.png" class="logo" />`;
-    }
-  }
+  // fillArray(idTuile: string, nb: string, elementName: string) {
+  //   var ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
+  //   for (let i = 0; i < parseInt(nb); i++) {
+  //     ele.innerHTML = `<img src="assets/textures/${elementName}.png" class="logo" />`;
+  //   }
+  // }
 
   // getBatimentIndex(idTuile: string): number {
   //   let index;
