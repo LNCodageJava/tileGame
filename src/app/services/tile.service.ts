@@ -254,7 +254,11 @@ export class TileService {
     var div = document.getElementById(`${idTuile}_player`);
     var div2 = document.getElementById(`500500_player`);
     if (remove) {
-      div!.style.backgroundColor = 'transparent';
+      if (playerActive === 1) {
+        div!.style.backgroundColor = 'rgb(166,3,93, 0.25)';
+      } else {
+        div!.style.backgroundColor = 'rgb(242,135,5, 0.25)';
+      }
     } else if (playerActive === 1) {
       div!.style.backgroundColor = '#A6035D';
       div2!.style.backgroundColor = '#F28705';

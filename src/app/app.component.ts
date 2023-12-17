@@ -75,7 +75,6 @@ export class AppComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.resizeWindow();
-    // this.fillTuileDepart();
     this.startTurn();
     this.fillHandRandomTiles();
 
@@ -97,15 +96,28 @@ export class AppComponent implements OnInit {
   }
 
   fillTuileDepart(): void {
-    //this.fillTileService.generate('01',)
-    var img = document.getElementById(`66_couleur`) as HTMLImageElement;
-    img.src = `assets/textures/w.png`;
+    let colors = ['w', 'g', 's'];
 
-    var img = document.getElementById(`67_couleur`) as HTMLImageElement;
-    img.src = `assets/textures/s.png`;
+    let c0 = this.takeRandomElementFromArray(colors);
+    var img = document.getElementById(`74_couleur`) as HTMLImageElement;
+    img.src = `assets/textures/${c0}.png`;
 
-    var img = document.getElementById(`77_couleur`) as HTMLImageElement;
-    img.src = `assets/textures/g.png`;
+    let c1 = this.takeRandomElementFromArray(colors);
+    colors = colors.filter((element) => element !== c1);
+    var img = document.getElementById(`63_couleur`) as HTMLImageElement;
+    img.src = `assets/textures/${c1}.png`;
+
+    let c2 = this.takeRandomElementFromArray(colors);
+    colors = colors.filter((element) => element !== c2);
+    var img = document.getElementById(`65_couleur`) as HTMLImageElement;
+    img.src = `assets/textures/${c2}.png`;
+
+    let c3 = this.takeRandomElementFromArray(colors);
+    var img = document.getElementById(`54_couleur`) as HTMLImageElement;
+    img.src = `assets/textures/${c3}.png`;
+
+    // var img = document.getElementById(`74_couleur`) as HTMLImageElement;
+    // img.src = `assets/textures/w.png`;
 
     this.tileService.findTuilesAdjacentes(5, 10);
     this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost() + COUNTER_ADJ_START;
@@ -132,49 +144,16 @@ export class AppComponent implements OnInit {
     this.fillTileService.generate('4001', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
     this.fillTileService.generate('4011', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
     this.fillTileService.generate('4002', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-    this.fillTileService.generate('4003', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
     this.fillTileService.generate('4012', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
-    this.fillTileService.generate('4013', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
 
     this.fillTileService.generate('4020', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
     this.fillTileService.generate('4021', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
     this.fillTileService.generate('4022', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
-  }
 
-  // setBatimentColors(batiment: BatimentDto) {
-  //   let currentColors = ['', '', '', '', '', ''];
-  //   // On remplit d'abord la couleur requise
-  //   if (batiment.color_required) {
-  //     let color_required = batiment.color_required.split('');
-  //     for (let i = 0; i < +color_required[0]; i++) {
-  //       currentColors[i] = color_required[1];
-  //     }
-  //   }
-  //   // On remplit les autres couleurs
-  //   if (batiment.color) {
-  //     // on extrait le nombre de couleurs et les couleurs possibles
-  //     let colors = batiment.color.split('');
-  //     let nbColor = colors.shift()!;
-  //     // Pour 2 couleurs on fixe la 2eme couleur et on colore les cotés restants avec
-  //     if (+nbColor === 2) {
-  //       let color2 = this.takeRandomElementFromArray(colors);
-  //       for (let i = 0; i < 6; i++) {
-  //         if (currentColors[i] === '') {
-  //           currentColors[i] = color2;
-  //         }
-  //       }
-  //     }
-  //     // Pour 3 couleurs on remplit chaque couleur aléatoirement
-  //     else if (+nbColor === 3) {
-  //       for (let i = 0; i < 6; i++) {
-  //         if (currentColors[i] === '') {
-  //           currentColors[i] = this.takeRandomElementFromArray(colors);
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return this.shuffle(currentColors);
-  // }
+    this.fillTileService.generate('4003', Math.floor(Math.random() * batiments.market.length), batiments.market);
+    this.fillTileService.generate('4013', Math.floor(Math.random() * batiments.market.length), batiments.market);
+    this.fillTileService.generate('4023', Math.floor(Math.random() * batiments.market.length), batiments.market);
+  }
 
   /**
    * remplir le hex cliqué avec le hex courant
@@ -182,21 +161,45 @@ export class AppComponent implements OnInit {
    * @param vHex
    */
   hexClick(hHex: any, vHex: any) {
-    console.log('click,', hHex, vHex);
     var index = document.getElementById(`500500_index`) as HTMLElement;
 
     if (this.store.get('mode') == 'remove') {
       this.tileService.placerJetonPlayer(this.playerActive, `${hHex}${vHex}`, true);
       this.store.set(StateKeys.MODE, 'normal');
-    } else {
-      console.log(index.innerHTML.slice(0, 1));
+    } else if (this.store.get('mode') == 'deplacer1') {
+      var index = document.getElementById(`${hHex}${vHex}_index`) as HTMLElement;
+      if (index.innerHTML.slice(0, 1) === 'p') {
+        this.fillTileService.generate('500500', parseInt(index.innerHTML.slice(1)), batiments.pool);
+      } else {
+        this.fillTileService.generate('500500', parseInt(index.innerHTML.slice(1)), batiments.wonder);
+      }
+      this.fillTileService.generate(`${hHex}${vHex}`, 0, batiments.empty);
+      var pl = document.getElementById(`${hHex}${vHex}_player`) as HTMLElement;
+      const couleurFond: string = window.getComputedStyle(pl).backgroundColor;
+      if (couleurFond === 'rgb(166, 3, 93)') {
+        this.tileService.placerJetonPlayer(2, `500500`);
+      } else {
+        this.tileService.placerJetonPlayer(1, `500500`);
+      }
+      this.store.set(StateKeys.MODE, 'deplacer2');
+    } else if (this.store.get('mode') == 'deplacer2') {
       if (index.innerHTML.slice(0, 1) == 'p') {
         this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML.slice(1)), batiments.pool);
       } else {
         this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML.slice(1)), batiments.wonder);
       }
-      console.log(this.store.get('mode'));
+
       this.tileService.placerJetonPlayer(this.playerActive, `${hHex}${vHex}`);
+      this.fillTileService.generate('500500', 0, batiments.empty);
+      this.store.set(StateKeys.MODE, 'normal');
+    } else {
+      if (index.innerHTML.slice(0, 1) == 'p') {
+        this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML.slice(1)), batiments.pool);
+      } else {
+        this.fillTileService.generate(`${hHex}${vHex}`, parseInt(index.innerHTML.slice(1)), batiments.wonder);
+      }
+      this.tileService.placerJetonPlayer(this.playerActive, `${hHex}${vHex}`);
+      this.fillTileService.generate('500500', 0, batiments.empty);
       this.endturn();
     }
   }
@@ -204,54 +207,9 @@ export class AppComponent implements OnInit {
   startTurn() {}
 
   endturn() {
-    // this.fillHandRandomTiles(this.playerActive);
     this.changePlayer();
     this.store.set(StateKeys.MODE, 'normal');
-    this.fillTileService.generate('500500', 0, batiments.pool);
   }
-
-  hexClickNormalMode(hHex: any, vHex: any) {
-    // let tuileRef = this.tileService.getTuileData('500500');
-    // this.tileService.setTuileData(`${hHex}${vHex}`, tuileRef.batimentName, tuileRef.colors);
-    // document.getElementById(`${hHex}${vHex}_img`)?.classList.add(`r${this.rotate}`);
-    // this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
-    // this.tileService.findTuilesAdjacentes(hHex, vHex);
-    // this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost();
-    // this.counterPoints = this.counterPoints + this.tileService.countPoints(hHex, vHex);
-    // this.previousTileId = `${hHex}${vHex}`;
-    // this.store.set(StateKeys.MODE, this.tileService.changeMode(this.currentTuile.batimentName));
-  }
-
-  // hexClickSupprimerMode(hHex: any, vHex: any) {
-  //   for (let i = 0; i < 6; i++) {
-  //     this.tileService.coloreCote(`${hHex}${vHex}`, i, 'white');
-  //   }
-  //   this.tileService.placerBatiment(`${hHex}${vHex}`, 'no-image');
-  //   this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
-  //   this.store.set(StateKeys.MODE, 'nextTurn');
-  // }
-
-  // hexClickCopierMode(previousTileId: string, hHex: any, vHex: any) {
-  //   let adjBatiment = document.getElementById(`${hHex}${vHex}_img`) as HTMLImageElement;
-  //   for (let i = 0; i < 6; i++) {
-  //     if (adjBatiment) {
-  //       let batimentName = adjBatiment.src.slice(39, adjBatiment.src.length - 4);
-  //       this.tileService.placerBatiment(previousTileId, batimentName);
-  //     }
-  //   }
-  //   this.store.set(StateKeys.MODE, 'nextTurn');
-  // }
-
-  // hexClickVolerMode(hHex: any, vHex: any) {
-  //   this.tileService.placerJetonPlayer(`${hHex}${vHex}`, this.currentTuile, this.player1, this.player2);
-  //   this.store.set(StateKeys.MODE, 'nextTurn');
-  // }
-
-  // hexClickPlacerBete(hHex: any, vHex: any, bete: string) {
-  //   this.tileService.placerBete(`${hHex}${vHex}`, bete);
-  //   this.tileService.placerBete('500500', 'no-image');
-  //   this.store.set(StateKeys.MODE, 'nextTurn');
-  // }
 
   changePlayer() {
     // Passer du joueur 1 au joueur 2
@@ -283,26 +241,5 @@ export class AppComponent implements OnInit {
       this.displayIndex = this.displayIndex + 1;
       this.fillTileService.generate('00', this.displayIndex, batiments.pool);
     }
-    //     console.log(this.rotate);
-    //   } else if (event.key === 'b') {
-    //     this.tileService.pivoterTuile('gauche', this.currentTuile.colors);
-    //     this.currentTuile = this.tileService.getTuileData('500500');
-    //     if (this.rotate === 0) {
-    //       this.rotate = 360;
-    //     }
-    //     this.rotate = this.rotate - 60;
-    //     document.getElementById(`500500_img`)?.classList.remove('r60', 'r120', 'r0', 'r180', 'r240', 'r300', 'r360');
-    //     document.getElementById(`500500_img`)?.classList.add(`r${this.rotate}`);
-    //   } else if (event.key === 'v' && this.mode === 'normal') {
-    //     this.tuileActive = this.tileService.changeTuileActive(this.playerActive, this.tuileActive);
-    //     this.currentTuile = this.tileService.getTuileData('500500');
-    //   } else if (event.key === 'd') {
-    //     this.tileService.changeModeToBete('dragon');
-    //   } else if (event.key === 'g') {
-    //     this.tileService.changeModeToBete('golden');
-    //   } else if (event.key === 'm') {
-    //     this.tileService.turnMage();
-    //   }
-    // }
   }
 }

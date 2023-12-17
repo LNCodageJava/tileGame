@@ -130,7 +130,6 @@ export class FillTileService {
   }
 
   setCostMax(idTuile: string, cost: string, max: string) {
-    console.log(cost[0]);
     let ele = document.getElementById(`${idTuile}_w_cost`) as HTMLElement;
     ele.innerHTML = cost[0];
     let ele2 = document.getElementById(`${idTuile}_g_cost`) as HTMLElement;

@@ -4,13 +4,7 @@
     <ng-container *ngFor="let j of gridSizeY">
       <div class="wrapper">
         <ng-container *ngFor="let i of gridSizeX"
-          ><app-hex
-            (click)="hexClick(i, j)"
-            class="app-hex"
-            [hHex]="i"
-            [vHex]="j"
-            [ngClass]="{ odd: i % 2 === 0, even: i % 2 === 1 }"
-          ></app-hex
+          ><app-hex (click)="hexClick(i, j)" class="app-hex" [hHex]="i" [vHex]="j"></app-hex
         ></ng-container>
       </div>
     </ng-container>

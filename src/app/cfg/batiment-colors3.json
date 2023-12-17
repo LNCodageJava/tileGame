@@ -1,21 +1,51 @@
 {
   "pool": [
-    { "color": "g", "cost": "   ", "max": "1", "multi": "g", "reward": "g", "name": "moulin" },
-    { "color": "s", "cost": "   ", "max": "2", "multi": "s", "reward": "s", "name": "4-casa-solar" },
-    { "color": "w", "cost": "   ", "max": "1", "multi": "w", "reward": "w", "name": "5-skull-ship" },
+    { "color": "g", "cost": " 1 ", "max": " ", "multi": "g", "reward": "g", "name": "g1" },
+    { "color": "s", "cost": "  1", "max": " ", "multi": "s", "reward": "s", "name": "s1" },
+    { "color": "w", "cost": "1  ", "max": " ", "multi": "w", "reward": "w", "name": "w1" },
 
-    { "color": "g", "cost": " 1 ", "max": " ", "multi": "g", "reward": "gg", "name": "8-temple-maya" },
-    { "color": "s", "cost": "  1", "max": "2", "multi": "s", "reward": "ss", "name": "6-temple-dome" },
-    { "color": "w", "cost": "1  ", "max": "1", "multi": "w", "reward": "ww", "name": "7-phare-camp" },
+    { "color": "g", "cost": " 11", "max": " ", "multi": "g", "reward": "gg", "name": "g2" },
+    { "color": "s", "cost": "1 1", "max": " ", "multi": "s", "reward": "ss", "name": "s2" },
+    { "color": "w", "cost": "11 ", "max": " ", "multi": "w", "reward": "ww", "name": "w2" },
 
-    { "color": "g", "cost": " 2 ", "max": " ", "multi": "g", "reward": "gws", "name": "moulinsacre" },
-    { "color": "s", "cost": "  2", "max": " ", "multi": "s", "reward": "gws", "name": "templesacre" },
-    { "color": "w", "cost": "2  ", "max": " ", "multi": "w", "reward": "gws", "name": "pharesacre" }
+    { "color": "g", "cost": " 2 ", "max": " ", "multi": "e", "reward": "ggg", "name": "g3" },
+    { "color": "s", "cost": "  2", "max": " ", "multi": "e", "reward": "sss", "name": "s3" },
+    { "color": "w", "cost": "2  ", "max": " ", "multi": "e", "reward": "www", "name": "w3" },
+
+    { "color": "g", "cost": " 11", "max": " ", "multi": "s", "reward": "ss", "name": "g4" },
+    { "color": "s", "cost": "1 1", "max": " ", "multi": "w", "reward": "ww", "name": "s4" },
+    { "color": "w", "cost": "11 ", "max": " ", "multi": "g", "reward": "gg", "name": "w4" },
+
+    { "color": "g", "cost": "111", "max": " ", "multi": "g", "reward": "sw", "name": "g5" },
+    { "color": "s", "cost": "111", "max": " ", "multi": "s", "reward": "wg", "name": "s5" },
+    { "color": "w", "cost": "111", "max": " ", "multi": "w", "reward": "gs", "name": "w5" },
+
+    { "color": "g", "cost": " 21", "max": " ", "multi": "g", "reward": "gws", "name": "g6" },
+    { "color": "s", "cost": " 12", "max": " ", "multi": "s", "reward": "gws", "name": "s6" },
+    { "color": "w", "cost": "2 1", "max": " ", "multi": "w", "reward": "gws", "name": "w6" }
   ],
   "wonder": [
-    { "color": "g", "cost": "131", "max": "2", "multi": "g", "reward": "v", "name": "moulinsacre" },
-    { "color": "s", "cost": "113", "max": "2", "multi": "s", "reward": "v", "name": "templesacre" },
-    { "color": "w", "cost": "311", "max": "2", "multi": "w", "reward": "v", "name": "pharesacre" }
+    { "color": "g", "cost": "131", "max": "2", "multi": "g", "reward": "v", "name": "g5" },
+    { "color": "s", "cost": "113", "max": "2", "multi": "s", "reward": "v", "name": "s5" },
+    { "color": "w", "cost": "311", "max": "2", "multi": "w", "reward": "v", "name": "w5" },
+
+    { "color": "g", "cost": "25 ", "max": "1", "multi": "g", "reward": "vv", "name": "g6" },
+    { "color": "s", "cost": "5 2", "max": "1", "multi": "s", "reward": "vv", "name": "s6" },
+    { "color": "w", "cost": " 25", "max": "1", "multi": "w", "reward": "vv", "name": "w6" }
   ],
-  "empty": [{ "color": "no-image", "cost": "   ", "max": " ", "multi": " ", "reward": " ", "name": "no-image" }]
+  "empty": [{ "color": "no-image", "cost": "   ", "max": " ", "multi": " ", "reward": " ", "name": "no-image" }],
+  "nocost": [
+    { "color": "g", "cost": " 1 ", "max": " ", "multi": "g", "reward": "g", "name": "g1" },
+    { "color": "s", "cost": "  1", "max": " ", "multi": "s", "reward": "s", "name": "s1" },
+    { "color": "w", "cost": "1  ", "max": " ", "multi": "w", "reward": "w", "name": "w1" }
+  ],
+  "market": [
+    { "color": "no-image", "cost": "   ", "max": " ", "multi": " ", "reward": " ", "name": "m1" },
+    { "color": "no-image", "cost": "   ", "max": " ", "multi": " ", "reward": " ", "name": "m2" },
+    { "color": "no-image", "cost": "   ", "max": " ", "multi": " ", "reward": " ", "name": "m3" },
+    { "color": "no-image", "cost": "   ", "max": " ", "multi": " ", "reward": " ", "name": "m4" },
+    { "color": "no-image", "cost": "   ", "max": " ", "multi": " ", "reward": " ", "name": "m5" },
+    { "color": "no-image", "cost": "   ", "max": " ", "multi": " ", "reward": " ", "name": "m6" },
+    { "color": "no-image", "cost": "   ", "max": " ", "multi": " ", "reward": " ", "name": "m1" }
+  ]
 }

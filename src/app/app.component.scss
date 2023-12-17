@@ -14,7 +14,7 @@
 
 .wrapper {
   // SIZE espacement haut
-  margin-top: 70px;
+  margin-top: 60px;
 }
 
 #currentTile {
@@ -27,6 +27,7 @@
 
 #bandeau-p1 {
   position: absolute;
+  top: 65px;
   // pointer-events: none;
   z-index: 1000000000000000;
 }
