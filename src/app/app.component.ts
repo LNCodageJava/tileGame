@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
   counterTotalTiles = 0;
   mode = 'normal';
   rotate = 0;
-  demoMode = 'no';
+  demoMode = 'ALL';
   displayIndex = 0;
 
   player1 = {
@@ -121,6 +121,19 @@ export class AppComponent implements OnInit {
 
     this.tileService.findTuilesAdjacentes(5, 10);
     this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost() + COUNTER_ADJ_START;
+
+    // ALL TILES
+    // if (this.demoMode === 'ALL') {
+    //   for (let i = 0; i < 10; i++) {
+    //     for (let j = 0; j < 10; j++) {
+    //       this.fillTileService.generate(
+    //         `${i}${j}`,
+    //         Math.floor(Math.random() * batiments.wonder.length),
+    //         batiments.wonder
+    //       );
+    //     }
+    //   }
+    // }
   }
 
   takeRandomElementFromArray(array: any[]): any {

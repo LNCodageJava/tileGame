@@ -15,6 +15,9 @@ export class DemoService {
     batiments.pool.forEach((_: any, index: any) =>
       this.fillTileService.generate(this.calculateIdPrint(index), index, batiments.pool)
     );
+    batiments.pool.forEach((_: any, index: any) =>
+      this.fillTileService.generate(this.calculateIdPrint(index), index, batiments.wonder)
+    );
     // batiments?.hand?.forEach((_: any, index: any) =>
     //   this.fillTileService.generate(this.calculateIdPrint(index + batiments.pool.length), index, batiments.hand)
     // );

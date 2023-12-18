@@ -51,10 +51,81 @@ body {
   margin-left: 1px;
 }
 
+.reward:first-of-type {
+  margin-left: 0;
+}
+
+.reward-wrapper {
+  display: flex;
+  padding: 2px;
+  background-color: rgb(255 255 255 / 75%);
+  border-radius: 1px;
+}
+
+.multis-wrapper {
+  display: flex;
+  padding: 2px;
+  background-color: rgb(255 255 255 / 75%);
+  border-radius: 1px;
+  margin-right: 5px;
+}
+
+.connect {
+  margin-left: 28px;
+  position: absolute;
+  width: 5px;
+  height: 7px;
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
 .multi {
   width: 11px;
   height: 11px;
-  margin-right: 3px;
+  margin-left: 2px;
+}
+
+.multi:first-of-type {
+  margin-left: 0;
+}
+
+.contr {
+  width: 13px;
+  height: 13px;
+  margin-top: 1px;
+  background-size: cover;
+  justify-content: center;
+  display: flex;
+  color: white;
+  font-family: monospace;
+  border: solid 1px white;
+  border-radius: 1px;
+  align-items: center;
+}
+
+.contr-sky {
+  width: 10px;
+  height: 10px;
+  display: flex;
+  margin-left: 1px;
+}
+
+.number-sky {
+  color: rgb(41, 40, 40);
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 1px;
+}
+
+.card-sky {
+  background-color: rgba(255, 255, 255, 0.75);
+  padding: 0 2px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+  margin-left: 2px;
+  height: 14px;
 }
 
 .point {

@@ -25,8 +25,8 @@ export class FillTileService {
       idTuile,
       batimentArray[batimentIndex].name,
       batimentArray[batimentIndex].color,
-      batimentArray[batimentIndex].cost,
-      batimentArray[batimentIndex].max,
+      batimentArray[batimentIndex].contr,
+      batimentArray[batimentIndex].type,
       batimentArray[batimentIndex].multi,
       batimentArray[batimentIndex].reward,
       batimentIndex
@@ -36,8 +36,8 @@ export class FillTileService {
     idTuile: string,
     batiment: string,
     color: string,
-    cost: string,
-    max: string,
+    contr: string,
+    type: string,
     multi: string,
     reward: string,
     batimentIndex: number
@@ -48,20 +48,19 @@ export class FillTileService {
     var img = document.getElementById(`${idTuile}_couleur`) as HTMLImageElement;
     img.src = `assets/textures/${color}.png`;
 
-    var ele = document.getElementById(`${idTuile}_corner`) as HTMLElement;
-    ele.setAttribute('style', 'display:flex');
-
-    this.setRewardMulti(idTuile, reward, multi);
-    this.setCostMax(idTuile, cost, max);
+    this.setRewardMulti(idTuile, reward, multi, type);
+    this.setContraintes(idTuile, reward, contr);
+    //this.setCostMax(idTuile, cost, max);
   }
 
   getPlayer(player: any) {
     this.player = player;
   }
 
-  setRewardMulti(idTuile: string, reward: string, multi: string) {
+  setRewardMulti(idTuile: string, reward: string, multi: string, type: string) {
     this.logos = [];
     let innerHTML = '';
+    let multis = '';
 
     // MULTI
     let multiName;
@@ -76,7 +75,7 @@ export class FillTileService {
         multiName = 'sandlogo';
         break;
       case 'x':
-        multiName = 'multicolorlogo';
+        multiName = 'skylogo';
         break;
       case 'a':
         multiName = 'allylogo';
@@ -88,9 +87,32 @@ export class FillTileService {
         multiName = 'no-image';
         break;
     }
-    innerHTML = innerHTML + `<img src="assets/textures/${multiName}.png" class="multi" />`;
+    multis = multis + `<img src="assets/textures/${multiName}.png" class="multi" />`;
+
+    // TYPE
+    let typeName;
+    switch (type) {
+      case 'a':
+        typeName = 'adj';
+        break;
+      case 'h':
+        typeName = 'ligneh';
+        break;
+      case 'v':
+        typeName = 'lignev';
+        break;
+      case 'c':
+        typeName = 'cross';
+        break;
+      case 'g':
+        typeName = 'group';
+        break;
+    }
+    multis = multis + `<img src="assets/textures/${typeName}.png" class="multi" />`;
+    innerHTML = innerHTML + `<div class="connect"></div><div class="multis-wrapper">${multis}</div>`;
 
     // REWARD
+    let rewards = '';
     for (let i = 0; i < reward.length; i++) {
       let eleSymbol = reward.slice(i, i + 1);
       let elementName;
@@ -120,62 +142,77 @@ export class FillTileService {
           elementName = 'no-image';
           break;
       }
-      innerHTML = innerHTML + `<img src="assets/textures/${elementName}.png" class="reward" />`;
+      rewards = rewards + `<img src="assets/textures/${elementName}.png" class="reward" />`;
     }
+    innerHTML = innerHTML + `<div class="reward-wrapper">${rewards}</div>`;
     let ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
     ele.innerHTML = innerHTML;
-    // ele.innerHTML = `<span class="b_cost"> ${objCost[0]} </span>`;
-    // ele.innerHTML = `<span class="v_cost"> ${objCost[1]}</span>`;
-    // ele.innerHTML = `<span class="j_cost"> ${objCost[2]} </span>`;
+  }
+
+  setContraintes(idTuile: string, reward: string, contr: string) {
+    // earth
+    if (reward[0] !== 'v') {
+      let innerHTML = '';
+
+      let contrw = contr[0];
+      if (contrw !== ' ') {
+        innerHTML =
+          innerHTML + `<div class="contr" style="background-image:url(assets/textures/waterlogo.png);">${contrw}</div>`;
+      }
+
+      let contrg = contr[1];
+      if (contrg !== ' ') {
+        innerHTML =
+          innerHTML + `<div class="contr" style="background-image:url(assets/textures/leaflogo.png);">${contrg}</div>`;
+      }
+
+      let contrs = contr[2];
+      if (contrs !== ' ') {
+        innerHTML =
+          innerHTML + `<div class="contr" style="background-image:url(assets/textures/sandlogo.png);">${contrs}</div>`;
+      }
+
+      let ele = document.getElementById(`${idTuile}_contr`) as HTMLElement;
+      ele.innerHTML = innerHTML;
+    }
+    // sky
+    else {
+      let innerHTML = '';
+
+      let contrw = contr[0];
+      if (contrw !== ' ') {
+        innerHTML =
+          innerHTML +
+          `<div class="card-sky"><span class="number-sky">${contrw}</span><img src="assets/textures/carrewater.png" class="contr-sky" /></div>`;
+      }
+
+      let contrg = contr[1];
+      if (contrg !== ' ') {
+        innerHTML =
+          innerHTML +
+          `<div class="card-sky"><span class="number-sky">${contrg}</span><img src="assets/textures/carreleaf.png" class="contr-sky" /></div>`;
+      }
+
+      let contrs = contr[2];
+      if (contrs !== ' ') {
+        innerHTML =
+          innerHTML +
+          `<div class="card-sky"><span class="number-sky">${contrs}</span><img src="assets/textures/carresand.png" class="contr-sky" /></div>`;
+      }
+
+      let ele = document.getElementById(`${idTuile}_contr-sky`) as HTMLElement;
+      ele.innerHTML = innerHTML;
+    }
   }
 
   setCostMax(idTuile: string, cost: string, max: string) {
-    let ele = document.getElementById(`${idTuile}_w_cost`) as HTMLElement;
-    ele.innerHTML = cost[0];
-    let ele2 = document.getElementById(`${idTuile}_g_cost`) as HTMLElement;
-    ele2.innerHTML = cost[1];
-    let ele3 = document.getElementById(`${idTuile}_s_cost`) as HTMLElement;
-    ele3.innerHTML = cost[2];
-    let ele4 = document.getElementById(`${idTuile}_max`) as HTMLElement;
-    ele4.innerHTML = max;
+    // let ele = document.getElementById(`${idTuile}_w_cost`) as HTMLElement;
+    // ele.innerHTML = cost[0];
+    // let ele2 = document.getElementById(`${idTuile}_g_cost`) as HTMLElement;
+    // ele2.innerHTML = cost[1];
+    // let ele3 = document.getElementById(`${idTuile}_s_cost`) as HTMLElement;
+    // ele3.innerHTML = cost[2];
+    //    let ele4 = document.getElementById(`${idTuile}_max`) as HTMLElement;
+    //  ele4.innerHTML = max;
   }
-
-  // fillArray(idTuile: string, nb: string, elementName: string) {
-  //   var ele = document.getElementById(`${idTuile}_cost-container`) as HTMLElement;
-  //   for (let i = 0; i < parseInt(nb); i++) {
-  //     ele.innerHTML = `<img src="assets/textures/${elementName}.png" class="logo" />`;
-  //   }
-  // }
-
-  // getBatimentIndex(idTuile: string): number {
-  //   let index;
-  //   let batimentTargetTuile = document.getElementById(`${idTuile}_index`) as HTMLImageElement;
-  //   let batimentName = batimentTargetTuile.src.slice(39, batimentTargetTuile.src.length - 4);
-
-  //   console.log(batimentName);
-  //   if (true) {
-  //     index = batiments.pool.findIndex((i) => i.name == batimentName);
-  //   } else {
-  //     index = batiments.hand.findIndex((i) => i.name == batimentName);
-  //   }
-  //   return index;
-  // }
-
-  // placerJetonPlayer(idTuile: string, isBlack: boolean) {
-  //   var div = document.getElementById(`${idTuile}_player`);
-  //   console.log(this.player);
-  //   let tuileGauche = (idTuile.length > 3 && idTuile.slice(0, 2) == '40') || idTuile.slice(0, 2) == '50';
-  //   if (div && !isBlack && !tuileGauche) {
-  //     if (this.player?.active) {
-  //       console.log('p1');
-  //       div.style.backgroundColor = this.player.color;
-  //     } else {
-  //       console.log('p2');
-  //       div.style.backgroundColor = 'orange';
-  //     }
-  //   } else if (div) {
-  //     console.log('rien');
-  //     div.style.backgroundColor = 'transparent';
-  //   }
-  // }
 }
