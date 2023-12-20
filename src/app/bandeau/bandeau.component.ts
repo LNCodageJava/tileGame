@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { FillTileService } from '../services/fill-tile.service';
 import batiments from '../cfg/batiment-colors3.json';
 import { TileService } from '../services/tile.service';
@@ -10,7 +10,7 @@ import { StateKeys } from '../store/global.state';
   templateUrl: './bandeau.component.html',
   styleUrls: ['./bandeau.component.scss'],
 })
-export class BandeauComponent implements OnInit {
+export class BandeauComponent implements AfterViewInit {
   @Input() player: any;
   @Input() tuileActive: any;
   r: any = {
@@ -28,7 +28,9 @@ export class BandeauComponent implements OnInit {
   gridSizeY = Array.from(Array(4).keys());
   constructor(private fillTileService: FillTileService, private tileservice: TileService, private store: GlobalStore) {}
 
-  ngOnInit(): void {}
+  ngAfterViewInit(): void {
+    //   this.fill4();
+  }
 
   hexClick(i: any, j: any) {
     var index = document.getElementById(`${400 + i}${j}_index`) as HTMLElement;
@@ -82,5 +84,60 @@ export class BandeauComponent implements OnInit {
   move() {
     this.store.set(StateKeys.MODE, 'deplacer1');
     this.fillTileService.generate('500500', 0, batiments.empty);
+  }
+
+  fill1() {
+    this.fillTileService.generate('43', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('53', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('55', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('66', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('75', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+
+    this.fillTileService.generate('52', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
+    this.fillTileService.generate('85', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
+  }
+
+  fill2() {
+    this.fillTileService.generate('94', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('53', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('55', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('76', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('75', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+
+    this.fillTileService.generate('83', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
+    this.fillTileService.generate('85', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
+  }
+
+  fill3() {
+    this.fillTileService.generate('94', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('53', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('55', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('76', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('75', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('73', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('72', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('62', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+    this.fillTileService.generate('45', Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+
+    this.fillTileService.generate('83', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
+    this.fillTileService.generate('85', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
+    this.fillTileService.generate('66', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
+    this.fillTileService.generate('43', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
+    this.fillTileService.generate('52', Math.floor(Math.random() * batiments.wonder.length), batiments.wonder);
+  }
+
+  fill4() {
+    for (let i = 2; i < 8; i++) {
+      for (let j = 0; j < 6; j++) {
+        this.fillTileService.generate(`${i}${j}`, Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+      }
+    }
+    for (let i = 0; i < 15; i++) {
+      this.fillTileService.generate(
+        `${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 8)}`,
+        Math.floor(Math.random() * batiments.wonder.length),
+        batiments.wonder
+      );
+    }
   }
 }

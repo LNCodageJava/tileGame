@@ -8,6 +8,7 @@ import { GlobalStore } from './store/global.store';
 import { StateKeys } from './store/global.state';
 import { FillTileService } from './services/fill-tile.service';
 import { DemoService } from './services/demo.service';
+import { DemoMode } from './dto/demoMode';
 const COUNTER_ADJ_START = 9;
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ export class AppComponent implements OnInit {
   ) {}
   title = 'tileGame';
 
-  gridSizeX = Array.from(Array(25).keys());
+  gridSizeX = Array.from(Array(26).keys());
   gridSizeY = Array.from(Array(10).keys());
 
   counterAdjTiles = 0;
@@ -31,7 +32,7 @@ export class AppComponent implements OnInit {
   counterTotalTiles = 0;
   mode = 'normal';
   rotate = 0;
-  demoMode = 'ALL';
+  demoMode = DemoMode.NORMAL;
   displayIndex = 0;
 
   player1 = {
@@ -78,10 +79,23 @@ export class AppComponent implements OnInit {
     this.startTurn();
     this.fillHandRandomTiles();
 
-    if (this.demoMode === 'PRINT') {
+    if (this.demoMode === DemoMode.PRINT) {
       this.fillTileService.generate('00', this.displayIndex, batiments.pool);
-    } else if (this.demoMode === 'ALL') {
+    } else if (this.demoMode === DemoMode.ALL) {
       this.demoService.fillDemoMode(batiments);
+    } else if (this.demoMode === DemoMode.RANDOM) {
+      for (let i = 2; i < 10; i++) {
+        for (let j = 0; j < 8; j++) {
+          this.fillTileService.generate(`${i}${j}`, Math.floor(Math.random() * batiments.pool.length), batiments.pool);
+        }
+      }
+      for (let i = 0; i < 15; i++) {
+        this.fillTileService.generate(
+          `${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 8)}`,
+          Math.floor(Math.random() * batiments.wonder.length),
+          batiments.wonder
+        );
+      }
     } else {
       this.fillTuileDepart();
     }
@@ -102,6 +116,18 @@ export class AppComponent implements OnInit {
     var img = document.getElementById(`74_couleur`) as HTMLImageElement;
     img.src = `assets/textures/${c0}.png`;
 
+    // var img = document.getElementById(`62_couleur`) as HTMLImageElement;
+    // img.src = `assets/textures/${this.takeRandomElementFromArray(colors)}.png`;
+
+    //var img = document.getElementById(`66_couleur`) as HTMLImageElement;
+    //img.src = `assets/textures/${this.takeRandomElementFromArray(colors)}.png`;
+
+    var img = document.getElementById(`44_couleur`) as HTMLImageElement;
+    img.src = `assets/textures/${this.takeRandomElementFromArray(colors)}.png`;
+
+    var img = document.getElementById(`84_couleur`) as HTMLImageElement;
+    img.src = `assets/textures/${this.takeRandomElementFromArray(colors)}.png`;
+
     let c1 = this.takeRandomElementFromArray(colors);
     colors = colors.filter((element) => element !== c1);
     var img = document.getElementById(`63_couleur`) as HTMLImageElement;
@@ -116,24 +142,11 @@ export class AppComponent implements OnInit {
     var img = document.getElementById(`54_couleur`) as HTMLImageElement;
     img.src = `assets/textures/${c3}.png`;
 
-    // var img = document.getElementById(`74_couleur`) as HTMLImageElement;
-    // img.src = `assets/textures/w.png`;
+    var img = document.getElementById(`64_couleur`) as HTMLImageElement;
+    img.src = `assets/textures/x.png`;
 
     this.tileService.findTuilesAdjacentes(5, 10);
     this.counterAdjTiles = this.tileService.createTuileBlancheAndReturnCost() + COUNTER_ADJ_START;
-
-    // ALL TILES
-    // if (this.demoMode === 'ALL') {
-    //   for (let i = 0; i < 10; i++) {
-    //     for (let j = 0; j < 10; j++) {
-    //       this.fillTileService.generate(
-    //         `${i}${j}`,
-    //         Math.floor(Math.random() * batiments.wonder.length),
-    //         batiments.wonder
-    //       );
-    //     }
-    //   }
-    // }
   }
 
   takeRandomElementFromArray(array: any[]): any {
@@ -213,6 +226,7 @@ export class AppComponent implements OnInit {
       }
       this.tileService.placerJetonPlayer(this.playerActive, `${hHex}${vHex}`);
       this.fillTileService.generate('500500', 0, batiments.empty);
+
       this.endturn();
     }
   }
